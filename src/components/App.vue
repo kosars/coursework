@@ -17,7 +17,7 @@
         outline: none;
     }
 
-    .btn {
+    /* .btn {
         background-color: #F08080;
         border-radius: 2px;
         color: white;
@@ -25,7 +25,7 @@
         border: none;
         cursor: pointer;
         opacity: 1;
-    }
+    } */
 
     .btn:active {
         opacity: 0.8;

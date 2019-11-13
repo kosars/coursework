@@ -11,10 +11,6 @@ exports.list_all_students = function(req, res) {
     res.json(task);
   });
 };
-
-
-
-
 exports.create_a_student = function(req, res) {
   var new_task = new Task(req.body);
   new_task.save(function(err, task) {
@@ -23,8 +19,6 @@ exports.create_a_student = function(req, res) {
     res.json(task);
   });
 };
-
-
 exports.read_a_student = function(req, res) {
   Task.findById(req.params.taskId, function(err, task) {
     if (err)
@@ -32,8 +26,6 @@ exports.read_a_student = function(req, res) {
     res.json(task);
   });
 };
-
-
 exports.update_a_student = function(req, res) {
   Task.findOneAndUpdate({_id: req.params.taskId}, req.body, {new: true}, function(err, task) {
     if (err)
@@ -41,8 +33,6 @@ exports.update_a_student = function(req, res) {
     res.json(task);
   });
 };
-
-
 exports.delete_a_student = function(req, res) {
 
 

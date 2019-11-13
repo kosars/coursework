@@ -213,7 +213,14 @@
                     <h5>Actions / Features</h5>
                     <input  class="form-control" type="text" v-model="newMonster.actions">
                     <button class="btn">Add Action / Feature</button>
-                </div>                                
+                </div>
+                <!--Confirm-->
+                <div class="col-12 text-center">
+                    <br>
+                    <button type="submit" 
+                            class="btn btn-primary mb-2"
+                            v-on:click="finishCreation()">Finish Creation!</button>
+                </div>                                  
             </div>
         </div>
     </div>
@@ -325,30 +332,14 @@
             //     this.photo = response.data.photo;
             // })
         },
-
+        methods: {
+           finishCreation: function(){
+               alert("a")
+            },
+        },
     }
 </script>
 
 <style>
-.ph{
-        height: 75px;
-        width: auto;
-        position: fixed;
-        float: right;
-
-    }
-
-.name{
-        text-align: left;
-
-    }
-
-.zd{
-        height: 75px;
-        width: auto;
-
-    }
-
-
-               
+        
 </style>

@@ -162,7 +162,19 @@
                 <div class="col-1">
                     <p>Weight</p>
                     <input  class="form-control" type="number" v-model="newChar.descriprion.weight" min="1" max="1000" required>
-                </div>                                      
+                </div>
+                <!--Description-->
+                <div class="col-12">
+                    <p>Description / Backstory</p>
+                    <textarea  class="form-control" type="text" v-model="newChar.descriprion.backstory" rows="6"></textarea>
+                </div>
+                <!--Confirm-->
+                <div class="col-12 text-center">
+                    <br>
+                    <button type="submit" 
+                            class="btn btn-primary mb-2"
+                            v-on:click="finishCreation()">Finish Creation!</button>
+                </div>                                     
             </div>
         </div>
     </div>
@@ -257,30 +269,15 @@
             //     this.photo = response.data.photo;
             // })
         },
+        methods: {
+           finishCreation: function(){
+               alert("a")
+            },
+        },
 
     }
 </script>
 
 <style>
-.ph{
-        height: 75px;
-        width: auto;
-        position: fixed;
-        float: right;
-
-    }
-
-.name{
-        text-align: left;
-
-    }
-
-.zd{
-        height: 75px;
-        width: auto;
-
-    }
-
-
-               
+            
 </style>

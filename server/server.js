@@ -6,8 +6,9 @@ var express = require('express'),
   bodyParser = require('body-parser');
   
 // mongoose instance connection url connection
+mongoose.connect('mongodb://localhost/Tododb',{ useUnifiedTopology: true, useNewUrlParser: true }); 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/Tododb'); 
+mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
