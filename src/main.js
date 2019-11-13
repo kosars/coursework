@@ -10,8 +10,12 @@ import Cart from './components/Cart.vue'
 import Login from './components/Login.vue'
 import MonsterCreator from './components/MonsterCreator.vue'
 import CharacterCreator from './components/CharacterCreator.vue'
+import CharacterList from './components/CharacterList.vue'
+import MonsterList from './components/MonsterList.vue'
 import MainPage from './components/MainPage.vue'
 import DiceRoller from './components/DiceRoller.vue'
+import Character from './components/Character.vue'
+
 
 import store from './store.js'
 
@@ -22,6 +26,9 @@ const routes = [
     { path: '/login', component: Login },
     { path: '/mcreator', component: MonsterCreator,  meta: { requiresAuth: true } },
     { path: '/ccreator', component: CharacterCreator,  meta: { requiresAuth: true } },
+    { path: '/clist', component: CharacterList},
+    { path: '/chars/:id', component: Character , props: true},
+    { path: '/mlist', component: MonsterList},
     { path: '/dice', component: DiceRoller },
 ]
 

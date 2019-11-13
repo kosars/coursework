@@ -10,7 +10,12 @@
             <router-link to="/ccreator/">
                 Character Creator
             </router-link>
-        </button> 
+        </button>
+        <button class="btn">
+            <router-link to="/clist/">
+                Character List
+            </router-link>
+        </button>  
         <button class="btn">
             <router-link to="/dice/">
                 Dice Roller
