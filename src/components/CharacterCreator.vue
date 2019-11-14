@@ -9,7 +9,7 @@
                 <!--Name-->
                 <div class="col-3">
                     <p>Name</p>
-                    <input  class="form-control" type="text" v-model="newChar.descriprion.name" required>
+                    <input  class="form-control" type="text" v-model="newChar.name" required>
                 </div>
                 <!--Player's Name-->
                 <div class="col-3">
@@ -192,7 +192,7 @@
             return{
                 options: [],
                 newChar:{
-                    class: '', level:1, race: '', background:'', aligment:'', 
+                    name:'',class: '', level:1, race: '', background:'', aligment:'', 
                     xp:0, armor:0, iniciative:0, speed:30, profBonus:2,
                     abilities: [
                         {'name' : 'STR','value' : 10,'mod' : 0},
@@ -238,43 +238,77 @@
                     weaponProf:[],
                     armorProf:[],
                     descriprion:{
-                        name:'',
-                        player:'',
+                        player:'okay',
                         age:0,
-                        sex:'',
+                        sex:'okay',
                         height:0,
                         weight:0,
-                        hairColor:'',
-                        eyeColor:'',
-                        skinColor:'',
-                        personalityTrait1:'',
-                        personalityTrait2:'',
-                        ideals:'',
-                        bonds:'',
-                        flaws:'',
-                        image:'',
-                        backstory:'',
+                        hairColor:'okay',
+                        eyeColor:'okay',
+                        skinColor:'okay',
+                        personalityTrait1:'okay',
+                        personalityTrait2:'okay',
+                        ideals:'okay',
+                        bonds:'okay',
+                        flaws:'okay',
+                        image:'okay',
+                        backstory:'okay',
                     }
                 }
             }
         },
         mounted: function(){
             this.options = mCreatorData;
-            // console.log(this.id)
-            // Vue.axios.get("http://localhost:3000/students/"+this.id).then((response) =>{
-            //     console.log(response.data)
-            //     this.name = response.data.name;
-            //     this.group = response.data.group;
-            //     this.isDonePr = response.data.isDonePr;
-            //     this.photo = response.data.photo;
-            // })
         },
         methods: {
            finishCreation: function(){
-               alert("a")
+               console.log(
+                        this.newChar.name,
+                        this.newChar.class,
+                        this.newChar.race,
+                        this.newChar.background,
+                        this.newChar.aligment,
+                        this.newChar.level,
+                        this.newChar.xp,
+                        this.newChar.armor,
+                        this.newChar.iniciative,
+                        this.newChar.speed,
+                        this.newChar.profBonus,
+                        this.newChar.abilities,
+                        this.newChar.saveThrows,
+                        this.newChar.skills,
+                        this.newChar.passiveWis,
+                        this.newChar.hp,
+                        this.newChar.languages,
+                        this.newChar.weaponProf,
+                        this.newChar.armorProf,
+                        this.newChar.descriprion)
+                Vue.axios.post("http://localhost:3000/chars",{
+                    'name': this.newChar.name,
+                    'class': this.newChar.class,
+                    'race': this.newChar.race,
+                    'background': this.newChar.background,
+                    'aligment': this.newChar.aligment,
+                    'level': this.newChar.level,
+                    'xp': this.newChar.xp,
+                    'armor': this.newChar.armor,
+                    'iniciative': this.newChar.iniciative,
+                    'speed': this.newChar.speed,
+                    'profBonus': this.newChar.profBonus,
+                    // 'abilities': this.newChar.abilities,
+                    // 'saveThrows': this.newChar.saveThrows,
+                    // 'skills': this.newChar.skills,
+                    // 'passiveWis': this.newChar.passiveWis,
+                    // 'hp': this.newChar.hp,
+                    // 'languages': this.newChar.languages,
+                    // 'weaponProf': this.newChar.weaponProf,
+                    // 'armorProf': this.newChar.armorProf,
+                    // 'descriprion':this.newChar.descriprion,
+                }).then((responce) => {
+                    console.log(responce.data)
+                })
             },
         },
-
     }
 </script>
 

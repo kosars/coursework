@@ -53,7 +53,6 @@ export const CharacterSchema = new Schema({
   'weaponProf':[{'name' : String}],
   'armorProf':[{'name' : String}],
   'descriprion':{
-    'name':String,
     'player':String,
     'age':Number,
     'sex':String,
