@@ -36,6 +36,16 @@ export const getCharacter =(req, res) =>{
      res.json(item);
 });}
 
+export const deleteCharacter = (req, res) =>{
+  console.log("char deleted")
+  Char.remove({ _id: req.params.charId}, (err, list) => {
+    if (err) {
+      res.send(err);
+    }
+    res.json({ message: 'Character successfully deleted' });
+  });
+};
+
 
 var deleteIds = [];
 /* Delete group DELETE /deletegroup/:groupId */

@@ -2,6 +2,7 @@ import {
     addNewCharacter,
     getCharacters,
     getCharacter,
+    deleteCharacter,
 } from '../controllers/todoController';
 
 const routes = (app) => {
@@ -10,7 +11,8 @@ const routes = (app) => {
     .get(getCharacters);
 
     app.route('/chars/:charId')
-    .get(getCharacter);
+    .get(getCharacter)
+    .delete(deleteCharacter);
 
 }
 

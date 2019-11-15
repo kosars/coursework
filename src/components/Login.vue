@@ -20,7 +20,6 @@ import store from '../store.js'
         },
         methods:{
             Authorize: function(value) {
-                alert('WELCOME, '+ value)
                 this.$store.commit('setUser',value)
                 this.$router.push('/')
             }

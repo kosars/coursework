@@ -30,28 +30,33 @@ export const CharacterSchema = new Schema({
   'name': {type: String, required: "Please put the name of your character"},
   'class': {type: String, required: "Please put the class of your character"},
   'race': {type: String, required: "Please put the race of your character"},
-  'background': {type: String, required: "Please put the class of background character"},
-  'aligment': {type: String, required: "Please put the class of aligment character"},
+  'background': {type: String, required: "Please put the background of your  character"},
+  'aligment': {type: String, required: "Please put aligment of your  character"},
   'level':{type: Number, default:1},
   'xp':{type: Number, default: 0},
+  'hpDice': {type: Number, default: 8},
   'armor':{type: Number, default: 0},
-  'iniciative':{type: Number, default: 0},
   'speed':{type: Number, default: 30},
   'profBonus':{type: Number, default: 2},
-  'abilities': [
-    {'name' : String,'value' : Number,'mod' : Number}
-  ],
+  //abilities
+  'STR':{type: Number, default: 8},
+  'CON':{type: Number, default: 8},
+  'DEX':{type: Number, default: 8},
+  'INT':{type: Number, default: 8},
+  'WIS':{type: Number, default: 8},
+  'CHR':{type: Number, default: 8},
+  //saveThrows
   'saveThrows': [
-    {'name' : String,'value' : Number,'learned' : Boolean}
+    {'name' : String,'value' : Boolean}
   ],
+  //skills
   'skills': [
-    {'name' : String, 'depended': String,'value' : Number,'learned' : Boolean}
+    {'skillName' : String,'value' : Boolean, 'dependence': String}
   ],
-  'passiveWis':Number,
-  'hp': {'dieCounts':Number, 'die':Number, 'max':Number},
   'languages':[{'name' : String}],
   'weaponProf':[{'name' : String}],
   'armorProf':[{'name' : String}],
+  //other
   'descriprion':{
     'player':String,
     'age':Number,

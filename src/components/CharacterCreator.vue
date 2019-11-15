@@ -61,21 +61,70 @@
                     <h5>Abilities</h5>
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-2" v-for="(item) in newChar.abilities" v-bind:key="item.id">
-                                <p>{{item.name}}</p>
-                                <input class="form-control" type="number" v-model="item.value" min="1" max="30" value="10" required>
+                            <div class="col-2" v-for="(item, index) in newChar.abilities" v-bind:key="item.id">
+                                <p class="text-center">{{item.name}}</p>
+                                <h3 class="text-center">{{item.value}}</h3>
+                                <p class="text-center">
+                                    <button v-on:click="abilitieChange(index,'<')"><</button>
+                                    <button v-on:click="abilitieChange(index,'>')">></button>
+                                </p>
+                                <p class="text-center">mod</p>
+                                <p class="text-center">{{item.mod}}</p>
                             </div>
                         </div>
                     </div>
+                    <p><button class="btn btn-primary" v-on:click="RollAbilities()">Roll</button> Total: {{totalAbilities}}</p>
                 </div>
                 <!--Saving Throws-->
                 <div class="col-6">
                     <h5>Saving Throws</h5>
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-2" v-for="(item) in newChar.saveThrows" v-bind:key="item.id">
+                            <!-- <div class="col-2" v-for="(item) in newChar.saveThrows" v-bind:key="item.id">
                                 <p><input type="checkbox" v-model="item.learned"> {{item.name}}</p>
-                                <input class="form-control" type="number" v-model="item.value" min="1" max="30" value="10" required>
+                                <h3>{{throwStr}}</h3>
+                            </div> -->
+                            <div class="col-2">
+                                <p>
+                                    <input type="checkbox" v-model="newChar.saveThrows[0].learned" disabled> 
+                                    {{newChar.saveThrows[0].name}}
+                                </p>
+                                <h3>{{throwStr}}</h3>
+                            </div>
+                            <div class="col-2">
+                                <p>
+                                    <input type="checkbox" v-model="newChar.saveThrows[1].learned" disabled> 
+                                    {{newChar.saveThrows[1].name}}
+                                </p>
+                                <h3>{{throwCon}}</h3>
+                            </div>
+                            <div class="col-2">
+                                <p>
+                                    <input type="checkbox" v-model="newChar.saveThrows[2].learned" disabled> 
+                                    {{newChar.saveThrows[2].name}}
+                                </p>
+                                <h3>{{throwDex}}</h3>
+                            </div>
+                            <div class="col-2">
+                                <p>
+                                    <input type="checkbox" v-model="newChar.saveThrows[3].learned" disabled> 
+                                    {{newChar.saveThrows[3].name}}
+                                </p>
+                                <h3>{{throwInt}}</h3>
+                            </div>
+                            <div class="col-2">
+                                <p>
+                                    <input type="checkbox" v-model="newChar.saveThrows[4].learned" disabled> 
+                                    {{newChar.saveThrows[4].name}}
+                                </p>
+                                <h3>{{throwWis}}</h3>
+                            </div>
+                            <div class="col-2">
+                                <p>
+                                    <input type="checkbox" v-model="newChar.saveThrows[5].learned" disabled> 
+                                    {{newChar.saveThrows[5].name}}
+                                </p>
+                                <h3>{{throwChr}}</h3>
                             </div>
                         </div>
                     </div>
@@ -91,7 +140,7 @@
                     <input readonly class="form-control" type="text" v-model="newChar.armor">
                     <!--Iniciative-->
                     <p>Iniciative</p>
-                    <input readonly class="form-control" type="text" v-model="newChar.iniciative">
+                    <input readonly class="form-control" type="text" v-model="newChar.abilities[2].mod">
                     <p>Passive Perception</p>
                     <input readonly class="form-control" type="text" v-model="newChar.passiveWis">
                     <!--Speed-->
@@ -128,7 +177,7 @@
                             <div class="col-2" v-for="(item) in newChar.skills" v-bind:key="item.id">
                                 <p><input type="checkbox" v-model="item.learned"> {{item.name}}</p>
                                 <p>({{item.depended}})</p>
-                                <input class="form-control" type="number" v-model="item.value" min="1" max="30" value="10" required>
+                                <input class="form-control" type="number" v-model="item.value" readonly>
                             </div>
                         </div>
                     </div>
@@ -193,22 +242,22 @@
                 options: [],
                 newChar:{
                     name:'',class: '', level:1, race: '', background:'', aligment:'', 
-                    xp:0, armor:0, iniciative:0, speed:30, profBonus:2,
+                    xp:0, armor:0, speed:30, profBonus:2,
                     abilities: [
-                        {'name' : 'STR','value' : 10,'mod' : 0},
-                        {'name' : 'CON','value' : 20,'mod' : 0},
-                        {'name' : 'DEX','value' : 0,'mod' : 0},
-                        {'name' : 'INT','value' : 0,'mod' : 0},
-                        {'name' : 'WIS','value' : 0,'mod' : 0},
-                        {'name' : 'CHR','value' : 0,'mod' : 0},
+                        {'name' : 'STR','value' : 8,'mod' : 0},
+                        {'name' : 'CON','value' : 8,'mod' : 0},
+                        {'name' : 'DEX','value' : 8,'mod' : 0},
+                        {'name' : 'INT','value' : 8,'mod' : 0},
+                        {'name' : 'WIS','value' : 8,'mod' : 0},
+                        {'name' : 'CHR','value' : 8,'mod' : 0},
                     ],
                     saveThrows: [
-                        {'name' : 'STR','value' : 0,'learned' : false},
-                        {'name' : 'CON','value' : 0,'learned' : false},
-                        {'name' : 'DEX','value' : 0,'learned' : true},
-                        {'name' : 'INT','value' : 0,'learned' : false},
-                        {'name' : 'WIS','value' : 0,'learned' : false},
-                        {'name' : 'CHR','value' : 0,'learned' : false},
+                        {'name' : 'STR','learned' : false},
+                        {'name' : 'CON','learned' : false},
+                        {'name' : 'DEX','learned' : false},
+                        {'name' : 'INT','learned' : false},
+                        {'name' : 'WIS','learned' : false},
+                        {'name' : 'CHR','learned' : false},
                     ],
                     skills: [
                         {'name' : 'Athletics', 'depended':'STR','value' : 0,'learned' : false},
@@ -259,30 +308,62 @@
         },
         mounted: function(){
             this.options = mCreatorData;
+            this.RollAbilities();
+        },
+        computed:{
+            //подсчёт общего значения характеристик персонажа
+            totalAbilities: function(){
+                var sum = 0;
+                for(var i = 0; i< this.newChar.abilities.length; i++)
+                   sum += this.newChar.abilities[i].value;
+                return sum;
+            },
+            
+            throwStr: function(){
+                if(this.newChar.saveThrows[0].learned) 
+                return this.newChar.abilities[0].mod + this.newChar.profBonus;
+                else return this.newChar.abilities[0].mod;
+            },
+            throwCon: function(){
+                if(this.newChar.saveThrows[1].learned) 
+                return this.newChar.abilities[1].mod + this.newChar.profBonus;
+                else return this.newChar.abilities[1].mod;
+            },
+            throwDex: function(){
+                if(this.newChar.saveThrows[2].learned) 
+                return this.newChar.abilities[2].mod + this.newChar.profBonus;
+                else return this.newChar.abilities[2].mod;
+            },
+            throwInt: function(){
+                if(this.newChar.saveThrows[3].learned) 
+                return this.newChar.abilities[3].mod + this.newChar.profBonus;
+                else return this.newChar.abilities[3].mod;
+            },
+            throwWis: function(){
+                if(this.newChar.saveThrows[4].learned) 
+                return this.newChar.abilities[4].mod + this.newChar.profBonus;
+                else return this.newChar.abilities[4].mod;
+            },
+            throwChr: function(){
+                if(this.newChar.saveThrows[5].learned) 
+                return this.newChar.abilities[5].mod + this.newChar.profBonus;
+                else return this.newChar.abilities[5].mod;
+            },
+            
         },
         methods: {
-           finishCreation: function(){
-               console.log(
-                        this.newChar.name,
-                        this.newChar.class,
-                        this.newChar.race,
-                        this.newChar.background,
-                        this.newChar.aligment,
-                        this.newChar.level,
-                        this.newChar.xp,
-                        this.newChar.armor,
-                        this.newChar.iniciative,
-                        this.newChar.speed,
-                        this.newChar.profBonus,
-                        this.newChar.abilities,
-                        this.newChar.saveThrows,
-                        this.newChar.skills,
-                        this.newChar.passiveWis,
-                        this.newChar.hp,
-                        this.newChar.languages,
-                        this.newChar.weaponProf,
-                        this.newChar.armorProf,
-                        this.newChar.descriprion)
+            RollAbilities: function(){
+                for(var i = 0; i< this.newChar.abilities.length; i++){
+                    this.newChar.abilities[i].value = this.rollDice(6,0) + this.rollDice(6,0) + this.rollDice(6,0);
+                    this.newChar.abilities[i].mod = Math.floor((this.newChar.abilities[i].value - 10)/2);
+                } 
+            },
+            rollDice: function(dice,mod){
+                //количество бросков, кость, модификатор
+                return Math.floor(Math.random() * Math.floor(dice)) + 1 + parseInt(mod,10)
+                //+1 потому что Math.random() возвращает числа в диапазоне [0,max)
+            },
+            finishCreation: function(){
                 Vue.axios.post("http://localhost:3000/chars",{
                     'name': this.newChar.name,
                     'class': this.newChar.class,
@@ -291,23 +372,47 @@
                     'aligment': this.newChar.aligment,
                     'level': this.newChar.level,
                     'xp': this.newChar.xp,
+                    'hpDice': this.newChar.hp.die,
                     'armor': this.newChar.armor,
-                    'iniciative': this.newChar.iniciative,
                     'speed': this.newChar.speed,
                     'profBonus': this.newChar.profBonus,
-                    // 'abilities': this.newChar.abilities,
+                    //abilities
+                    'STR': this.newChar.abilities[0].value,
+                    'CON': this.newChar.abilities[1].value,
+                    'DEX': this.newChar.abilities[2].value,
+                    'INT': this.newChar.abilities[3].value,
+                    'WIS': this.newChar.abilities[4].value,
+                    'CHR': this.newChar.abilities[5].value,
                     // 'saveThrows': this.newChar.saveThrows,
                     // 'skills': this.newChar.skills,
-                    // 'passiveWis': this.newChar.passiveWis,
-                    // 'hp': this.newChar.hp,
-                    // 'languages': this.newChar.languages,
+                    //'languages': this.newChar.languages,
                     // 'weaponProf': this.newChar.weaponProf,
                     // 'armorProf': this.newChar.armorProf,
                     // 'descriprion':this.newChar.descriprion,
                 }).then((responce) => {
                     console.log(responce.data)
+                    this.$router.push('/')
                 })
             },
+            abilitieChange:function(i,direction){
+                var value, mod;
+                value = this.newChar.abilities[i].value;
+                mod = this.newChar.abilities[i].mod;
+                if(direction == ">"){
+                    this.newChar.abilities[i].value = this.newChar.abilities[i+1].value;
+                    this.newChar.abilities[i].mod = this.newChar.abilities[i+1].mod;
+                    this.newChar.abilities[i+1].value = value;
+                    this.newChar.abilities[i+1].mod = mod;
+                }
+                if(direction == "<"){
+                    this.newChar.abilities[i].value = this.newChar.abilities[i-1].value;
+                    this.newChar.abilities[i].mod = this.newChar.abilities[i-1].mod;
+                    this.newChar.abilities[i-1].value = value;
+                    this.newChar.abilities[i-1].mod = mod;
+                }
+            },
+        
+        
         },
     }
 </script>

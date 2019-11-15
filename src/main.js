@@ -4,9 +4,6 @@ import Vuex from 'vuex';
 
 
 import App from './components/App.vue'
-import ProductInfo from './components/ProductInfo.vue'
-import ProductsList from './components/ProductsList.vue'
-import Cart from './components/Cart.vue'
 import Login from './components/Login.vue'
 import MonsterCreator from './components/MonsterCreator.vue'
 import CharacterCreator from './components/CharacterCreator.vue'
@@ -21,8 +18,6 @@ import store from './store.js'
 
 const routes = [
     { path: '/', component: MainPage,  meta: { requiresAuth: true } },
-    { path: '/product/:id', component: ProductInfo,  meta: { requiresAuth: true } },
-    { path: '/cart', component: Cart,  meta: { requiresAuth: true } },
     { path: '/login', component: Login },
     { path: '/mcreator', component: MonsterCreator,  meta: { requiresAuth: true } },
     { path: '/ccreator', component: CharacterCreator,  meta: { requiresAuth: true } },

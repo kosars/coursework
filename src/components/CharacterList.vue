@@ -6,6 +6,7 @@
                     <router-link v-bind:to="'/chars/'+item._id">
                         {{ item.name }} {{ item.class }} {{ item.level }} 
                     </router-link>
+                    <button v-on:click="deleteChar(item._id)">delete</button>
                 </h4>
             </div>
         </div>
@@ -36,7 +37,13 @@
 
         },
         methods: {
-
+            deleteChar: function(id){
+                Vue.axios.delete("http://localhost:3000/chars/"+id).then(response => {
+                    this.items = this.items.filter(Element => {
+                        return Element._id != id;
+                    });
+                });
+            }
         }
     }
 </script>
