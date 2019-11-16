@@ -1,25 +1,24 @@
 <template>
     <div class="products">
         <p>Welcome, {{username}}! <button v-on:click="logOut()" >Log Out</button></p>
-        <p>fliters: {{num | twoSymbAfterDot}}</p>
         <button class="btn">
             <router-link to="/mcreator/">
-                Monster Creator
+                Create Monster 
             </router-link>
         </button> 
         <button class="btn">
             <router-link to="/ccreator/">
-                Character Creator
+                Create Character 
             </router-link>
         </button>
         <button class="btn">
             <router-link to="/clist/">
-                Character List
+                List Characters
             </router-link>
         </button>  
         <button class="btn">
             <router-link to="/dice/">
-                Dice Roller
+                Roll a Dice
             </router-link>
         </button> 
     </div>
@@ -31,7 +30,6 @@
         data: function () {
             return {
                 username:'',
-                num: 14.144,
             };
         },
         mounted: function(){
