@@ -17,6 +17,11 @@
             </router-link>
         </button>  
         <button class="btn">
+            <router-link to="/rbuilder/">
+                Race Builder
+            </router-link>
+        </button>  
+        <button class="btn">
             <router-link to="/dice/">
                 Roll a Dice
             </router-link>

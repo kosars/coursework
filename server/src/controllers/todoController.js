@@ -1,11 +1,13 @@
 import mongoose from 'mongoose';
-import { ItemSchema, ItemGroupSchema, CharacterSchema } from '../models/todoModel';
+import { ItemSchema, ItemGroupSchema, CharacterSchema, RaceSchema, SubraceSchema } from '../models/todoModel';
 
 const Todo = mongoose.model('Todo', ItemSchema);
 const Group = mongoose.model('Group', ItemGroupSchema);
-const Char = mongoose.model('Char', CharacterSchema)
+const Char = mongoose.model('Char', CharacterSchema);
+const Race = mongoose.model('Race', RaceSchema);
+const Subrace = mongoose.model('Subrace', SubraceSchema);
 var async = require('async');
-
+//characters
 export const addNewCharacter =(req, res)=> {
   let newChar = new Char(req.body);
 
@@ -45,8 +47,91 @@ export const deleteCharacter = (req, res) =>{
     res.json({ message: 'Character successfully deleted' });
   });
 };
+//races
+export const addNewRace =(req, res)=> {
+  let newRace = new Race(req.body);
+
+  newRace.save((err, char)=>{
+    if(err){
+      res.send(err);
+    }
+    res.json(char);
+  });
+
+};
+
+export const getRaces = (req, res) =>{
+  console.log("inside get races")
+  Race.find({}, (err, list) => {
+      if (err) {
+          res.send(err);
+      }
+      res.json(list);
+  });
+};
+
+export const getRace =(req, res) =>{
+  Race.findById(req.params.raceId, (err, item) => {
+     if (err) {
+        return res.send(err);
+     }
+     res.json(item);
+});}
+
+export const deleteRace = (req, res) =>{
+  console.log("race deleted")
+  Race.remove({ _id: req.params.raceId}, (err, list) => {
+    if (err) {
+      res.send(err);
+    }
+    res.json({ message: 'Race successfully deleted' });
+  });
+};
+
+//subraces
+export const addNewSubrace =(req, res)=> {
+  let newSubrace = new Subrace(req.body);
+
+  newSubrace.save((err, char)=>{
+    if(err){
+      res.send(err);
+    }
+    res.json(char);
+  });
+
+};
+
+export const getSubraces = (req, res) =>{
+  console.log("inside get subraces")
+  Subrace.find({}, (err, list) => {
+      if (err) {
+          res.send(err);
+      }
+      res.json(list);
+  });
+};
+
+export const getSubrace =(req, res) =>{
+  Subrace.findById(req.params.subraceId, (err, item) => {
+     if (err) {
+        return res.send(err);
+     }
+     res.json(item);
+});}
+
+export const deleteSubrace = (req, res) =>{
+  console.log("Subrace deleted")
+  Subrace.remove({ _id: req.params.subraceId}, (err, list) => {
+    if (err) {
+      res.send(err);
+    }
+    res.json({ message: 'Subrace successfully deleted' });
+  });
+};
 
 
+
+//other
 var deleteIds = [];
 /* Delete group DELETE /deletegroup/:groupId */
 export const deleteGroup =(req, res) =>{
