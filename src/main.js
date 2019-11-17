@@ -13,7 +13,8 @@ import MainPage from './components/MainPage.vue'
 import DiceRoller from './components/DiceRoller.vue'
 import Character from './components/Character.vue' 
 import RaceBuilder from './components/RaceBuilder.vue'
-
+import RaceList from './components/RaceList.vue'
+import Race from './components/Race.vue'
 import store from './store.js'
 
 const routes = [
@@ -22,7 +23,9 @@ const routes = [
     { path: '/mcreator', component: MonsterCreator,  meta: { requiresAuth: true } },
     { path: '/ccreator', component: CharacterCreator,  meta: { requiresAuth: true } },
     { path: '/rbuilder', component: RaceBuilder,  meta: { requiresAuth: true } },
-    { path: '/clist', component: CharacterList},
+    { path: '/races', component: RaceList},
+    { path: '/races/:id', component: Race , props: true},
+    { path: '/chars', component: CharacterList},
     { path: '/chars/:id', component: Character , props: true},
     { path: '/mlist', component: MonsterList},
     { path: '/dice', component: DiceRoller },

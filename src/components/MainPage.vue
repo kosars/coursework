@@ -12,13 +12,18 @@
             </router-link>
         </button>
         <button class="btn">
-            <router-link to="/clist/">
+            <router-link to="/chars/">
                 List Characters
             </router-link>
         </button>  
         <button class="btn">
             <router-link to="/rbuilder/">
                 Race Builder
+            </router-link>
+        </button>  
+         <button class="btn">
+            <router-link to="/races/">
+                List Races
             </router-link>
         </button>  
         <button class="btn">
