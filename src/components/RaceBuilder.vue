@@ -136,26 +136,35 @@
                         </div>
                     </div>
                 </div>
-                
-                
                 <!--Skills-->
-                <!-- <div class="col">
-                    <h5>Skills</h5>
+                <div class="col">
+                    <h5>Skill Proficiencies</h5>
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-2" v-for="(item) in newChar.skills" v-bind:key="item.id">
-                                <p><input type="checkbox" v-model="item.learned"> {{item.name}}</p>
-                                <p>({{item.depended}})</p>
-                                <input class="form-control" type="number" v-model="item.value" readonly>
+                            <div class="col-2" v-for="(item) in newRace.skills" v-bind:key="item.id">
+                                <p><input type="checkbox" v-model="item.value"><br> {{item.skillName}}</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="w-100"></div> -->
+                <div class="w-100"></div>
                 <!--Languages-->
                 <div class="col-12">
-                    <p>Languages</p>
-                    <input  class="form-control" type="text" v-model="newRace.languages" required>
+                     <p>Languages</p>
+                     <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-2">
+                                <button class="btn btn-primary" v-on:click="addLang()">Add</button>
+                                
+                            </div>
+                            <div class="col-2" v-for="(item,index) in newRace.languages" v-bind:key="item.id">
+                                <p class="d-flex flex-row">
+                                    <input class="form-control" type="text" v-model="newRace.languages[index].name">
+                                    <button class="btn btn-danger" v-on:click="deleteLang(index)">X</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!--Description-->
                 <div class="col-12">
@@ -185,6 +194,7 @@
             return{
                 options: [],
                 points:2,
+                skillPoints:2,
                 newRace:{
                    'name': '',
                     'subraceIds':[],
@@ -204,7 +214,26 @@
                     'armorProf':[],
                     'toolProf':[],
                     'languages':[],
-                    'skills': [],
+                    'skills': [
+                        {'skillName' : 'Athletics','value' : false },//str
+                        {'skillName' : 'Acrobatics','value' : false },//dex
+                        {'skillName' : 'Sleight of Hand','value' : false },//dex
+                        {'skillName' : 'Stealth','value' : false },//dex
+                        {'skillName' : 'Arcana','value' : false },//int
+                        {'skillName' : 'History','value' : false },//int
+                        {'skillName' : 'Investigation','value' : false },//int
+                        {'skillName' : 'Nature','value' : false },//int
+                        {'skillName' : 'Religion','value' : false },//int
+                        {'skillName' : 'Animal Handling','value' : false },//wis
+                        {'skillName' : 'Insight','value' : false },//wis
+                        {'skillName' : 'Medicine','value' : false },//wis
+                        {'skillName' : 'Perception','value' : false },//wis
+                        {'skillName' : 'Survival','value' : false },//wis
+                        {'skillName' : 'Deception','value' : false },//chr
+                        {'skillName' : 'Intimidation','value' : false },//chr
+                        {'skillName' : 'Performance','value' : false },//chr
+                        {'skillName' : 'Persuation','value' : false },//chr
+                    ],
                     'features': '',
                     //other
                     'descriprion':'',
@@ -315,7 +344,16 @@
                     default:
                         break;
                 }
-            },    
+            },
+            checkSP: function(){
+
+            },
+            addLang: function(){
+                if(this.newRace.languages.length < 11) this.newRace.languages.push({'name':''});
+            },
+            deleteLang: function (index) {
+                this.newRace.languages.splice(index, 1);
+            },
             finishCreation: function(){
                 Vue.axios.post("http://localhost:3000/races",{
                     'name': this.newRace.name,
