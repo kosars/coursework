@@ -78,7 +78,7 @@ export const CharacterSchema = new Schema({
 });
 
 export const RaceSchema = new Schema({
-  'name': {type: String, required: "Please put the name of your character"},
+  'name': {type: String, required: "Please put the name of race"},
   'subraceIds':[{type: String}],
   'abilitiesBonus':{
     'STR':{type: Number, default: 0},

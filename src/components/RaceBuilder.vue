@@ -138,16 +138,97 @@
                 </div>
                 <!--Skills-->
                 <div class="col">
-                    <h5>Skill Proficiencies</h5>
+                    <h5>Skill Proficiency (choose one)</h5>
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-2" v-for="(item) in newRace.skills" v-bind:key="item.id">
+                            <div class="col-2" v-for="(item) in newRace.skills" v-bind:key="item.id" v-show="!skillChoosed || item.value">
                                 <p><input type="checkbox" v-model="item.value"><br> {{item.skillName}}</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="w-100"></div>
+                <!--Weapon-->
+                <div class="col-12">
+                     <p>Weapon Proficiency</p>
+                     <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-2">
+                                <button class="btn btn-primary" v-on:click="addWeapon()">Add</button>
+                                
+                            </div>
+                            <div class="col-2" v-for="(item,index) in newRace.weaponProf" v-bind:key="item.id">
+                                <p class="d-flex flex-row">
+                                    <select class="form-control" type="text" v-model="newRace.weaponProf[index].name">
+                                        <option v-for="item in options.weapons" v-bind:key="item.id">{{item}}</option>
+                                    </select>
+                                    <button class="btn btn-danger" v-on:click="deleteWeapon(index)">X</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Armor-->
+                <div class="col-12">
+                     <p>Armor Proficiency</p>
+                     <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-2">
+                                <button class="btn btn-primary" v-on:click="addArmor()">Add</button>
+                                
+                            </div>
+                            <div class="col-2" v-for="(item,index) in newRace.armorProf" v-bind:key="item.id">
+                                <p class="d-flex flex-row">
+                                     <select class="form-control" type="text" v-model="newRace.armorProf[index].name">
+                                        <option v-for="item in options.armor" v-bind:key="item.id">{{item}}</option>
+                                    </select>
+                                    <button class="btn btn-danger" v-on:click="deleteArmor(index)">X</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Tools-->
+                <div class="col-12">
+                     <p>Tool Proficiency</p>
+                     <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-2">
+                                <button class="btn btn-primary" v-on:click="addTool()">Add</button>
+                                
+                            </div>
+                            <div class="col-2" v-for="(item,index) in newRace.toolProf" v-bind:key="item.id">
+                                <p class="d-flex flex-row">
+                                     <select class="form-control" type="text" v-model="newRace.toolProf[index].name">
+                                        <option v-for="item in options.tools" v-bind:key="item.id">{{item}}</option>
+                                    </select>
+                                    <button class="btn btn-danger" v-on:click="deleteTool(index)">X</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- damageResistance -->
+                <div class="col-6">
+                     <p>Damage Resistance from</p>
+                     <div class="container-fluid">
+                        <div class="row">
+                            <select class="form-control" type="text" v-model="newRace.damageResistance">
+                                <option v-for="item in options.resistance" v-bind:key="item.id">{{item}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- damageImmunity -->
+                <div class="col-6">
+                     <p>Damage Immunity from</p>
+                     <div class="container-fluid">
+                        <div class="row">
+                            <select class="form-control" type="text" v-model="newRace.damageImmunity">
+                                <option v-for="item in options.resistance" v-bind:key="item.id">{{item}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <!--Languages-->
                 <div class="col-12">
                      <p>Languages</p>
@@ -165,6 +246,11 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <!--Image-->
+                <div class="col-12">
+                    <p>Image URL</p>
+                    <input  class="form-control" type="text" v-model="newRace.image">
                 </div>
                 <!--Description-->
                 <div class="col-12">
@@ -184,6 +270,7 @@
 </template>
 
 <script>
+    import rBuilderData from '../data/rBuilderData.js'
     import Vue from 'vue'
     import axios from 'axios'
     import VueAxios from 'vue-axios'
@@ -242,41 +329,19 @@
                     'maxHeight':0,
                     'size':'medium',
                     'image':'',
-                    // saveThrows: [
-                    //     {'name' : 'STR','learned' : false},
-                    //     {'name' : 'CON','learned' : false},
-                    //     {'name' : 'DEX','learned' : false},
-                    //     {'name' : 'INT','learned' : false},
-                    //     {'name' : 'WIS','learned' : false},
-                    //     {'name' : 'CHR','learned' : false},
-                    // ],
-                    // skills: [
-                    //     {'name' : 'Athletics', 'depended':'STR','value' : 0,'learned' : false},
-                    //     {'name' : 'Acrobatics', 'depended':'DEX','value' : 0,'learned' : false},
-                    //     {'name' : 'Sleight of Hand', 'depended':'DEX','value' : 0,'learned' : false},
-                    //     {'name' : 'Stealth', 'depended':'DEX','value' : 0,'learned' : false},
-                    //     {'name' : 'Arcana', 'depended':'INT','value' : 0,'learned' : false},
-                    //     {'name' : 'History', 'depended':'INT','value' : 0,'learned' : false},
-                    //     {'name' : 'Investigation', 'depended':'INT','value' : 0,'learned' : false},
-                    //     {'name' : 'Nature', 'depended':'INT','value' : 0,'learned' : false},
-                    //     {'name' : 'Religion', 'depended':'INT','value' : 0,'learned' : false},
-                    //     {'name' : 'Animal Handling', 'depended':'WIS','value' : 0,'learned' : false},
-                    //     {'name' : 'Insight', 'depended':'WIS','value' : 0,'learned' : false},
-                    //     {'name' : 'Medicine', 'depended':'WIS','value' : 0,'learned' : false},
-                    //     {'name' : 'Perception', 'depended':'WIS','value' : 0,'learned' : false},
-                    //     {'name' : 'Survival', 'depended':'WIS','value' : 0,'learned' : false},
-                    //     {'name' : 'Deception', 'depended':'CHR','value' : 0,'learned' : false},
-                    //     {'name' : 'Intimidation', 'depended':'CHR','value' : 0,'learned' : false},
-                    //     {'name' : 'Performance', 'depended':'CHR','value' : 0,'learned' : false},
-                    //     {'name' : 'Persuation', 'depended':'CHR','value' : 0,'learned' : false},
-                    // ],
                 }
             }
         },
         mounted: function(){
+            this.options = rBuilderData;
         },
         computed:{
-           
+          skillChoosed: function(){ 
+            for(var i=0;i< this.newRace.skills.length; i++){
+                if(this.newRace.skills[i].value) return true;
+            }
+            return false  
+          },
         },
         methods: {
             abilitiesIncrease: function(ab,way){
@@ -345,14 +410,29 @@
                         break;
                 }
             },
-            checkSP: function(){
-
-            },
             addLang: function(){
                 if(this.newRace.languages.length < 11) this.newRace.languages.push({'name':''});
             },
             deleteLang: function (index) {
                 this.newRace.languages.splice(index, 1);
+            },
+            addWeapon: function(){
+                if(this.newRace.weaponProf.length < 4) this.newRace.weaponProf.push({'name':''});
+            },
+            deleteWeapon: function (index) {
+                this.newRace.weaponProf.splice(index, 1);
+            },
+            addArmor: function(){
+                if(this.newRace.armorProf.length < 4) this.newRace.armorProf.push({'name':''});
+            },
+            deleteArmor: function (index) {
+                this.newRace.armorProf.splice(index, 1);
+            },
+            addTool: function(){
+                if(this.newRace.toolProf.length < 4) this.newRace.toolProf.push({'name':''});
+            },
+            deleteTool: function (index) {
+                this.newRace.toolProf.splice(index, 1);
             },
             finishCreation: function(){
                 Vue.axios.post("http://localhost:3000/races",{
@@ -368,8 +448,8 @@
                     },
                     'speed': this.newRace.speed,
                     'nightVision': this.newRace.nightVision,
-                    'damageResistance': this.newRace.speed,
-                    'damageImmunity': this.newRace.speed,
+                    'damageResistance': this.newRace.damageResistance,
+                    'damageImmunity': this.newRace.damageImmunity,
                     
                     'weaponProf': this.newRace.weaponProf,
                     'armorProf': this.newRace.armorProf,

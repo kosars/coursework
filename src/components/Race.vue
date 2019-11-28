@@ -1,27 +1,55 @@
 <template>
     <div>
-        <h1>{{race.name}}</h1> 
-        <h5>Size: {{race.size}} Speed: {{race.speed}} ft. Darkvision: {{race.nightVision}} ft. </h5>
-        <div>
-            <h1 v-if="race.abilitiesBonus.STR">STR: {{race.abilitiesBonus.STR}}</h1>   
-            <h1 v-if="race.abilitiesBonus.DEX">DEX: {{race.abilitiesBonus.DEX}}</h1> 
-            <h1 v-if="race.abilitiesBonus.CON">CON: {{race.abilitiesBonus.CON}}</h1> 
-            <h1 v-if="race.abilitiesBonus.INT">INT: {{race.abilitiesBonus.INT}}</h1> 
-            <h1 v-if="race.abilitiesBonus.WIS">WIS: {{race.abilitiesBonus.WIS}}</h1> 
-            <h1 v-if="race.abilitiesBonus.CHR">CHR: {{race.abilitiesBonus.CHR}}</h1> 
-        </div>
-        <div class="d-flex flex-row">
-            <h1>Skills</h1>
-            <div  v-for="(item) in race.skills" v-bind:key="item.id">
-                <p><input type="checkbox" v-model="item.value" readonly><br> {{item.skillName}}</p>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <h3 class="text-center">{{race.name}}</h3>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-4"><h5>Size: {{race.size}}</h5></div>
+                            <div class="col-4"><h5>Speed: {{race.speed}} ft.</h5></div>
+                            <div class="col-4"><h5>Darkvision: {{race.nightVision}} ft.</h5></div>
+                            <div class="w-100"></div>
+                            <div class="col-12">
+                                <h5>Ability Increases</h5>
+                                <div class="col" v-if="race.abilitiesBonus.STR">STR: {{race.abilitiesBonus.STR}}</div>   
+                                <div class="col" v-if="race.abilitiesBonus.DEX">DEX: {{race.abilitiesBonus.DEX}}</div> 
+                                <div class="col" v-if="race.abilitiesBonus.CON">CON: {{race.abilitiesBonus.CON}}</div> 
+                                <div class="col" v-if="race.abilitiesBonus.INT">INT: {{race.abilitiesBonus.INT}}</div> 
+                                <div class="col" v-if="race.abilitiesBonus.WIS">WIS: {{race.abilitiesBonus.WIS}}</div> 
+                                <div class="col" v-if="race.abilitiesBonus.CHR">CHR: {{race.abilitiesBonus.CHR}}</div> 
+                            </div>
+                            <div class="col-12">
+                                <p>Damage resistance to {{race.damageResistance}}</p>
+                                <p>Damage immunity to {{race.damageImmunity}}</p>
+                            </div>
+                            <div class="col-12">
+                                <h5>Skills Proficiency</h5>
+                                <div  v-for="(item) in race.skills" v-bind:key="item.id" v-show="item.value" readonly>
+                                    <div class="col">{{item.skillName}}</div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <h5>Skills Proficiency</h5>
+                                <div  v-for="(item) in race.skills" v-bind:key="item.id" v-show="item.value" readonly>
+                                    <div class="col">{{item.skillName}}</div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <h5>Languages</h5>
+                                <div class="d-flex flex-row" v-for="(item) in race.languages" v-bind:key="item.id">
+                                    <div class="col">{{item.name}},</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <img v-bind:src="race.image">
+                </div>
             </div>
         </div>
-        <div >
-            <h1>Languages</h1>
-            <div class="d-flex flex-row" v-for="(item) in race.languages" v-bind:key="item.id">
-                <p>{{item.name}}, </p>
-            </div>
-        </div>
+        
     </div>
 </template>
 <script>
@@ -54,3 +82,8 @@
         }
     }
 </script>
+<style>
+img{
+    width: 100%;
+}
+</style>
