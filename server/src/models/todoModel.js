@@ -97,12 +97,9 @@ export const RaceSchema = new Schema({
   'toolProf':[{'name' : String}],
   'languages':[{'name' : String}],
   'skills': [{'skillName' : String,'value' : Boolean}],
-  'features': {type: String},
   //other
+  'traits':[{'name' : String, 'description': String}],
   'descriprion':{type: String},
-  'maxAge':Number,
-  'minHeight':Number,
-  'maxHeight':Number,
   'size':String,
   'image':String,
 });
@@ -124,6 +121,6 @@ export const SubraceSchema = new Schema({
   'armorProf':[{'name' : String}],
   'toolProf':[{'name' : String}],
   'languages':[{'name' : String}],
-  'features': {type: String},
+  'traits':[{'name' : String, 'description': String}],
   'description': {type: String},
 });

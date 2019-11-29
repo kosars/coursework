@@ -137,72 +137,12 @@
                     </div>
                 </div>
                 <!--Skills-->
-                <div class="col">
+                <div class="col-12 col-md-6">
                     <h5>Skill Proficiency (choose one)</h5>
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-2" v-for="(item) in newRace.skills" v-bind:key="item.id" v-show="!skillChoosed || item.value">
                                 <p><input type="checkbox" v-model="item.value"><br> {{item.skillName}}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--Weapon-->
-                <div class="col-12">
-                     <p>Weapon Proficiency</p>
-                     <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-2">
-                                <button class="btn btn-primary" v-on:click="addWeapon()">Add</button>
-                                
-                            </div>
-                            <div class="col-2" v-for="(item,index) in newRace.weaponProf" v-bind:key="item.id">
-                                <p class="d-flex flex-row">
-                                    <select class="form-control" type="text" v-model="newRace.weaponProf[index].name">
-                                        <option v-for="item in options.weapons" v-bind:key="item.id">{{item}}</option>
-                                    </select>
-                                    <button class="btn btn-danger" v-on:click="deleteWeapon(index)">X</button>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--Armor-->
-                <div class="col-12">
-                     <p>Armor Proficiency</p>
-                     <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-2">
-                                <button class="btn btn-primary" v-on:click="addArmor()">Add</button>
-                                
-                            </div>
-                            <div class="col-2" v-for="(item,index) in newRace.armorProf" v-bind:key="item.id">
-                                <p class="d-flex flex-row">
-                                     <select class="form-control" type="text" v-model="newRace.armorProf[index].name">
-                                        <option v-for="item in options.armor" v-bind:key="item.id">{{item}}</option>
-                                    </select>
-                                    <button class="btn btn-danger" v-on:click="deleteArmor(index)">X</button>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--Tools-->
-                <div class="col-12">
-                     <p>Tool Proficiency</p>
-                     <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-2">
-                                <button class="btn btn-primary" v-on:click="addTool()">Add</button>
-                                
-                            </div>
-                            <div class="col-2" v-for="(item,index) in newRace.toolProf" v-bind:key="item.id">
-                                <p class="d-flex flex-row">
-                                     <select class="form-control" type="text" v-model="newRace.toolProf[index].name">
-                                        <option v-for="item in options.tools" v-bind:key="item.id">{{item}}</option>
-                                    </select>
-                                    <button class="btn btn-danger" v-on:click="deleteTool(index)">X</button>
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -229,6 +169,66 @@
                         </div>
                     </div>
                 </div>
+                <!--Weapon-->
+                <div class="col-12">
+                     <p>Weapon Proficiency</p>
+                     <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-2">
+                                <button class="btn btn-primary" v-on:click="addWeapon()">Add</button>
+                                
+                            </div>
+                            <div class="col-4 col-md-2" v-for="(item,index) in newRace.weaponProf" v-bind:key="item.id">
+                                <p class="d-flex flex-row">
+                                    <select class="form-control" type="text" v-model="newRace.weaponProf[index].name">
+                                        <option v-for="item in options.weapons" v-bind:key="item.id">{{item}}</option>
+                                    </select>
+                                    <button class="btn btn-danger" v-on:click="deleteWeapon(index)">X</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Armor-->
+                <div class="col-12">
+                     <p>Armor Proficiency</p>
+                     <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-2">
+                                <button class="btn btn-primary" v-on:click="addArmor()">Add</button>
+                                
+                            </div>
+                            <div class="col-4 col-md-2" v-for="(item,index) in newRace.armorProf" v-bind:key="item.id">
+                                <p class="d-flex flex-row">
+                                     <select class="form-control" type="text" v-model="newRace.armorProf[index].name">
+                                        <option v-for="item in options.armor" v-bind:key="item.id">{{item}}</option>
+                                    </select>
+                                    <button class="btn btn-danger" v-on:click="deleteArmor(index)">X</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Tools-->
+                <div class="col-12">
+                     <p>Tool Proficiency</p>
+                     <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-2">
+                                <button class="btn btn-primary" v-on:click="addTool()">Add</button>
+                                
+                            </div>
+                            <div class="col-4 col-md-2" v-for="(item,index) in newRace.toolProf" v-bind:key="item.id">
+                                <p class="d-flex flex-row">
+                                     <select class="form-control" type="text" v-model="newRace.toolProf[index].name">
+                                        <option v-for="item in options.tools" v-bind:key="item.id">{{item}}</option>
+                                    </select>
+                                    <button class="btn btn-danger" v-on:click="deleteTool(index)">X</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!--Languages-->
                 <div class="col-12">
                      <p>Languages</p>
@@ -238,11 +238,49 @@
                                 <button class="btn btn-primary" v-on:click="addLang()">Add</button>
                                 
                             </div>
-                            <div class="col-2" v-for="(item,index) in newRace.languages" v-bind:key="item.id">
+                            <div class="col-4 col-md-2" v-for="(item,index) in newRace.languages" v-bind:key="item.id">
                                 <p class="d-flex flex-row">
                                     <input class="form-control" type="text" v-model="newRace.languages[index].name">
                                     <button class="btn btn-danger" v-on:click="deleteLang(index)">X</button>
                                 </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Traits-->
+                <div class="col-12">
+                     
+                     <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-2">
+                                <p>Traits</p>
+                                <button class="btn btn-primary" v-on:click="addTrait()">Add</button>
+                            </div>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12" v-for="(item,index) in newRace.traits" v-bind:key="item.id">
+                                        <div class="col-12 text-center">
+                                            <h5>Trait {{index + 1}}</h5>
+                                        </div>
+                                        <div class="col-12 d-flex d-row">
+                                            <div class="col-2">
+                                                <h5>Name</h5>
+                                            </div>
+                                            <div class="col-10 col-md-4 d-flex d-row">
+                                                <input class="form-control" type="text" v-model="newRace.traits[index].name">
+                                                <button class="btn btn-danger" v-on:click="deleteTrait(index)">X</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 d-flex d-row">
+                                            <div class="col-2">
+                                                <h5>Description</h5>
+                                            </div>
+                                            <div class="col-10">
+                                                <input class="form-control" type="text" v-model="newRace.traits[index].description">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -323,6 +361,7 @@
                     ],
                     'features': '',
                     //other
+                    'traits':[],
                     'descriprion':'',
                     'maxAge':0,
                     'minHeight':0,
@@ -434,6 +473,12 @@
             deleteTool: function (index) {
                 this.newRace.toolProf.splice(index, 1);
             },
+            addTrait: function(){
+                if(this.newRace.traits.length < 12) this.newRace.traits.push({'name':'','description':''});
+            },
+            deleteTrait: function (index) {
+                this.newRace.traits.splice(index, 1);
+            },
             finishCreation: function(){
                 Vue.axios.post("http://localhost:3000/races",{
                     'name': this.newRace.name,
@@ -456,12 +501,10 @@
                     'toolProf': this.newRace.toolProf,
                     'languages': this.newRace.languages,
 
-                    'features': this.newRace.features,
                     'skills': this.newRace.skills,
                     'descriprion': this.newRace.descriprion,
+                    'traits': this.newRace.traits,
 
-                    'maxAge': this.newRace.maxAge,
-                    'maxHeight': this.newRace.maxHeight,
                     'size': this.newRace.size,
                     'image': this.newRace.image,
                 }).then((responce) => {
