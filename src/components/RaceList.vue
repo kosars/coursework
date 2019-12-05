@@ -5,6 +5,7 @@
                 <h4 class="product-title">
                     <router-link v-bind:to="'/races/'+item._id">
                         {{ item.name }}
+                       <!-- <race></race> -->
                     </router-link>
                     <button v-on:click="deleteRace(item._id)">delete</button>
                 </h4>
@@ -16,10 +17,12 @@
     import Vue from 'vue'
     import axios from 'axios'
     import VueAxios from 'vue-axios'
+    // Race from './Race.vue'
 
 
     Vue.use(VueAxios,axios)
     export default {
+        //components:{ Race },
         data: function () {
             return {
                 items: [],

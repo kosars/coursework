@@ -95,7 +95,7 @@ export const RaceSchema = new Schema({
   'weaponProf':[{'name' : String}],
   'armorProf':[{'name' : String}],
   'toolProf':[{'name' : String}],
-  'languages':[{'name' : String}],
+  'languages':[{'name' : String}],  
   'skills': [{'skillName' : String,'value' : Boolean}],
   //other
   'traits':[{'name' : String, 'description': String}],
