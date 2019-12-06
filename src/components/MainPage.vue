@@ -27,6 +27,16 @@
             </router-link>
         </button>  
         <button class="btn">
+            <router-link to="/cbuilder/">
+                Class Builder
+            </router-link>
+        </button>  
+         <button class="btn">
+            <router-link to="/classes/">
+                List Classes
+            </router-link>
+        </button>  
+        <button class="btn">
             <router-link to="/dice/">
                 Roll a Dice
             </router-link>

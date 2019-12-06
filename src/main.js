@@ -15,20 +15,31 @@ import Character from './components/Character.vue'
 import RaceBuilder from './components/RaceBuilder.vue'
 import RaceList from './components/RaceList.vue'
 import Race from './components/Race.vue'
+import ClassBuilder from './components/ClassBuilder.vue'
+import ClassList from './components/ClassList.vue'
+import Class from './components/Class.vue'
 import store from './store.js'
 
 const routes = [
     { path: '/', component: MainPage,  meta: { requiresAuth: true } },
     { path: '/login', component: Login },
+    { path: '/dice', component: DiceRoller },
+    //monsters
     { path: '/mcreator', component: MonsterCreator,  meta: { requiresAuth: true } },
+    { path: '/mlist', component: MonsterList},
+    //chars
     { path: '/ccreator', component: CharacterCreator,  meta: { requiresAuth: true } },
+    { path: '/chars', component: CharacterList},
+    { path: '/chars/:id', component: Character , props: true},
+    //races
     { path: '/rbuilder', component: RaceBuilder,  meta: { requiresAuth: true } },
     { path: '/races', component: RaceList},
     { path: '/races/:id', component: Race , props: true},
-    { path: '/chars', component: CharacterList},
-    { path: '/chars/:id', component: Character , props: true},
-    { path: '/mlist', component: MonsterList},
-    { path: '/dice', component: DiceRoller },
+    //classes
+    { path: '/cbuilder', component: ClassBuilder,  meta: { requiresAuth: true } },
+    { path: '/classes', component: ClassList},
+    { path: '/classes/:id', component: Class , props: true},
+   
 ]
 
 const router = new VueRouter({

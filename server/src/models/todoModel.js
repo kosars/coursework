@@ -28,9 +28,10 @@ export const ItemGroupSchema = new Schema({
 });
 export const CharacterSchema = new Schema({
   'name': {type: String, required: "Please put the name of your character"},
+  'source':{type:String, default:"Homebrew"},
   'class': {type: String, required: "Please put the class of your character"},
   'race': {type: String, required: "Please put the race of your character"},
-  //'subrace': {type: String, required: "Please put the race of your character"},
+  'subrace': {type: String, required: "Please put the race of your character"},
   'background': {type: String, required: "Please put the background of your  character"},
   'aligment': {type: String, required: "Please put aligment of your  character"},
   'level':{type: Number, default:1},
@@ -79,6 +80,7 @@ export const CharacterSchema = new Schema({
 
 export const RaceSchema = new Schema({
   'name': {type: String, required: "Please put the name of race"},
+  'source':{type:String, default:"Homebrew"},
   'subraceIds':[{type: String}],
   'abilitiesBonus':{
     'STR':{type: Number, default: 0},
@@ -123,4 +125,71 @@ export const SubraceSchema = new Schema({
   'languages':[{'name' : String}],
   'traits':[{'name' : String, 'description': String}],
   'description': {type: String},
+});
+
+export const ClassSchema = new Schema({
+  'name': {type: String, required: "Please put the name of calss"},
+  'source':{type:String, default:"Homebrew"},
+  'hitDie':{type:String},
+  'savingThrows':{
+    'STR':{type: Boolean, default: false},
+    'CON':{type: Boolean, default: false},
+    'DEX':{type: Boolean, default: false},
+    'INT':{type: Boolean, default: false},
+    'WIS':{type: Boolean, default: false},
+    'CHR':{type: Boolean, default: false},
+  },
+  //'abilityIncLevel':[{type: Number}],
+  'spellcast':{type: Boolean, default: false},
+  'spellcastAbility':{type: String, default: 'CHR'},
+  //'firstSpellLvl':{type: Number, default: 1},
+  'spells':[{'level': Number,'name':String,'spellid':String}],
+  'skills': [{'skillName' : String,'value' : Boolean}],
+  'traits':[{'name' : String, 'description': String}],
+  'descriprion':{type: String},
+  'image':String,
+});
+
+export const SpellSchema = new Schema({
+  'name': {type: String, required: "Please put the name of spell"},
+  'source':{type:String, default:"Homebrew"},
+  'lvl':{type: Number},
+  'school':{type:String},
+  'descriprion':{type: String},
+  //properties
+  'castingTime':{type:String},
+  'range':{type:String},
+  'duration':{type:String},
+  'components':{
+    'verbal':{type:Boolean},
+    'somatic':{type:Boolean},
+    'material':{type:Boolean},
+    'text':{type:String}
+  },
+  'ritual':{type:Boolean},
+  'attackRollRequires':{type:Boolean},
+});
+
+export const BackgroundSchema = new Schema({
+  'name': {type: String, required: "Please put the name of calss"},
+  'source':{type:String, default:"Homebrew"},
+  'skills': [{'skillName' : String,'value' : Boolean}],
+  'proficiencies':{
+    'tools':[{'name' : String}],
+    'musical':[{'name' : String}],
+    'gaming':[{'name' : String}],
+    'other':[{'name' : String}],
+  },
+  'startItems':{
+    'gold':{type:Number,default:0},
+    'clothes':{type:String,default:"common"},
+    'tools':[{'name' : String}],
+    'musical':[{'name' : String}],
+    'symbols':[{'name' : String}],
+    'other':[{'name' : String}],
+  },
+  'languages':[{'name' : String}],
+  'traits':[{'name' : String, 'description': String}],
+  'descriprion':{type: String},
+  'image':String,
 });
