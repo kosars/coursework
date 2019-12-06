@@ -36,6 +36,16 @@
                 List Classes
             </router-link>
         </button>  
+         <button class="btn">
+            <router-link to="/sbuilder/">
+                Spell Builder
+            </router-link>
+        </button>  
+         <button class="btn">
+            <router-link to="/spells/">
+                List Spells
+            </router-link>
+        </button> 
         <button class="btn">
             <router-link to="/dice/">
                 Roll a Dice

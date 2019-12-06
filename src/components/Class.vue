@@ -3,71 +3,71 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 col-md-6">
-                    <h3 class="text-center">{{race.name}}</h3>
+                    <h3 class="text-center">{{item.name}}</h3>
                     <div class="container-fluid">
                         <div class="row">
                             <!-- Ability -->
                             <div class="col-6">
-                                <div class="col-12"><h5>Size: {{race.size}}</h5></div>
-                                <div class="col-12"><h5>Speed: {{race.speed}} ft.</h5></div>
-                                <div class="col-12"><h5>Darkvision: {{race.nightVision}} ft.</h5></div>
+                                <h3>Hit Die: 1d{{item.hitDie}}</h3>
+                                <h3 v-if="item.spellcast">Spellcasting Ability: {{item.spellcastAbility}}</h3>
+                                
+                                
                                 <div class="col-12">
-                                    <h5>Ability Increases</h5>
-                                    <div class="col" v-if="race.abilitiesBonus.STR">STR: {{race.abilitiesBonus.STR}}</div>   
-                                    <div class="col" v-if="race.abilitiesBonus.DEX">DEX: {{race.abilitiesBonus.DEX}}</div> 
-                                    <div class="col" v-if="race.abilitiesBonus.CON">CON: {{race.abilitiesBonus.CON}}</div> 
-                                    <div class="col" v-if="race.abilitiesBonus.INT">INT: {{race.abilitiesBonus.INT}}</div> 
-                                    <div class="col" v-if="race.abilitiesBonus.WIS">WIS: {{race.abilitiesBonus.WIS}}</div> 
-                                    <div class="col" v-if="race.abilitiesBonus.CHR">CHR: {{race.abilitiesBonus.CHR}}</div> 
-                                </div>
-                                <div class="col-12">
-                                    <p>Damage resistance to <strong>{{race.damageResistance}}</strong></p>
-                                    <p>Damage immunity to <strong>{{race.damageImmunity}}</strong></p>
                                 </div>
                             </div>
                             <!-- Proficiency -->
                             <div class="col-6">
+                                <div class="col-12">
+                                    <h5>Saving Throws</h5>
+                                    <div class="col" v-if="item.savingThrows.STR">STR</div>   
+                                    <div class="col" v-if="item.savingThrows.DEX">DEX</div> 
+                                    <div class="col" v-if="item.savingThrows.CON">CON</div> 
+                                    <div class="col" v-if="item.savingThrows.INT">INT</div> 
+                                    <div class="col" v-if="item.savingThrows.WIS">WIS</div> 
+                                    <div class="col" v-if="item.savingThrows.CHR">CHR</div> 
+                                </div>
                                 <!-- Skills -->
                                 <div class="col-12">
                                     <h5>Skills Proficiency</h5>
-                                    <div  v-for="(item) in race.skills" v-bind:key="item.id" v-show="item.value">
+                                    <div  v-for="(item) in item.skills" v-bind:key="item.id" v-show="item.value">
                                         <div class="col">{{item.skillName}}</div>
                                     </div>
                                 </div>
+                                
                                 <!-- Weapon -->
-                                <div class="col-12">
+                                <!-- <div class="col-12">
                                     <h5>Weapon Proficiency</h5>
                                     <div  v-for="(item) in race.weaponProf" v-bind:key="item.id">
                                         <div class="col">{{item.name}}</div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!-- Armor -->
-                                <div class="col-12">
+                                <!-- <div class="col-12">
                                     <h5>Armor Proficiency</h5>
                                     <div  v-for="(item) in race.armorProf" v-bind:key="item.id">
                                         <div class="col">{{item.name}}</div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!-- Tool -->
-                                <div class="col-12">
+                                <!-- <div class="col-12">
                                     <h5>Tool Proficiency</h5>
                                     <div  v-for="(item) in race.toolProf" v-bind:key="item.id">
                                         <div class="col">{{item.name}}</div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!-- Languages -->
-                                <div class="col-12">
+                                <!-- <div class="col-12">
                                     <h5>Languages</h5>
                                     <div class="d-flex flex-row" v-for="(item) in race.languages" v-bind:key="item.id">
                                         <div class="col">{{item.name}}</div>
                                     </div>
-                                </div>
+                                </div> -->
                                 
                             </div>
                             <!-- Traits -->
                             <div class="col-12">
                                 <h5>Traits</h5>
-                                <div class="d-flex flex-row" v-for="(item) in race.traits" v-bind:key="item.id">
+                                <div class="d-flex flex-row" v-for="(item) in item.traits" v-bind:key="item.id">
                                     <p><strong>{{item.name}}.</strong> {{item.description}}</p>
                                 </div>
                             </div>
@@ -76,11 +76,11 @@
                 </div>
                 <!-- image -->
                 <div class="col-12 col-md-6">
-                    <img v-bind:src="race.image">
+                    <img v-bind:src="item.image">
                 </div>
                 <div class="col-12">
                     <h3>Description</h3>
-                    <div>{{race.descriprion}}</div>
+                    <div>{{item.descriprion}}</div>
                 </div>
             </div>
         </div>
@@ -100,14 +100,14 @@
         },
         data: function () {
             return {
-                race: {},
+                item: {},
             };
         },
         mounted: function(){
            console.log(this.id);
-            Vue.axios.get("http://localhost:3000/races/"+this.id).then((response) =>{
+            Vue.axios.get("http://localhost:3000/classes/"+this.id).then((response) =>{
                 console.log(response.data);
-                this.race = response.data;
+                this.item = response.data;
             })
         },
         computed: {

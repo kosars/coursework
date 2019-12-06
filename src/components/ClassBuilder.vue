@@ -34,12 +34,12 @@
                     <div class="col-4" v-if="newClass.spellcast">
                         <p>Spell Ability</p>
                         <select class="form-control" v-model="newClass.spellcastAbility">
-                            <option value="">STR</option>
-                            <option value="">DEX</option>
-                            <option value="">CON</option>
-                            <option value="">INT</option>
-                            <option value="">WIS</option>
-                            <option value="">CHR</option>
+                            <option>STR</option>
+                            <option>DEX</option>
+                            <option>CON</option>
+                            <option>INT</option>
+                            <option>WIS</option>
+                            <option>CHR</option>
                         </select>
                     </div>
                 </div>
@@ -304,33 +304,30 @@
                 this.newClass.traits.splice(index, 1);
             },
             finishCreation: function(){
-                Vue.axios.post("http://localhost:3000/races",{
-                    'name': this.newRace.name,
-                    'subraceIds': this.newRace.subraceIds,
-                    'abilitiesBonus':{
-                        'STR': this.newRace.abilitiesBonus.STR,
-                        'CON': this.newRace.abilitiesBonus.CON,
-                        'DEX': this.newRace.abilitiesBonus.DEX,
-                        'INT': this.newRace.abilitiesBonus.INT,
-                        'WIS': this.newRace.abilitiesBonus.WIS,
-                        'CHR': this.newRace.abilitiesBonus.CHR,
+                Vue.axios.post("http://localhost:3000/classes",{
+                    'name': this.newClass.name,
+                    'source': this.newClass.source.name,
+                    'hitDie': this.newClass.hitDie.name,
+                    'savingThrows':{
+                        'STR': this.newClass.savingThrows.STR,
+                        'CON': this.newClass.savingThrows.CON,
+                        'DEX': this.newClass.savingThrows.DEX,
+                        'INT': this.newClass.savingThrows.INT,
+                        'WIS': this.newClass.savingThrows.WIS,
+                        'CHR': this.newClass.savingThrows.CHR,
                     },
-                    'speed': this.newRace.speed,
-                    'nightVision': this.newRace.nightVision,
-                    'damageResistance': this.newRace.damageResistance,
-                    'damageImmunity': this.newRace.damageImmunity,
-                    
-                    'weaponProf': this.newRace.weaponProf,
-                    'armorProf': this.newRace.armorProf,
-                    'toolProf': this.newRace.toolProf,
-                    'languages': this.newRace.languages,
+                    'spellcast': this.newClass.spellcast,
+                    'spellcastAbility': this.newClass.spellcastAbility,
+                    //'firstSpellLvl':{type: Number, default: 1},
+                    'spells':this.newClass.spells,
+                    // 'weaponProf': this.newClass.weaponProf,
+                    // 'armorProf': this.newClass.armorProf,
+                    // 'toolProf': this.newClass.toolProf,
 
-                    'skills': this.newRace.skills,
-                    'descriprion': this.newRace.descriprion,
-                    'traits': this.newRace.traits,
-
-                    'size': this.newRace.size,
-                    'image': this.newRace.image,
+                    'skills': this.newClass.skills,
+                    'descriprion': this.newClass.descriprion,
+                    'traits': this.newClass.traits,
+                    'image': this.newClass.image,
                 }).then((responce) => {
                     console.log(responce.data)
                     this.$router.push('/')

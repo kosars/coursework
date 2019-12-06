@@ -18,6 +18,9 @@ import Race from './components/Race.vue'
 import ClassBuilder from './components/ClassBuilder.vue'
 import ClassList from './components/ClassList.vue'
 import Class from './components/Class.vue'
+import SpellBuilder from './components/SpellBuilder.vue'
+import SpellList from './components/SpellList.vue'
+import Spell from './components/Spell.vue'
 import store from './store.js'
 
 const routes = [
@@ -39,6 +42,10 @@ const routes = [
     { path: '/cbuilder', component: ClassBuilder,  meta: { requiresAuth: true } },
     { path: '/classes', component: ClassList},
     { path: '/classes/:id', component: Class , props: true},
+    //spells
+    { path: '/sbuilder', component: SpellBuilder,  meta: { requiresAuth: true } },
+    { path: '/spells', component: SpellList},
+    { path: '/spells/:id', component: Spell , props: true},
    
 ]
 

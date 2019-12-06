@@ -3,10 +3,10 @@
         <div class="product" v-for="(item) in items" v-bind:key="item._id">
             <div>
                 <h4 class="product-title">
-                    <router-link v-bind:to="'/classes/'+item._id">
+                    <router-link v-bind:to="'/spells/'+item._id">
                         {{ item.name }}
                     </router-link>
-                    <button v-on:click="deleteClass(item._id)">delete</button>
+                    <button v-on:click="deleteSpell(item._id)">delete</button>
                 </h4>
             </div>
         </div>
@@ -26,7 +26,7 @@
             };
         },
         mounted: function(){
-            Vue.axios.get("http://localhost:3000/classes/").then((response) =>{
+            Vue.axios.get("http://localhost:3000/spells/").then((response) =>{
                 console.log(response.data)
                 this.items = response.data;
             }, (reject) =>{
@@ -37,8 +37,8 @@
 
         },
         methods: {
-            deleteClass: function(id){
-                Vue.axios.delete("http://localhost:3000/classes/"+id).then(response => {
+            deleteSpell: function(id){
+                Vue.axios.delete("http://localhost:3000/spells/"+id).then(response => {
                     this.items = this.items.filter(Element => {
                         return Element._id != id;
                     });
