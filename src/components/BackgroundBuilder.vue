@@ -5,7 +5,6 @@
                 <div class="col-12">
                     <h3 class="text-center">Dungeons & Dragons Background Builder</h3>
                 </div>
-                <div class="w-100"></div>
                 <!--Name-->
                 <div class="col-12 col-md-3">
                     <p>Name</p>
@@ -27,41 +26,79 @@
                         </div>
                     </div>
                 </div>
-                <!--Weapon-->
-                <div class="col-12">
-                     <p>Weapon Proficiency</p>
-                     <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-2">
-                                <button class="btn btn-primary" v-on:click="addWeapon()">Add</button>
-                                
-                            </div>
-                            <div class="col-4 col-md-2" v-for="(item,index) in newBack.weaponProf" v-bind:key="item.id">
-                                <p class="d-flex flex-row">
-                                    <select class="form-control" type="text" v-model="newBack.weaponProf[index].name">
-                                        <option v-for="item in options.weapons" v-bind:key="item.id">{{item}}</option>
-                                    </select>
-                                    <button class="btn btn-danger" v-on:click="deleteWeapon(index)">X</button>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <!--Tools-->
                 <div class="col-12">
                      <p>Tool Proficiency</p>
                      <div class="container-fluid">
                         <div class="row">
                             <div class="col-2">
-                                <button class="btn btn-primary" v-on:click="addTool()">Add</button>
+                                <button class="btn btn-primary" v-on:click="addItem(newBack.proficiencies.tools)">Add</button>
                                 
                             </div>
-                            <div class="col-4 col-md-2" v-for="(item,index) in newBack.toolProf" v-bind:key="item.id">
+                            <div class="col-4 col-md-2" v-for="(item,index) in newBack.proficiencies.tools" v-bind:key="item.id">
                                 <p class="d-flex flex-row">
-                                     <select class="form-control" type="text" v-model="newBack.toolProf[index].name">
-                                        <option v-for="item in options.tools" v-bind:key="item.id">{{item}}</option>
+                                     <select class="form-control" type="text" v-model="newBack.proficiencies.tools[index].name">
+                                        <option v-for="item in tools.tools" v-bind:key="item.id">{{item}}</option>
                                     </select>
-                                    <button class="btn btn-danger" v-on:click="deleteTool(index)">X</button>
+                                    <button class="btn btn-danger" v-on:click="deleteItem(newBack.proficiencies.tools,index)">X</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Music-->
+                <div class="col-12">
+                     <p>Musician Proficiency</p>
+                     <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-2">
+                                <button class="btn btn-primary" v-on:click="addItem(newBack.proficiencies.musical)">Add</button>
+                                
+                            </div>
+                            <div class="col-4 col-md-2" v-for="(item,index) in newBack.proficiencies.musical" v-bind:key="item.id">
+                                <p class="d-flex flex-row">
+                                     <select class="form-control" type="text" v-model="newBack.proficiencies.musical[index].name">
+                                        <option v-for="item in tools.musicial" v-bind:key="item.id">{{item}}</option>
+                                    </select>
+                                    <button class="btn btn-danger" v-on:click="deleteItem(newBack.proficiencies.musical,index)">X</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Gaming-->
+                <div class="col-12">
+                     <p>Gaming Proficiency</p>
+                     <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-2">
+                                <button class="btn btn-primary" v-on:click="addItem(newBack.proficiencies.gaming)">Add</button>
+                                
+                            </div>
+                            <div class="col-4 col-md-2" v-for="(item,index) in newBack.proficiencies.gaming" v-bind:key="item.id">
+                                <p class="d-flex flex-row">
+                                     <select class="form-control" type="text" v-model="newBack.proficiencies.gaming[index].name">
+                                        <option v-for="item in tools.gaming" v-bind:key="item.id">{{item}}</option>
+                                    </select>
+                                    <button class="btn btn-danger" v-on:click="deleteItem(newBack.proficiencies.gaming,index)">X</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Other-->
+                <div class="col-12">
+                     <p>Other Proficiency</p>
+                     <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-2">
+                                <button class="btn btn-primary" v-on:click="addItem(newBack.proficiencies.other)">Add</button>
+                                
+                            </div>
+                            <div class="col-4 col-md-2" v-for="(item,index) in newBack.proficiencies.other" v-bind:key="item.id">
+                                <p class="d-flex flex-row">
+                                     <input class="form-control" type="text" v-model="newBack.proficiencies.other[index].name">
+                                    <button class="btn btn-danger" v-on:click="deleteItem(newBack.proficiencies.other,index)">X</button>
                                 </p>
                             </div>
                         </div>
@@ -73,13 +110,13 @@
                      <div class="container-fluid">
                         <div class="row">
                             <div class="col-2">
-                                <button class="btn btn-primary" v-on:click="addLang()">Add</button>
+                                <button class="btn btn-primary" v-on:click="addItem(newBack.languages)">Add</button>
                                 
                             </div>
                             <div class="col-4 col-md-2" v-for="(item,index) in newBack.languages" v-bind:key="item.id">
                                 <p class="d-flex flex-row">
                                     <input class="form-control" type="text" v-model="newBack.languages[index].name">
-                                    <button class="btn btn-danger" v-on:click="deleteLang(index)">X</button>
+                                    <button class="btn btn-danger" v-on:click="deleteItem(newBack.languages,index)">X</button>
                                 </p>
                             </div>
                         </div>
@@ -92,7 +129,7 @@
                         <div class="row">
                             <div class="col-2">
                                 <p>Traits</p>
-                                <button class="btn btn-primary" v-on:click="addTrait()">Add</button>
+                                <button class="btn btn-primary" v-on:click="addItem(newBack.traits)">Add</button>
                             </div>
                             <div class="container-fluid">
                                 <div class="row">
@@ -106,7 +143,7 @@
                                             </div>
                                             <div class="col-10 col-md-4 d-flex d-row">
                                                 <input class="form-control" type="text" v-model="newBack.traits[index].name">
-                                                <button class="btn btn-danger" v-on:click="deleteTrait(index)">X</button>
+                                                <button class="btn btn-danger" v-on:click="deleteItem(newBack.traits,index)">X</button>
                                             </div>
                                         </div>
                                         <div class="col-12 d-flex d-row">
@@ -214,36 +251,11 @@
           },
         },
         methods: {
-            
-            addLang: function(){
-                if(this.newBack.languages.length < 4) this.newBack.languages.push({'name':''});
-            },
-            deleteLang: function (index) {
-                this.newBack.languages.splice(index, 1);
-            },
-            addMuse: function(){
-                if(this.newBack.proficiencies.musical.length < 4) this.newBack.proficiencies.musical.push({'name':''});
-            },
-            deleteMuse: function (index) {
-                this.newBack.proficiencies.musical.splice(index, 1);
-            },
             addItem: function(array){
                 if(array.length < 4) array.push({'name':''});
             },
             deleteItem: function (array,index) {
                 array.splice(index, 1);
-            },
-            addTool: function(){
-                if(this.newBack.proficiencies.tools.length < 4) this.newBack.proficiencies.tools.push({'name':''});
-            },
-            deleteTool: function (index) {
-                this.newBack.proficiencies.tools.splice(index, 1);
-            },
-            addTrait: function(){
-                if(this.newBack.traits.length < 12) this.newBack.traits.push({'name':'','description':''});
-            },
-            deleteTrait: function (index) {
-                this.newBack.traits.splice(index, 1);
             },
             finishCreation: function(){
                 Vue.axios.post("http://localhost:3000/backgrounds",{
