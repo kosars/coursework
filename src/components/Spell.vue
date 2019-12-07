@@ -1,33 +1,40 @@
 <template>
     <div>
-        <div class="container-fluid">
-            <div class="row">
-                <h3 class="text-center">{{item.name}}</h3>
-                <h3 class="text-center">{{item.Source}}</h3>
-                <h3 class="text-center">Level : {{item.lvl}}</h3>
-                <h3 class="text-center">School : {{item.school}}</h3>
-                <h3 class="text-center" v-if="item.attackRollRequires"> Requires Attack Roll </h3>
-                <h3 class="text-center" v-if="item.ritual"> Ritual </h3>
-
-                <h3 class="text-center">Casting Time : {{item.castingTime}}</h3>
-                <h3 class="text-center">Range : {{item.range}}</h3>
-                <h3 class="text-center">Duration : {{item.duration}}</h3>
-                <div class="d-flex">
-                    <h3 class="text-center">Components</h3>
-                    <h3 class="text-center" v-if="item.components.verbal"> verbal </h3>
-                    <h3 class="text-center" v-if="item.components.somatic"> somatic </h3>
-                    <h3 class="text-center" v-if="item.components.material"> material </h3>
+                <div>
+                    <h3 >Spell : {{item.name}} ({{item.source}})</h3>
                 </div>
-                <p class="text-center"> {{item.components.text}} </p>
-                
-
+                <div>
+                    <h3 >{{item.lvl}} level {{item.school}} school</h3>
+                </div>
+                <div> 
+                    <h3 v-if="item.attackRollRequires"> Requires Attack Roll </h3>
+                    <h3 v-if="item.ritual"> Ritual </h3>
+                </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <h3>Casting Time:</h3>
+                            <h3>{{item.castingTime}}</h3>
+                        </div>
+                        <div class="col">
+                            <h3>Duration</h3>
+                            <h3>{{item.duration}} </h3></div>
+                        <div class="col">
+                            <h3>Range</h3>
+                            <h3>{{item.range}}  </h3></div>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <h3>Components: </h3>
+                    <h3 v-if="item.components.verbal"> verbal, </h3>
+                    <h3 v-if="item.components.somatic"> somatic, </h3>
+                    <h3 v-if="item.components.material"> material </h3>
+                </div>
+                <p> {{item.components.text}} </p>
                 <div class="col-12">
                     <h3>Description</h3>
                     <div>{{item.descriprion}}</div>
                 </div>
-            </div>
-        </div>
-        
     </div>
 </template>
 <script>

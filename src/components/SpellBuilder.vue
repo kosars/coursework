@@ -97,10 +97,10 @@
             return{
                 newSpell:{
                     'name': 'name',
-                    'source':'Homebrew',
-                    'lvl':0,
+                    'source':'Players Handbook',
+                    'lvl':1,
                     'school':'',
-                    'castingTime':'',
+                    'castingTime':'1 action',
                     'range':'',
                     'duration':'',
                     'components':{
@@ -140,7 +140,8 @@
                     'attackRollRequires':this.newSpell.attackRollRequires,
                 }).then((responce) => {
                     console.log(responce.data)
-                    this.$router.push('/')
+                    console.log("Done")
+                    //this.$router.push('/')
                 })
             },
         },
