@@ -61,12 +61,12 @@
                     <input  class="form-control" type="text" v-model="newSpell.castingTime">
                 </div>
                 <div class="col-4">
-                    <p>Duration</p>
-                    <input  class="form-control" type="text" v-model="newSpell.duration">
-                </div>
-                <div class="col-4">
                     <p>Range</p>
                     <input  class="form-control" type="text" v-model="newSpell.range">
+                </div>
+                <div class="col-4">
+                    <p>Duration</p>
+                    <input  class="form-control" type="text" v-model="newSpell.duration">
                 </div>
                 
                 <!--Description-->
@@ -98,7 +98,7 @@
                 newSpell:{
                     'name': 'name',
                     'source':'Players Handbook',
-                    'lvl':1,
+                    'lvl':4,
                     'school':'',
                     'castingTime':'1 action',
                     'range':'',

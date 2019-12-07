@@ -8,7 +8,7 @@
                     <router-link v-bind:to="'/spells/'+item._id">
                         {{ item.name }}
                     </router-link>
-                    <button v-on:click="deleteSpell(item._id)">delete</button>
+                    <!-- <button v-on:click="deleteSpell(item._id, index)">delete</button> -->
                 </div>
             </div>
         </div>
@@ -55,9 +55,9 @@
 
         },
         methods: {
-            deleteSpell: function(id){
+            deleteSpell: function(id,index){
                 Vue.axios.delete("http://localhost:3000/spells/"+id).then(response => {
-                    this.items = this.spells.filter(Element => {
+                    this.items = this.spells[index].filter(Element => {
                         return Element._id != id;
                     });
                 });
