@@ -18,6 +18,9 @@ import Race from './components/Race.vue'
 import ClassBuilder from './components/ClassBuilder.vue'
 import ClassList from './components/ClassList.vue'
 import Class from './components/Class.vue'
+import BackgroundBuilder from './components/BackgroundBuilder.vue'
+import BackgroundList from './components/BackgroundList.vue'
+import Background from './components/Background.vue'
 import SpellBuilder from './components/SpellBuilder.vue'
 import SpellList from './components/SpellList.vue'
 import Spell from './components/Spell.vue'
@@ -42,6 +45,10 @@ const routes = [
     { path: '/cbuilder', component: ClassBuilder,  meta: { requiresAuth: true } },
     { path: '/classes', component: ClassList},
     { path: '/classes/:id', component: Class , props: true},
+    //backgrounds
+    { path: '/bbuilder', component: BackgroundBuilder,  meta: { requiresAuth: true } },
+    { path: '/backgrounds', component: BackgroundList},
+    { path: '/backgrounds/:id', component: Background , props: true},
     //spells
     { path: '/sbuilder', component: SpellBuilder,  meta: { requiresAuth: true } },
     { path: '/spells', component: SpellList},

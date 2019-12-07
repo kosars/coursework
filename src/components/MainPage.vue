@@ -36,6 +36,16 @@
                 List Classes
             </router-link>
         </button>  
+        <button class="btn">
+            <router-link to="/bbuilder/">
+                Background Builder
+            </router-link>
+        </button>  
+         <button class="btn">
+            <router-link to="/backgrounds/">
+                List Backgrounds
+            </router-link>
+        </button>  
          <button class="btn">
             <router-link to="/sbuilder/">
                 Spell Builder
