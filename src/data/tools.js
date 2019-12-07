@@ -39,4 +39,11 @@ export default
         'Poisoners Tools',
         'Thieves Tools',
     ],
+    'clothes':
+    [
+        'common',
+        'costume',
+        'fine',
+        'travelers',
+    ],
 }

@@ -48,11 +48,11 @@
                                 <div class="col-12">
                                     <h5>Start items</h5>
                                     <h3>Gold: {{back.startItems.gold}}</h3>
-                                    <h3>Clothes: <p v-for="(item) in back.startItems.clothes" v-bind:key="item.id"> {{item}}, </p></h3>
-                                    <h3>Tools: <p v-for="(item) in back.startItems.tools" v-bind:key="item.id"> {{item}}, </p></h3>    
-                                    <h3>Musicial: <p v-for="(item) in back.startItems.musical" v-bind:key="item.id"> {{item}}, </p></h3>
-                                    <h3>Symbols: <p v-for="(item) in back.startItems.symbols" v-bind:key="item.id"> {{item}}, </p></h3>
-                                    <h3>Other: <p v-for="(item) in back.startItems.other" v-bind:key="item.id"> {{item}}, </p></h3>
+                                    <h3>Clothes: {{back.startItems.clothes}}</h3>
+                                    <h3>Tools: <p v-for="(item) in back.startItems.tools" v-bind:key="item.id"> {{item.name}}, </p></h3>    
+                                    <h3>Musicial: <p v-for="(item) in back.startItems.musical" v-bind:key="item.id"> {{item.name}}, </p></h3>
+                                    <h3>Symbols: <p v-for="(item) in back.startItems.symbols" v-bind:key="item.id"> {{item.name}}, </p></h3>
+                                    <h3>Other: <p v-for="(item) in back.startItems.other" v-bind:key="item.id"> {{item.name}}, </p></h3>
 
                                 </div>
                             </div>

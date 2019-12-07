@@ -86,7 +86,7 @@
                         </div>
                     </div>
                 </div>
-                <!--Other-->
+                <!--Other prof-->
                 <div class="col-12">
                      <p>Other Proficiency</p>
                      <div class="container-fluid">
@@ -99,6 +99,54 @@
                                 <p class="d-flex flex-row">
                                      <input class="form-control" type="text" v-model="newBack.proficiencies.other[index].name">
                                     <button class="btn btn-danger" v-on:click="deleteItem(newBack.proficiencies.other,index)">X</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Money-->
+                <div class="col-12 col-md-3">
+                    <p>Gold</p>
+                    <input  class="form-control" type="text" v-model="newBack.startItems.gold" required> coins
+                </div>
+                <!--Clothes-->
+                <div class="col-12 col-md-3">
+                    <p>Clothes</p>
+                    <select  class="form-control" type="text" v-model="newBack.startItems.clothes" required>
+                        <option v-for="item in tools.clothes" v-bind:key="item.id">{{item}}</option>
+                    </select>
+                </div>
+                <!--symbols-->
+                <div class="col-12">
+                     <p>Holy  Symbols</p>
+                     <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-2">
+                                <button class="btn btn-primary" v-on:click="addItem(newBack.startItems.symbols)">Add</button>
+                                
+                            </div>
+                            <div class="col-4 col-md-2" v-for="(item,index) in newBack.startItems.symbols" v-bind:key="item.id">
+                                <p class="d-flex flex-row">
+                                     <input class="form-control" type="text" v-model="newBack.startItems.symbols[index].name">
+                                    <button class="btn btn-danger" v-on:click="deleteItem(newBack.startItems.symbols,index)">X</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Other Itmes-->
+                <div class="col-12">
+                     <p>Other Items</p>
+                     <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-2">
+                                <button class="btn btn-primary" v-on:click="addItem(newBack.startItems.other)">Add</button>
+                                
+                            </div>
+                            <div class="col-4 col-md-2" v-for="(item,index) in newBack.startItems.other" v-bind:key="item.id">
+                                <p class="d-flex flex-row">
+                                     <input class="form-control" type="text" v-model="newBack.startItems.other[index].name">
+                                    <button class="btn btn-danger" v-on:click="deleteItem(newBack.startItems.other,index)">X</button>
                                 </p>
                             </div>
                         </div>
@@ -271,8 +319,8 @@
                     'startItems':{
                         'gold':this.newBack.startItems.gold,
                         'clothes':this.newBack.startItems.clothes,
-                        'tools':this.newBack.startItems.tools,
-                        'musical':this.newBack.startItems.musical,
+                        'tools':this.newBack.proficiencies.tools,
+                        'musical':this.newBack.proficiencies.musical,
                         'symbols':this.newBack.startItems.symbols,
                         'other':this.newBack.startItems.other,
                     },
