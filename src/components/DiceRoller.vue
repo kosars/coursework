@@ -109,7 +109,7 @@
                 return sum
             },
             clearLog: function(){
-                this.rollsLog = ''
+                this.rollsLog = []
             },
         },
     }
