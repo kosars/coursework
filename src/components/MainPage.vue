@@ -1,15 +1,10 @@
 <template>
-    <div>
+    <div class="main">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 d-flex">
                     <div class="roll btn">
-                        <router-link to="/dice/">
-                            <div class="d-flex">
-                                <img src="https://game-icons.net/icons/ffffff/000000/1x1/delapouite/dice-twenty-faces-twenty.svg" alt="" class="dice-img text-center">
-                                <h5 class="align-self-center">Roll a Dice</h5>
-                            </div>
-                        </router-link>
+                        
                     </div>
                     <div class="logout"><h5>Welcome, {{username}}! <button class="btn btn-secondary" v-on:click="logOut()">Log Out</button></h5></div>
                 </div>
@@ -21,15 +16,11 @@
         </div>
         <div class="container-fluid">
             <div class="row blocks d-flex">
-                <div class="col-6 col-md-2 monsters block">
-                    <img src="https://orcpub2.com/image/hydra.svg" alt="" class="text-center">
-                    <h5 class="text-center">Monsters</h5>
-                    <router-link to="/mcreator/" >
-                         <p class="text-center">Create Monster </p>
+                <div class="col-6 col-md-2 monsters block">  
+                    <img src="https://game-icons.net/icons/ffffff/000000/1x1/delapouite/dice-twenty-faces-twenty.svg" alt="">
+                    <router-link to="/dice/">
+                        <h5 class="text-center">Roll a Dice</h5>
                     </router-link>
-                    <!-- <router-link to="/monsters/" class="text-center">
-                        <p class="text-center">List Monsters</p>
-                    </router-link> -->
                 </div>
                 <div class="col-6 col-md-2 characters block">
                     <img src="https://orcpub2.com/image/anvil-impact.svg" alt="" class="text-center">

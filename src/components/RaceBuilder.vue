@@ -373,6 +373,7 @@
         },
         mounted: function(){
             this.options = rBuilderData;
+           
         },
         computed:{
           skillChoosed: function(){ 

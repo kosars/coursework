@@ -5,7 +5,6 @@
                 <h4 class="product-title">
                     <router-link v-bind:to="'/races/'+item._id">
                         {{ item.name }}
-                       <!-- <race></race> -->
                     </router-link>
                     <button v-on:click="deleteRace(item._id)">delete</button>
                 </h4>

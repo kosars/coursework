@@ -9,11 +9,6 @@
                             <!-- Ability -->
                             <div class="col-6">
                                 <h3>Hit Die: 1d{{item.hitDie}}</h3>
-                                <h3 v-if="item.spellcast">Spellcasting Ability: {{item.spellcastAbility}}</h3>
-                                
-                                
-                                <div class="col-12">
-                                </div>
                             </div>
                             <!-- Proficiency -->
                             <div class="col-6">
@@ -64,7 +59,18 @@
                                 </div> -->
                                 
                             </div>
-                            <!-- Traits -->
+                            <div class="col-12" v-if="item.spellcast">
+                                <h5>Spells</h5>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-6" v-for="(item) in item.spells" v-bind:key="item._id">
+                                            <router-link v-bind:to="'/spells/'+item.spellid">
+                                                {{ item.name }}
+                                            </router-link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-12">
                                 <h5>Traits</h5>
                                 <div class="d-flex flex-row" v-for="(item) in item.traits" v-bind:key="item.id">

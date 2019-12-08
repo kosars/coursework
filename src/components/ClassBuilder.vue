@@ -87,7 +87,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12" v-if="newClass.spellcast"><h5>Spells</h5></div>
+                <div class="col-12" v-if="newClass.spellcast">
+                    <h5 class="text-centered">Select spells from which this class can choose</h5>
+                    <div class="container-fluid" v-for="(item,index) in spells" v-bind:key="item._id">
+                        <div class="row">
+                            <div class="col-12"><h5 class="text-centered">Level {{index}}</h5></div>
+                            <div class="col-2" v-for="(item) in item" v-bind:key="item.spell._id">
+                                <input class="spellcheck" type="checkbox" v-model="item.value">
+                                <router-link v-bind:to="'/spells/'+item.spell._id">
+                                    {{ item.spell.name }}
+                                </router-link>
+                                <!-- <button v-on:click="deleteSpell(item._id, index)">delete</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!--Weapon-->
                 <!-- <div class="col-12">
                      <p>Weapon Proficiency</p>
@@ -219,6 +233,13 @@
                 //options: [],
                 points:2,
                 skillPoints:2,
+                spells: [
+                    [],//level0
+                    [],//level1
+                    [],//level2
+                    [],//level3
+                    [],//level4
+                ],
                 newClass:{
                     'name': '',
                     'source':'Homebrew',
@@ -235,7 +256,6 @@
                     'spellcast':false,
                     'spellcastAbility':'CHR',
                     //'firstSpellLvl':1,
-                    'spells':[],
                     'skills': [
                         {'skillName' : 'Athletics','value' : false },//str
                         {'skillName' : 'Acrobatics','value' : false },//dex
@@ -263,6 +283,15 @@
             }
         },
         mounted: function(){
+            Vue.axios.get("http://localhost:3000/spells/").then((response) =>{
+                console.log(response.data)
+                response.data.forEach(element => {
+                    this.spells[element.lvl].push({'spell':element,'value':false});
+                });
+                console.log(this.spells)
+            }, (reject) =>{
+                console.log(id)
+            })
         },
         computed:{
           skillChoosed: function(){ 
@@ -273,6 +302,12 @@
           },
         },
         methods: {
+            addSpell: function(level,name,id){
+                if(this.newClass.spellcast) this.newClass.spells.push({'level': level,'name':name,'spellid':id});
+            },
+            deleteSpell: function (id) {
+                this.newClass.languages.splice(index, 1);
+            },
             addLang: function(){
                 if(this.newClass.languages.length < 11) this.newClass.languages.push({'name':''});
             },
@@ -304,10 +339,17 @@
                 this.newClass.traits.splice(index, 1);
             },
             finishCreation: function(){
+                var spellsUsed = [];
+                this.spells.forEach(element =>{
+                    element.forEach(element =>{
+                        if(element.value == true) spellsUsed.push({'level': element.spell.lvl,'name':element.spell.name,'spellid':element.spell._id})
+                    })
+                })
+                console.log(spellsUsed)
                 Vue.axios.post("http://localhost:3000/classes",{
                     'name': this.newClass.name,
-                    'source': this.newClass.source.name,
-                    'hitDie': this.newClass.hitDie.name,
+                    'source': this.newClass.source,
+                    'hitDie': this.newClass.hitDie,
                     'savingThrows':{
                         'STR': this.newClass.savingThrows.STR,
                         'CON': this.newClass.savingThrows.CON,
@@ -319,7 +361,7 @@
                     'spellcast': this.newClass.spellcast,
                     'spellcastAbility': this.newClass.spellcastAbility,
                     //'firstSpellLvl':{type: Number, default: 1},
-                    'spells':this.newClass.spells,
+                    'spells':spellsUsed,
                     // 'weaponProf': this.newClass.weaponProf,
                     // 'armorProf': this.newClass.armorProf,
                     // 'toolProf': this.newClass.toolProf,
@@ -338,5 +380,7 @@
 </script>
 
 <style>
-            
+   input{
+       padding-right: 2em;
+   }         
 </style>
