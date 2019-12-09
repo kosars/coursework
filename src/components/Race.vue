@@ -71,6 +71,10 @@
                                     <p><strong>{{item.name}}.</strong> {{item.description}}</p>
                                 </div>
                             </div>
+                            <div class="col-12">
+                                <h3>Description</h3>
+                                <div>{{race.descriprion}}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -78,10 +82,7 @@
                 <div class="col-12 col-md-6">
                     <img v-bind:src="race.image">
                 </div>
-                <div class="col-12">
-                    <h3>Description</h3>
-                    <div>{{race.descriprion}}</div>
-                </div>
+               
             </div>
         </div>
         

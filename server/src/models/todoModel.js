@@ -128,7 +128,7 @@ export const SubraceSchema = new Schema({
 });
 
 export const ClassSchema = new Schema({
-  'name': {type: String, required: "Please put the name of calss"},
+  'name': {type: String, required: "Please put the name of class"},
   'source':{type:String, default:"Homebrew"},
   'hitDie':{type:String},
   'savingThrows':{
