@@ -9,12 +9,12 @@
                 <!--Name-->
                 <div class="col-6">
                     <p>Name</p>
-                    <input  class="form-control" type="text" v-model="newChar.name" required>
+                    <input  class="form-control" type="text" v-model="name" required>
                 </div>
                 <!--Player's Name-->
                 <div class="col-6">
                     <p>Player's Name</p>
-                    <input  class="form-control" type="text" v-model="newChar.descriprion.player" required>
+                    <input  class="form-control" type="text" v-model="player" required>
                 </div>
                 <div class="w-100"></div>
                 <!--Race-->
@@ -41,7 +41,7 @@
                 <!--Aligment-->
                 <div class="col-3">
                     <p>Aligment</p>
-                    <select class="form-control" v-model="newChar.aligment">
+                    <select class="form-control" v-model="aligment">
                         <option v-for="(item) in options.aligments" v-bind:key="item.id">{{item}}</option>
                     </select>
                 </div>
@@ -211,6 +211,19 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Spells -->
+                    <div class="col-12">
+                        <h5>Spells</h5>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-12" v-for="(item) in selectedClass.spells" v-bind:key="item._id">
+                                    <router-link v-bind:to="'/spells/'+item.spellid">
+                                        {{ item.name }}
+                                    </router-link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!--Profincies-->
                     <div class="col-12">
                         <h3 v-if="selectedRace.weaponProf.length >0">Weapon Profincies</h3>
@@ -269,7 +282,7 @@
                 <!--Sex-->
                 <div class="col-1">
                     <p>Sex</p>
-                    <select  class="form-control" type="text" v-model="newChar.descriprion.sex" required>
+                    <select  class="form-control" type="text" v-model="sex" required>
                         <option>Man</option>
                         <option>Woman</option>
                         <option>None of that</option>
@@ -278,22 +291,65 @@
                 <!--Age-->
                 <div class="col-1">
                     <p>Age</p>
-                    <input  class="form-control" type="number" v-model="newChar.descriprion.age" min="1" max="1000" required>
+                    <input  class="form-control" type="number" v-model="age" min="1" max="1000" required>
                 </div>
                 <!--Height-->
                 <div class="col-1">
                     <p>Height</p>
-                    <input  class="form-control" type="number" v-model="newChar.descriprion.height" min="1" max="1000" required>
+                    <input  class="form-control" type="number" v-model="height" min="1" max="1000" required>
                 </div>
                 <!--Weight-->
                 <div class="col-1">
                     <p>Weight</p>
-                    <input  class="form-control" type="number" v-model="newChar.descriprion.weight" min="1" max="1000" required>
+                    <input  class="form-control" type="number" v-model="weight" min="1" max="1000" required>
+                </div>
+                <!--Traits-->
+                <div class="col-12">
+                     
+                     <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12 d-flex align-items-center">
+                                <h3 class="mr-auto p-2">Personality Traits</h3>
+                                <button class="btn btn-primary p-2" v-on:click="addItem(personalityTraits)">Add</button>
+                            </div>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12" v-for="(item,index) in personalityTraits" v-bind:key="item.id">
+                                        <div class="col-12 text-center">
+                                            <h5>Personality Trait {{index + 1}}</h5>
+                                        </div>
+                                        <div class="col-12 d-flex d-row">
+                                            <div class="col-2">
+                                                <h5>Name</h5>
+                                            </div>
+                                            <div class="col-10 col-md-4 d-flex d-row">
+                                                <input class="form-control" type="text" v-model="personalityTraits[index].name">
+                                                <button class="btn btn-danger" v-on:click="deleteItem(personalityTraits,index)">X</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 d-flex d-row">
+                                            <div class="col-2">
+                                                <h5>Description</h5>
+                                            </div>
+                                            <div class="col-10">
+                                                <input class="form-control" type="text" v-model="personalityTraits[index].description">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Image-->
+                <div class="col-12">
+                    <p>Image URL</p>
+                    <input  class="form-control" type="text" v-model="image">
                 </div>
                 <!--Description-->
                 <div class="col-12">
                     <p>Description / Backstory</p>
-                    <textarea  class="form-control" type="text" v-model="newChar.descriprion.backstory" rows="6"></textarea>
+                    <textarea  class="form-control" type="text" v-model="backstory" rows="6"></textarea>
                 </div>
                 <!--Confirm-->
                 <div class="col-12 text-center">
@@ -410,27 +466,23 @@
             },
             rollAb(){return this.rollDice(6,0) + this.rollDice(6,0) + this.rollDice(6,0)},
             calculateS(){
-                console.log("Calculated SKills")
                 for(var i=0;i<this.selectedRace.skills.length;i++){
                     this.skillsList[i]={
                         'name':this.selectedRace.skills[i].skillName,
                         'value':(this.selectedRace.skills[i].value || this.selectedClass.skills[i].value || this.selectedBackground.skills[i].value)
                     }
                 }
-                console.log( "skillslist =")
-                console.log(this.skillsList)
             },
             returnLangs(){
                 var langs = [];
                 this.selectedRace.languages.forEach(element => {
                     langs.push({'name':element.name});
                 });
-                this.selectedClass.languages.forEach(element => {
-                    langs.push({'name':element.name});
-                });
                 this.selectedBackground.languages.forEach(element => {
                     langs.push({'name':element.name});
                 });
+                console.log("langs")
+                console.log(langs)
                 return langs;
             },
             returnTools(){
@@ -450,6 +502,9 @@
                 this.selectedBackground.proficiencies.other.forEach(element => {
                     tools.push({'name':element.name});
                 });
+                
+                console.log("tools")
+                console.log(tools)
                 return tools;
             },
             finishCreation: function(){
@@ -608,10 +663,19 @@
             },
             SayMyName(){
                 this.created=true;
+                console.log("SayMyName start")
                 console.log(this.selectedRace)
                 console.log(this.selectedClass)
                 console.log(this.selectedBackground)
-            }
+                console.log("SayMyName end")
+            },
+            addItem: function(array){
+                if(array.length < 8) array.push({'name':'',});
+            },
+            deleteItem: function (array,index) {
+                array.splice(index, 1);
+            },
+
         
         },
     }

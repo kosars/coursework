@@ -300,7 +300,7 @@
         },
         methods: {
             addItem: function(array){
-                if(array.length < 4) array.push({'name':''});
+                if(array.length < 4) array.push({'name':'','description':''});
             },
             deleteItem: function (array,index) {
                 array.splice(index, 1);

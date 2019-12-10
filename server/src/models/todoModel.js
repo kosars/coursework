@@ -66,7 +66,7 @@ export const CharacterSchema = new Schema({
     'sex':String,
     'height':Number,
     'weight':Number,
-    'personalityTraits':[{'name':String,'value':String}],
+    'personalityTraits':[{'name':String,'description':String}],
     'image':String,
     'backstory':String,
   }
