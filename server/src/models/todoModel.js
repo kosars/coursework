@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { stringify } from 'querystring';
 
 const Schema = mongoose.Schema;
 
@@ -29,10 +30,9 @@ export const ItemGroupSchema = new Schema({
 export const CharacterSchema = new Schema({
   'name': {type: String, required: "Please put the name of your character"},
   'source':{type:String, default:"Homebrew"},
-  'class': {type: String, required: "Please put the class of your character"},
-  'race': {type: String, required: "Please put the race of your character"},
-  'subrace': {type: String, required: "Please put the race of your character"},
-  'background': {type: String, required: "Please put the background of your  character"},
+  'class': {'name':String,'classId':String},
+  'race': {'name':String,'raceId':String},
+  'background': {'name':String,'backgroundId':String},
   'aligment': {type: String, required: "Please put aligment of your  character"},
   'level':{type: Number, default:1},
   'xp':{type: Number, default: 0},
@@ -49,30 +49,24 @@ export const CharacterSchema = new Schema({
   'CHR':{type: Number, default: 8},
   //saveThrows
   'saveThrows': [
-    {'name' : String,'value' : Boolean}
+    {'name' : String, 'value':Number,'prof' : Boolean}
   ],
   //skills
   'skills': [
-    {'skillName' : String,'value' : Boolean, 'dependence': String}
+    {'name' : String,'value' : Boolean}
   ],
+  'spells':[{'level': Number,'name':String,'spellid':String}],
   'languages':[{'name' : String}],
   'weaponProf':[{'name' : String}],
   'armorProf':[{'name' : String}],
+  'toolProf':[{'name' : String}],
   //other
   'descriprion':{
-    'player':String,
     'age':Number,
     'sex':String,
     'height':Number,
     'weight':Number,
-    'hairColor':String,
-    'eyeColor':String,
-    'skinColor':String,
-    'personalityTrait1':String,
-    'personalityTrait2':String,
-    'ideals':String,
-    'bonds':String,
-    'flaws':String,
+    'personalityTraits':[{'name':String,'value':String}],
     'image':String,
     'backstory':String,
   }

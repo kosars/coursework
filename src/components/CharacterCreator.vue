@@ -321,35 +321,18 @@
                 selectedRace:{},selectedClass:{},selectedBackground:{},
                 options: [],
                 name:'', level:1, aligment:'', xp:0, armor:0, profBonus:2,
+                player:'',
                 abilities: {
                     STR:8,DEX:8,CON:8,INT:8,WIS:8,CHR:8,
                 },
                 skillsList: Array(18),
-                newChar:{
-                    hp: {
-                        dieCounts:1, die:0, max:0,
-                    },
-                    languages:[],
-                    weaponProf:[],
-                    armorProf:[],
-                    descriprion:{
-                        player:'okay',
-                        age:0,
-                        sex:'okay',
-                        height:0,
-                        weight:0,
-                        hairColor:'okay',
-                        eyeColor:'okay',
-                        skinColor:'okay',
-                        personalityTrait1:'okay',
-                        personalityTrait2:'okay',
-                        ideals:'okay',
-                        bonds:'okay',
-                        flaws:'okay',
-                        image:'okay',
-                        backstory:'okay',
-                    }
-                }
+                age:0,
+                sex:'',
+                height:0,
+                weight:0,
+                personalityTraits:[],
+                image:'',
+                backstory:'',
             }
         },
         mounted: function(){
@@ -413,12 +396,12 @@
         },
         methods: {
             RollAbilities: function(){
-                    this.abilities.STR = this.rollAb();
-                    this.abilities.DEX = this.rollAb();
-                    this.abilities.CON = this.rollAb();
-                    this.abilities.INT = this.rollAb();
-                    this.abilities.WIS = this.rollAb();
-                    this.abilities.CHR = this.rollAb();
+                this.abilities.STR = this.rollAb();
+                this.abilities.DEX = this.rollAb();
+                this.abilities.CON = this.rollAb();
+                this.abilities.INT = this.rollAb();
+                this.abilities.WIS = this.rollAb();
+                this.abilities.CHR = this.rollAb();
             },
             rollDice: function(dice,mod){
                 //количество бросков, кость, модификатор
@@ -437,35 +420,94 @@
                 console.log( "skillslist =")
                 console.log(this.skillsList)
             },
+            returnLangs(){
+                var langs = [];
+                this.selectedRace.languages.forEach(element => {
+                    langs.push({'name':element.name});
+                });
+                this.selectedClass.languages.forEach(element => {
+                    langs.push({'name':element.name});
+                });
+                this.selectedBackground.languages.forEach(element => {
+                    langs.push({'name':element.name});
+                });
+                return langs;
+            },
+            returnTools(){
+                var tools = [];
+                this.selectedRace.toolProf.forEach(element => {
+                    tools.push({'name':element.name});
+                });
+                this.selectedBackground.proficiencies.tools.forEach(element => {
+                    tools.push({'name':element.name});
+                });
+                this.selectedBackground.proficiencies.musical.forEach(element => {
+                    tools.push({'name':element.name});
+                });
+                this.selectedBackground.proficiencies.gaming.forEach(element => {
+                    tools.push({'name':element.name});
+                });
+                this.selectedBackground.proficiencies.other.forEach(element => {
+                    tools.push({'name':element.name});
+                });
+                return tools;
+            },
             finishCreation: function(){
                 Vue.axios.post("http://localhost:3000/chars",{
-                    'name': this.newChar.name,
-                    'class': this.newChar.class,
-                    'race': this.newChar.race,
-                    'background': this.newChar.background,
-                    'aligment': this.newChar.aligment,
-                    'level': this.newChar.level,
-                    'xp': this.newChar.xp,
-                    'hpDice': this.newChar.hp.die,
-                    'armor': this.newChar.armor,
-                    'speed': this.newChar.speed,
-                    'profBonus': this.newChar.profBonus,
+                    'name': this.name,
+                    'source':this.player,
+                    'class': {
+                        'name':this.selectedClass.name,
+                        'classId':this.selectedClass._id},
+                    'race': {
+                        'name':this.selectedRace.name,
+                        'raceId':this.selectedRace._id},
+                    'background': {
+                        'name':this.selectedBackground.name,
+                        'backgroundId':this.selectedBackground._id},
+                    'aligment': this.aligment,
+                    'level': this.level,
+                    'xp': this.xp,
+                    'hpDice': this.selectedClass.hitDie,
+                    'armor': this.armor,
+                    'speed': this.selectedRace.speed,
+                    'profBonus': this.profBonus,
                     //abilities
-                    'STR': this.newChar.abilities[0].value,
-                    'CON': this.newChar.abilities[1].value,
-                    'DEX': this.newChar.abilities[2].value,
-                    'INT': this.newChar.abilities[3].value,
-                    'WIS': this.newChar.abilities[4].value,
-                    'CHR': this.newChar.abilities[5].value,
-                    // 'saveThrows': this.newChar.saveThrows,
-                    // 'skills': this.newChar.skills,
-                    //'languages': this.newChar.languages,
-                    // 'weaponProf': this.newChar.weaponProf,
-                    // 'armorProf': this.newChar.armorProf,
-                    // 'descriprion':this.newChar.descriprion,
+                    'STR':this.STR,
+                    'DEX':this.DEX,
+                    'CON':this.CON,
+                    'INT':this.INT,
+                    'WIS':this.WIS,
+                    'CHR':this.CHR,
+                    //saveThrows
+                    'saveThrows': [
+                        {'name' : 'STR', 'value':this.saveStr,'prof' : this.selectedClass.savingThrows.STR},
+                        {'name' : 'DEX', 'value':this.saveDex,'prof' : this.selectedClass.savingThrows.DEX},
+                        {'name' : 'CON', 'value':this.saveCon,'prof' : this.selectedClass.savingThrows.CON},
+                        {'name' : 'INT', 'value':this.saveInt,'prof' : this.selectedClass.savingThrows.INT},
+                        {'name' : 'WIS', 'value':this.saveWis,'prof' : this.selectedClass.savingThrows.WIS},
+                        {'name' : 'CHR', 'value':this.saveChr,'prof' : this.selectedClass.savingThrows.CHR},
+                    ],
+                    //skills
+                    'skills': this.skillsList,
+                    'languages':this.returnLangs(),
+                    'weaponProf':this.selectedRace.weaponProf,
+                    'armorProf':this.selectedRace.armorProf,
+                    'toolProf':this.returnTools(),
+                    'spells':this.selectedClass.spells,
+                    //other
+                    'descriprion':{
+                        'age':this.age,
+                        'sex':this.sex,
+                        'height':this.height,
+                        'weight':this.weight,
+                        'personalityTraits':this.personalityTraits,
+                        'image':this.image,
+                        'backstory':this.backstory,
+                    }
                 }).then((responce) => {
                     console.log(responce.data)
-                    this.$router.push('/')
+                    //this.$router.push('/')
                 })
             },
             abilitieChange:function(i,direction){
