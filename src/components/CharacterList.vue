@@ -4,7 +4,7 @@
             <div>
                 <h4 class="product-title">
                     <router-link v-bind:to="'/chars/'+item._id">
-                        {{ item.name }} {{ item.class }} {{ item.level }} 
+                        {{ item.name }} {{ item.class.name }}
                     </router-link>
                     <button v-on:click="deleteChar(item._id)">delete</button>
                 </h4>

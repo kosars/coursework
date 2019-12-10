@@ -481,8 +481,6 @@
                 this.selectedBackground.languages.forEach(element => {
                     langs.push({'name':element.name});
                 });
-                console.log("langs")
-                console.log(langs)
                 return langs;
             },
             returnTools(){
@@ -502,13 +500,10 @@
                 this.selectedBackground.proficiencies.other.forEach(element => {
                     tools.push({'name':element.name});
                 });
-                
-                console.log("tools")
-                console.log(tools)
                 return tools;
             },
             finishCreation: function(){
-                Vue.axios.post("http://localhost:3000/chars",{
+                if(this.created) Vue.axios.post("http://localhost:3000/chars",{
                     'name': this.name,
                     'source':this.player,
                     'class': {
@@ -562,8 +557,9 @@
                     }
                 }).then((responce) => {
                     console.log(responce.data)
-                    //this.$router.push('/')
+                    this.$router.push('/')
                 })
+                else{alert("BEFORE FINISH YOU MUST GENERATE CHARACTER")}
             },
             abilitieChange:function(i,direction){
                 var value;
@@ -662,12 +658,8 @@
                 })
             },
             SayMyName(){
-                this.created=true;
-                console.log("SayMyName start")
-                console.log(this.selectedRace)
-                console.log(this.selectedClass)
-                console.log(this.selectedBackground)
-                console.log("SayMyName end")
+                if(this.selectedRace.name && this.selectedClass.name && this.selectedBackground.name)this.created=true;
+                else{alert("You must fill all of the inputs")}
             },
             addItem: function(array){
                 if(array.length < 8) array.push({'name':'',});
