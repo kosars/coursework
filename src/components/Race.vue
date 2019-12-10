@@ -119,6 +119,9 @@
     }
 </script>
 <style>
+.col-6{
+    height: 100%;
+}
 img{
     width: 100%;
 }
