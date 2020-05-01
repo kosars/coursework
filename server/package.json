@@ -1,7 +1,7 @@
 {
   "name": "todo",
   "version": "1.0.0",
-  "description": "",
+  "description": "TODO list API lets you search, fetch, create to-do-items and also group them together. One has to use RESTful calling style to access and edit TODO list API.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,15 +10,17 @@
   "author": "Sher Sanginov",
   "license": "MIT",
   "dependencies": {
+    "async": "^2.6.0",
     "body-parser": "^1.17.2",
     "express": "^4.15.4",
     "mongoose": "^4.11.10",
     "nodemon": "^1.12.0",
-    "async": "^2.6.0"
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1"
-  }
+  },
+  "keywords": []
 }

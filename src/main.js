@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex';
+import io from 'socket.io-client';
+import VueSocketIO from 'vue-socket.io';
 
 
 import App from './components/App.vue'
@@ -55,6 +57,7 @@ const routes = [
     { path: '/spells/:id', component: Spell , props: true},
    
 ]
+///var socket = io('http://localhost:3000');
 
 const router = new VueRouter({
     routes
@@ -79,10 +82,12 @@ router.beforeEach((to, from, next) => {
 
 Vue.use(VueRouter)
 Vue.use(Vuex);
+Vue.use(new VueSocketIO({ debug: true, connection: 'http://localhost:3000'}));
 
 new Vue({
     render: h => h(App),
     el: '#app',
     router,
     store,
+    //socket
 })

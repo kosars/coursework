@@ -12,6 +12,12 @@
     h2, h3, h4, h5, h6 {
         font-family: 'Montserrat', sans-serif;
     }
+    .centered{
+        text-align: center;
+    }
+    .pt{
+        padding-top: 100px;
+    }
 
     button:focus, input:focus {
         outline: none;
