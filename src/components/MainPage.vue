@@ -2,14 +2,8 @@
     <div class="main">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-12 d-flex">
-                    <div class="roll btn">
-                        
-                    </div>
-                    <div class="logout"><h5>Welcome, {{username}}! <button class="btn btn-secondary" v-on:click="logOut()">Log Out</button></h5></div>
-                </div>
-                <div class="col-12">
-                    <img src="https://orcpub2.com/image/beer-stein.svg" alt="" class="homebrew-img text-center">
+                <div class="col-12 pt">
+                    <img src="https://game-icons.net/icons/ffffff/000000/1x1/lorc/beer-stein.svg" alt="" class="homebrew-img text-center">
                     <h1 class="text-center">Homebrew content for Dungeons & Dragons</h1>
                 </div>
             </div>
@@ -23,7 +17,7 @@
                     </router-link>
                 </div>
                 <div class="col-6 col-md-2 characters block">
-                    <img src="https://orcpub2.com/image/anvil-impact.svg" alt="" class="text-center">
+                    <img src="https://game-icons.net/icons/ffffff/000000/1x1/lorc/anvil-impact.svg" alt="" class="text-center">
                     <h5 class="text-center">Characters</h5>
                     <router-link to="/ccreator/" >
                          <p class="text-center">Create Character</p>
@@ -33,7 +27,7 @@
                     </router-link>
                 </div>
                 <div class="col-6 col-md-2 races block">
-                    <img src="https://orcpub2.com/image/orc-head.svg" alt="" class="text-center">
+                    <img src="https://game-icons.net/icons/ffffff/000000/1x1/delapouite/orc-head.svg" alt="" class="text-center">
                     <h5 class="text-center">Races</h5>
                     <router-link to="/rbuilder/" >
                          <p class="text-center">Create Race</p>
@@ -43,7 +37,7 @@
                     </router-link>
                 </div>
                 <div class="col-6 col-md-2 classes block">
-                    <img src="https://orcpub2.com/image/mounted-knight.svg" alt="" class="text-center">
+                    <img src="https://game-icons.net/icons/ffffff/000000/1x1/skoll/mounted-knight.svg" alt="" class="text-center">
                     <h5 class="text-center">Classes</h5>
                     <router-link to="/cbuilder/" >
                          <p class="text-center">Create Class</p>
@@ -53,7 +47,7 @@
                     </router-link>
                 </div>
                 <div class="col-6 col-md-2 backgrounds block">
-                    <img src="https://orcpub2.com/image/vitruvian-man.svg" alt="" class="text-center">
+                    <img src="https://game-icons.net/icons/ffffff/000000/1x1/delapouite/vitruvian-man.svg" alt="" class="text-center">
                     <h5 class="text-center">Backgrounds</h5>
                     <router-link to="/bbuilder/" >
                          <p class="text-center">Create Background</p>
@@ -63,7 +57,7 @@
                     </router-link>
                 </div>
                 <div class="col-6 col-md-2 spells block">
-                    <img src="https://orcpub2.com/image/spell-book.svg" alt="" class="text-center">
+                    <img src="https://game-icons.net/icons/ffffff/000000/1x1/delapouite/spell-book.svg" alt="" class="text-center">
                     <h5 class="text-center">Spells</h5>
                     <router-link to="/sbuilder/" >
                          <p class="text-center">Spell Builder</p>

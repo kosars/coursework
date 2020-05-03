@@ -1,16 +1,118 @@
 <template>
-    <div class="main">
-        <div class="content">
+    <div class="wrapper">
+         <!-- Sidebar  -->
+        <nav id="sidebar" v-if="$store.getters.getCurrUser">
+            <div class="sidebar-header">
+                <h3>Homebrew content</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <p>Welcome, {{username}}! <br> <button class="btn btn-dark" v-on:click="logOut()">Log Out</button></p>
+                <li>
+                    <router-link to="/dice/">Roll a Dice</router-link>
+                </li>
+                <li>
+                    <a v-on:click="menuOne = !menuOne " data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Characters</a>
+                    <ul v-show="menuOne" class="collapse list-unstyled show" id="homeSubmenu">
+                        <li>
+                            <router-link to="/ccreator/" >Create Character</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/chars/" >List Characters</router-link>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a v-on:click="menuTwo = !menuTwo"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Races</a>
+                    <ul v-show="menuTwo" class="collapse list-unstyled show" id="pageSubmenu">
+                        <li>
+                            <router-link to="/rbuilder/">Create Race</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/races/">List Races</router-link>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a v-on:click="menuTree = !menuTree"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Classes</a>
+                    <ul v-show="menuTree" class="collapse list-unstyled show" id="pageSubmenu">
+                        <li>
+                            <router-link to="/cbuilder/">Create Class</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/classes/">List Classes</router-link>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a v-on:click="menuFour = !menuFour"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Backgrounds</a>
+                    <ul v-show="menuFour" class="collapse list-unstyled show" id="pageSubmenu">
+                        <li>
+                            <router-link to="/bbuilder/">Create Background</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/backgrounds/">List Backgrounds</router-link>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a v-on:click="menuFive = !menuFive"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Spells</a>
+                    <ul v-show="menuFive" class="collapse list-unstyled show" id="pageSubmenu">
+                        <li>
+                            <router-link to="/sbuilder/">Spell Builder</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/spells/">List Spells</router-link>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
             <router-view></router-view>
         </div>
     </div>
 </template>
-
+<script>
+export default {
+     data: function() {
+            return {
+                username:'',
+                menuOne: false,
+                menuTwo: false,
+                menuTree: false,
+                menuFour: false,
+                menuFive: false,
+            };
+        },
+        mounted: function() {
+            this.username = this.$store.getters.getCurrUser
+        },
+        updated: function() {
+            this.username = this.$store.getters.getCurrUser
+        },
+        methods:{
+            logOut: function() {
+                this.$store.commit('logOut')
+                this.$router.push({ path: '/login' })
+            },
+        }
+}
+</script>
 <style>
     /* Generic styling */
 
     h2, h3, h4, h5, h6 {
         font-family: 'Montserrat', sans-serif;
+    }
+    a,
+    a:hover,
+    a:focus {
+        color: inherit;
+        text-decoration: none;
+        transition: all 0.3s;
     }
     .centered{
         text-align: center;
@@ -22,16 +124,6 @@
     button:focus, input:focus {
         outline: none;
     }
-
-    /* .btn {
-        background-color: #F08080;
-        border-radius: 2px;
-        color: white;
-        user-select: none;
-        border: none;
-        cursor: pointer;
-        opacity: 1;
-    } */
 
     .btn:active {
         opacity: 0.8;
@@ -54,11 +146,14 @@
         width: 100%;
         height: 100%;
         margin: 0;
+        
     }
 
     body {
         font-family: 'Lato', sans-serif;
         background-color: #F5F5F5;
+        align-items: normal;
+        padding: 0;
     }
 
     #app {
@@ -89,64 +184,102 @@
         flex: 2;
     }
 
-    /* Products */
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
 
-    .product-list {
-        margin-right: 1rem;
-    }
+.wrapper {
+    display: flex;
+    min-height: 100%;
+    width: 100%;
+    align-items: stretch;
+}
+#content{
+    width: 100%;
+    height: 100%;
+}
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    background: black;
+    color: #fff;
+    transition: all 0.3s;
+}
 
-    .search-results {
-        padding-bottom: 1rem;
-    }
+#sidebar.active {
+    margin-left: -250px;
+}
 
-    .search-results .search-term {
-        font-style: italic;
-    }
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: black;
+}
 
-    .product {
-        padding: 1rem;
-        border: 1px solid #E9E9E9;
-        border-radius: 2px;
-        overflow: auto;
-        margin: 1rem 1rem 1rem 0;
-        display: flex;
-        flex-flow: row nowrap;
-    }
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid black;
+}
 
-    .product:first-child {
-        margin-top: 0;
-    }
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
 
+#sidebar ul li a{
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
 
-    .product > div:last-child {
-        margin-left: 1rem;
-    }
+#sidebar ul li a:hover {
+    color: black;
+    background: #fff;
+}
 
-    .product-image {
-        max-height: 150px;
-        width: 250px;
-        overflow: hidden;
-        border: 1px solid #E9E9E9;
-        border-radius: 2px;
-    }
+#sidebar ul li.active>a,
+a[aria-expanded="true"] {
+    color: #fff;
+    background: black;
+}
 
-    .product-image > img {
-        height: 100%;
-        display: block;
-    }
+a[data-toggle="collapse"] {
+    position: relative;
+}
 
-    .product-title {
-        margin-top: 0;
-    }
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
 
-    .product .add-to-cart {
-        padding: 0.5rem 1rem;
-        font-size: 0.8rem;
-    }
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: black;
+}
 
-    #product-list-bottom {
-        text-align: center;
-        color: #AAAAAA;
-        font-size: 0.85rem;
-    }
+ul.CTAs {
+    padding: 20px;
+}
+
+ul.CTAs a {
+    text-align: center;
+    font-size: 0.9em !important;
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+a.download {
+    background: #fff;
+    color: black;
+}
+
+a.article,
+a.article:hover {
+    background: black !important;
+    color: #fff !important;
+}
 </style>

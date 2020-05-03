@@ -3,12 +3,32 @@
         <div class="container-fluid">
             <div class="row">
 
-                <div class="col-12">
+                <div class="col-12 welcome-block">
                     <h3 class="text-center">Dungeons & Dragons Dice Roller</h3>
                 </div>
 
-                <div class="col-md-12 col-lg-9">
-                    <div class="container d-none ">
+                <div class="col-md-12 col-lg-9 dice-block">
+                    <div class="col-12 d-flex justify-content-start" >
+                        <div class="col-1">
+                            <p>NUM</p>
+                            <input  class="form-control" type="text" v-model="numOfRolls">
+                        </div>
+                        <div class="col">
+                            <p>DICES</p>
+                            <span v-for="(dice) in dices" v-bind:key="dice.id" class="dice-span">
+                                <button v-if="dice.name !== 'dX'" class="btn btn-outline-primary" v-on:click="roll(dice)">{{dice.name}}</button>
+                            </span>
+                        </div>
+                        <div class="col-1">
+                            <p>MOD</p>
+                            <input class="form-control" type="text" v-model="rollMod">
+                        </div>
+                        <div class="col-3">
+                            <p>RESULTS</p>
+                            <input class="form-control" type="text" v-model="rollRes" readonly placeholder="0">
+                        </div>
+                    </div>
+                    <!-- <div class="container">
                         <div class="row">
                             <div class="d-flex col-12" v-for="(dice) in dices" v-bind:key="dice.id">
                                     <div class="col-2 d-flex justify-content-center" v-if="dice.name !== 'dX'"><button class="btn btn-outline-primary" v-on:click="roll(dice)">{{dice.name}}</button></div>
@@ -19,45 +39,28 @@
                                     <div class="col-1"><input class="form-control" type="text" v-model="dice.rollMod"></div>
                                     <div class="col-1"><button class="btn btn-outline-primary" v-on:click="roll(dice)">Roll</button></div>
                                     <div class="col-2"><input class="form-control" type="text" v-model="dice.rollRes" readonly placeholder="Results"></div>
-                                    
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="container">
-                            <div class="row align-items-center ">
-                                <div class="d-flex col-12" v-for="(dice) in dices " v-bind:key="dice.id">
-                                    
-                                        <div class="col-2"><input  class="form-control" type="text" v-model="dice.numOfRolls"></div>
-                                        <div class="col-2" v-if="dice.name !== 'dX'"><button class="btn btn-outline-primary" v-on:click="roll(dice)">{{dice.name}}</button></div>
-                                        <div class="col-2 d-flex" v-else><input class="form-control" type="text" v-model="dice.roll" placeholder="dX"></div>
-                                        <div class="col-1">+</div>
-                                        <div class="col-2"><input class="form-control" type="text" v-model="dice.rollMod"></div>
-                                        <div class="col-2"><button class="btn btn-outline-primary" v-on:click="roll(dice)">Roll</button></div>
-                                        <div class="col-3"><input class="form-control" type="text" v-model="dice.rollRes" readonly placeholder="Results"></div>
-                                        
-                                </div>
-                            </div>
-                        </div>
+                    </div> -->
                 </div>
 
-                <div class="col-12 col-lg-3">
+                <div class="col-12 col-lg-3 welcome-block">
                             <div class="col-12">
-                                 <h2>{{username}}</h2>
                                 <div class="card" >
                                     <div class="card-header">
-                                        <h4>Rolls log <span class="float-right">{{connections}} connections</span></h4>
+                                        <h4>Welcome, {{username}} <span class="float-right">{{connections}} connections</span></h4>
                                     </div>
                                     <ul class="list-group list-group-flush text-right chat-overflow">
                                         <li class="list-group-item" v-for="message in messages">
                                             <span :class="{'float-left':message.type === 1}">
+                                                <strong>{{message.user}} {{message.action}}</strong>
                                                 {{message.message}}
-                                                <strong>:{{message.user}}</strong>
+                                                
                                             </span>
                                         </li>
                                     </ul>
                                     <div class="card-body">
-                                        <form @submit.prevent="send">
+                                        <form @submit.prevent="send(newMessage)">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" v-model="newMessage"
                                                     placeholder="Enter message here">
@@ -89,6 +92,9 @@
         data: function() {
             return{
                 rollsLog:[],
+                numOfRolls:1,
+                rollMod:0,
+                rollRes:[null],
                 "dices":
                 [
                     //{название дайса, кол-во роллов, модификатор, результат бросков, макс результат}
@@ -141,6 +147,7 @@
                     message: data.message,
                     type: 1,
                     user: data.user,
+                    action: data.action,
                 });
             },
             joined(data){
@@ -183,6 +190,7 @@
                     message: data.message,
                     type: 1,
                     user: data.user,
+                    action: data.action,
                 });
             });
             
@@ -239,33 +247,46 @@
         },
         methods: {
             //Метод send сохраняет сообщение пользователя и отправляет событие на сервер.
-            send() {
+            send(msg) {
                 this.messages.push({
-                    message: this.newMessage,
+                    message: msg,
                     type: 0,
-                    user: 'Me',
+                    user: 'You',
+                    action: 'say',
                 });
                 this.$socket.emit('chatmessage', {
-                    message: this.newMessage,
-                    user: this.username
+                    message: msg,
+                    user: this.username,
+                    action: 'says',
                 });
                 this.newMessage = null;
             },
-           
+
             // Метод addUser отправляет событие joined с именем пользователя и устанавливает значение свойства ready как true.
             addUser() {
                 this.$socket.emit('joined', this.username);
             },
-           //бросок дайса
+           //бросок дайса и отправка сообщения в чат с результатом броска
             roll: function(dice){ 
-                dice.rollRes = []
+                this.rollRes = []
                 var res = 0
-                for(var i=0;i<dice.numOfRolls;i++){
-                    res = this.randomNum(dice.roll,dice.rollMod)
-                    dice.rollRes.push(res)
+                for(var i=0;i<this.numOfRolls;i++){
+                    res = this.randomNum(dice.roll,this.rollMod)
+                    this.rollRes.push(res)
                 
-                }
-                this.rollsLog.unshift('\n\nRoll('+dice.numOfRolls+dice.name+')+'+dice.rollMod+'\nRes: '+dice.rollRes + '\nTotal: '+ this.rollSumm(dice.rollRes))
+                };
+                //this.rollsLog.unshift('\n\nRoll('+dice.numOfRolls+dice.name+')+'+dice.rollMod+'\nRes: '+dice.rollRes + '\nTotal: '+ this.rollSumm(dice.rollRes))
+                this.messages.push({
+                    message:'+ ' + this.rollMod + ' = '+ this.rollSumm(this.rollRes) + ' [' + this.rollRes+ ']',
+                    type: 0,
+                    user: 'You',
+                    action: 'roll ('+this.numOfRolls+dice.name+')',
+                });
+                this.$socket.emit('chatmessage', {
+                    message:'+ ' + this.rollMod + ' = '+ this.rollSumm(this.rollRes) + ' [' + this.rollRes+ ']',
+                    user: this.username,
+                    action: 'rolls ('+this.numOfRolls+dice.name+')',
+                });
             },
             //возврат случайного числа
             randomNum: function(max,mod){
@@ -288,5 +309,14 @@
 .chat-overflow{
     max-height: 500px;
     overflow-y: scroll;
-}        
+}
+.welcome-block{
+    margin-top: 50px;
+}
+.dice-block{
+    margin-top: 50px;
+}    
+.dice-span{
+    margin: 0px 5px;
+}    
 </style>
