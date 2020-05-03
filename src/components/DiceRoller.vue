@@ -7,51 +7,37 @@
                     <h3 class="text-center">Dungeons & Dragons Dice Roller</h3>
                 </div>
 
-                <div class="col-md-12 col-lg-9 dice-block">
+                <div class="col-md-12 dice-block">
                     <div class="col-12 d-flex justify-content-start" >
-                        <div class="col-1">
+                        <div>
                             <p>NUM</p>
                             <input  class="form-control" type="text" v-model="numOfRolls">
                         </div>
-                        <div class="col">
+                        <div>
                             <p>DICES</p>
                             <span v-for="(dice) in dices" v-bind:key="dice.id" class="dice-span">
                                 <button v-if="dice.name !== 'dX'" class="btn btn-outline-primary" v-on:click="roll(dice)">{{dice.name}}</button>
                             </span>
                         </div>
-                        <div class="col-1">
+                        <div>
                             <p>MOD</p>
                             <input class="form-control" type="text" v-model="rollMod">
                         </div>
-                        <div class="col-3">
+                        <div >
                             <p>RESULTS</p>
                             <input class="form-control" type="text" v-model="rollRes" readonly placeholder="0">
                         </div>
                     </div>
-                    <!-- <div class="container">
-                        <div class="row">
-                            <div class="d-flex col-12" v-for="(dice) in dices" v-bind:key="dice.id">
-                                    <div class="col-2 d-flex justify-content-center" v-if="dice.name !== 'dX'"><button class="btn btn-outline-primary" v-on:click="roll(dice)">{{dice.name}}</button></div>
-                                    <div class="col-2 d-flex justify-content-center" v-else><input class="form-control" type="text" v-model="dice.roll" placeholder="dX"></div>
-                                    <div class="col-1"><input  class="form-control" type="text" v-model="dice.numOfRolls"></div>
-                                    <div class="col-1">{{dice.name}}</div>
-                                    <div class="col-1">+</div>
-                                    <div class="col-1"><input class="form-control" type="text" v-model="dice.rollMod"></div>
-                                    <div class="col-1"><button class="btn btn-outline-primary" v-on:click="roll(dice)">Roll</button></div>
-                                    <div class="col-2"><input class="form-control" type="text" v-model="dice.rollRes" readonly placeholder="Results"></div>
-                            </div>
-                        </div>
-                    </div> -->
                 </div>
 
-                <div class="col-12 col-lg-3 welcome-block">
+                <div class="chat welcome-block">
                             <div class="col-12">
                                 <div class="card" >
                                     <div class="card-header">
                                         <h4>Welcome, {{username}} <span class="float-right">{{connections}} connections</span></h4>
                                     </div>
                                     <ul class="list-group list-group-flush text-right chat-overflow">
-                                        <li class="list-group-item" v-for="message in messages">
+                                        <li class="list-group-item" v-for="message in messages" v-bind:key="message.message">
                                             <span :class="{'float-left':message.type === 1}">
                                                 <strong>{{message.user}} {{message.action}}</strong>
                                                 {{message.message}}
@@ -68,11 +54,7 @@
                                         </form>
                                     </div>
                                 </div>
-                                <!-- <h5>Log <button class="btn btn-secondary" v-on:click="clearLog()">Clear</button></h5>    -->
                             </div>
-                            <!-- <textarea readonly v-model="rollsLog"  rows="30" class="form-control"
-                                placeholder="There is a log of your rolls.This field records your latest roll at its top.">
-                            </textarea> -->
                 </div>
             </div>					
         </div>
@@ -97,15 +79,15 @@
                 rollRes:[null],
                 "dices":
                 [
-                    //{название дайса, кол-во роллов, модификатор, результат бросков, макс результат}
-                    {name:'d4', numOfRolls:1,rollMod:0,rollRes:[null], roll:4},
-                    {name:'d6', numOfRolls:1,rollMod:0,rollRes:[null], roll:6},
-                    {name:'d8', numOfRolls:1,rollMod:0,rollRes:[null], roll:8},
-                    {name:'d10', numOfRolls:1,rollMod:0,rollRes:[null], roll:10},
-                    {name:'d12', numOfRolls:1,rollMod:0,rollRes:[null], roll:12},
-                    {name:'d20', numOfRolls:1,rollMod:0,rollRes:[null], roll:20},
-                    {name:'d100', numOfRolls:1,rollMod:0,rollRes:[null], roll:100},
-                    {name:'dX', numOfRolls:1,rollMod:0,rollRes:[null], roll:null},
+                    //{название дайса, количество граней}
+                    {name:'d4', roll:4},
+                    {name:'d6', roll:6},
+                    {name:'d8', roll:8},
+                    {name:'d10', roll:10},
+                    {name:'d12', roll:12},
+                    {name:'d20', roll:20},
+                    {name:'d100', roll:100},
+                    {name:'dX', roll:null},
                 ],    
                 //chat
                 newMessage: null,
@@ -129,18 +111,8 @@
             console.log("server disconnected");
             },
 
-            // Fired when the server sends something on the "messageChannel" channel.
-            messageChannel(data) {
-            this.socketMessage = data
-            },
             connections(data){
                 this.connections = data;
-            },
-            typing(data){
-                this.typing = data;
-            },
-            stopTyping(){
-                this.typing = false;
             },
             chatmessage(data){
                 this.messages.push({
@@ -151,9 +123,14 @@
                 });
             },
             joined(data){
-                this.info.push({
-                    username: data,
-                    type: 'joined'
+                // this.info.push({
+                //     username: data,
+                //     type: 'joined'
+                 this.messages.push({
+                    message: data + ' joined',
+                    type: 1,
+                    user: '',
+                    action: '',
                 });
 
                 // Установка времени ожидания до обнуления массива info
@@ -163,9 +140,14 @@
             },
             // Прослушивание события leave, отправляемого с сервера и добавляющего данные в массив info
             leave(data){
-                this.info.push({
-                    username: data,
-                    type: 'left'
+                // this.info.push({
+                //     username: data,
+                //     type: 'left'/
+                this.messages.push({
+                    message: data + ' lefted',
+                    type: 1,
+                    user: '',
+                    action: '',
                 });
                 
                 // Установка времени ожидания до обнуления массива info
@@ -183,67 +165,10 @@
             window.onbeforeunload = () => {
                 this.$socket.emit('leave', this.username);
             }
-            
-            // Прослушивание события chat-message, отправленного с сервера и добавленного в массив message
-            this.$socket.on('chatmessage', (data) => {
-                this.messages.push({
-                    message: data.message,
-                    type: 1,
-                    user: data.user,
-                    action: data.action,
-                });
-            });
-            
-            
-            // Прослушивание события typing, отправленного с сервера и показывающего данные (имя пользователя) в UI
-            this.$socket.on('typing', (data) => {
-                this.typing = data;
-            });
-
-             // Прослушивание события stopTyping, отправленного с сервера и меняющего свойства typing на false
-            this.$socket.on('stopTyping', () => {
-                this.typing = false;
-            });
-
-             // Прослушивание события joined, отправленного с сервера и добавляющего данные в массив info
-            this.$socket.on('joined', (data) => {
-                this.info.push({
-                    username: data,
-                    type: 'joined'
-                });
-
-                // Установка времени ожидания до обнуления массива info
-                setTimeout(() => {
-                    this.info = [];
-                }, 5000);
-            });
-
-            // Прослушивание события leave, отправляемого с сервера и добавляющего данные в массив info
-            this.$socket.on('leave', (data) => {
-                this.info.push({
-                    username: data,
-                    type: 'left'
-                });
-                
-                // Установка времени ожидания до обнуления массива info
-                setTimeout(() => {
-                    this.info = [];
-                }, 5000);
-            });
-
              // Прослушивание события connections, отправляемого с сервера. Показывает общее количество подключенных клиентов
             this.$socket.on('connections', (data) => {
                 this.connections = data;
             });
-        },
-
-        // Vue-хук Watch
-        watch: {
-            
-            // Просматривает изменения во входящих сообщениях и отправляет событие typing или stopTyping
-            newMessage(value) {
-                value ? this.$socket.emit('typing', this.username) : this.$socket.emit('stopTyping')
-            }
         },
         methods: {
             //Метод send сохраняет сообщение пользователя и отправляет событие на сервер.
@@ -306,6 +231,10 @@
 </script>
 
 <style>
+.chat{
+    min-width: 640px;
+    max-width: 1024px;
+}
 .chat-overflow{
     max-height: 500px;
     overflow-y: scroll;
