@@ -6,35 +6,58 @@
                 <div class="col-12 welcome-block">
                     <h3 class="text-center">Dungeons & Dragons Dice Roller</h3>
                 </div>
-
-                <div class="col-md-12 dice-block">
-                    <div class="col-12 d-flex justify-content-start" >
-                        <div>
-                            <p>Кол-во костей</p>
-                            <input  class="form-control" type="num" v-model="numOfRolls" min="1" max="10">
-                        </div>
-                        <div>
-                            <p>Дайсы</p>
-                            <span v-for="(dice) in dices" v-bind:key="dice.id" class="dice-span">
+                <div class="col-12">
+                    <table class="table">
+                        <thead class="thead">
+                            <tr>
+                                <th scope="col">Кол-во костей</th>
+                                <th scope="col">Дайсы</th>
+                                <th scope="col">Модификатор</th>
+                                <th scope="col">Результат</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input  class="form-control" type="number" v-model="numOfRolls" min="1" max="10"></td>
+                                <td><span v-for="(dice) in dices" v-bind:key="dice.id" class="dice-span">
                                 <button v-if="dice.name !== 'dX'" class="btn btn-outline-primary" v-on:click="roll(dice)">{{dice.name}}</button>
-                            </span>
-                        </div>
-                        <div>
-                            <p>Модификатор</p>
-                            <input class="form-control" type="num" v-model="rollMod" min="-10" max="10">
-                        </div>
-                        <div >
-                            <p>Результат</p>
-                            <input class="form-control" type="text" v-model="rollRes" readonly placeholder="0">
-                        </div>
-                    </div>
+                            </span></td>
+                                <td><input class="form-control" type="number" v-model="rollMod" min="-10" max="10"></td>
+                                <td> <input class="form-control" type="text" v-model="rollRes" readonly placeholder="0"></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-
-                <div class="chat welcome-block">
+                <div class="col-12"><br></div>
+                <div class="col-12 col-xl-6">
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Имя</th>
+                                <th scope="col">ХП/MAX</th>
+                                <th scope="col">Стресс/MAХ</th>
+                                <th scope="col">Состояние</th>
+                                <th scope="col">Инициатива</th>
+                                <th scope="col">КД</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item) in characters" v-bind:key="item._id">
+                                <td>{{item.name}}</td>
+                                <td>{{item.hp}}/{{item.maxHP}}</td>
+                                <td>{{item.stress}}/{{item.maxStress}}</td>
+                                <td>{{item.condition}}</td>
+                                <td>{{item.iniciative}}</td>
+                                <td>{{item.ac}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12 col-xl-6">
                     <div class="col-12">
                         <div class="card" >
                             <div class="card-header">
-                                <h4>Дарова, {{username}} <span class="float-right">{{connections}} соединений</span></h4>
+                                <h4>Дарова, {{username}} <span class="float-right">{{users}}</span></h4>
                             </div>
                             <ul class="list-group list-group-flush text-right chat-overflow">
                                 <li class="list-group-item" v-for="message in messages" v-bind:key="message.message">
@@ -54,6 +77,42 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-12" v-show="username == 'DM'">
+                    <br>
+                    <button class="btn btn-dark" v-on:click="addCharacter()">Добавить существо</button>
+                    <button class="btn btn-dark" v-on:click="updateCharacters()">Обновить для всех</button>
+                    <button class="btn btn-danger float-right" v-on:click="clearCharacters()">Очистить список</button>
+                        <table class="table table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Имя</th>
+                                    <th scope="col">ХП/MAX</th>
+                                    <th scope="col">Стресс/MAХ</th>
+                                    <th scope="col">Состояние</th>
+                                    <th scope="col">Инициатива</th>
+                                    <th scope="col">КД</th>
+                                    <th>Удалить</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(item,index) in localCharacters" v-bind:key="item._id">
+                                    <td><input v-on:change="updateCharacters()" class="form-control" type="text" v-model="item.name"></td>
+                                    <td>
+                                        <input v-on:change="updateCharacters()" class="form-control" type="number" min="-1000" max="1000" v-model="item.hp" required>/
+                                        <input v-on:change="updateCharacters()" class="form-control" type="number" min="0" max="1000" v-model="item.maxHP" required>
+                                    </td>
+                                    <td>
+                                        <input v-on:change="updateCharacters()" class="form-control" type="number" min="0" max="200" v-model="item.stress" required>/
+                                        <input v-on:change="updateCharacters()" class="form-control" type="number" min="0" max="200" v-model="item.maxStress" required>
+                                    </td>
+                                    <td><input v-on:change="updateCharacters()" class="form-control" type="text" v-model="item.condition"></td>
+                                    <td><input v-on:change="updateCharacters()" class="form-control" type="number" min="-10" max="10" v-model="item.iniciative" required></td>
+                                    <td><input v-on:change="updateCharacters()" class="form-control" type="number" min="0" max="20" v-model="item.ac" required></td>
+                                    <td><button class="btn btn-danger" v-on:click="deleteChar(index)">X</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
                 </div>
             </div>					
         </div>
@@ -91,6 +150,9 @@
                 //chat
                 newMessage: null,
                 messages: [],
+                users:[],
+                characters:[],
+                localCharacters:[],
                 typing: false,
                 username: null,
                 ready: false,
@@ -137,10 +199,26 @@
                     action: '',
                 });
             },
+            updateChars(data){
+                this.characters = data;
+            },
+            update(data){
+                this.users = data;
+            },
         },
         mounted(){
             this.username = this.$store.getters.getCurrUser;
-            this.addUser();
+            this.addUser();//отправляем на сервер сообщение о подключении
+            if (localStorage.getItem('localCharacters')) {
+                try {
+                    this.localCharacters = JSON.parse(localStorage.getItem('localCharacters'));
+                } catch(e) {
+                    localStorage.removeItem('localCharacters');
+                }
+            }
+            this.updateCharacters();
+
+
         },
         created() {
             // Отправление события 'leave' (покидает чат) во вкладку закрытых событий.
@@ -151,6 +229,11 @@
             this.$socket.on('connections', (data) => {
                 this.connections = data;
             });
+        },
+        watch: {
+            localCharacters(newData) {
+                localStorage.localCharacters = newData;
+            }
         },
         methods: {
             //Метод send сохраняет сообщение пользователя и отправляет событие на сервер.
@@ -168,10 +251,48 @@
                 });
                 this.newMessage = null;
             },
-
+            updateCharacters(){
+                this.$socket.emit('updateChars', this.localCharacters);   
+                this.characters = this.localCharacters;//обновление локального списка
+                this.saveCharacters();//сохранение данных в localStorage
+            },
+            //сохранение персонажей в localStorage
+            saveCharacters(){
+                const parsed = JSON.stringify(this.localCharacters);
+                localStorage.setItem('localCharacters', parsed);
+            },
+            clearCharacters(){
+                this.characters=[];
+                this.localCharacters=[];
+                this.updateCharacters();
+                this.messages.unshift({
+                    message: '',
+                    type: 0,
+                    user: 'Ты',
+                    action: 'очистил таблицу персонажей.',
+                });
+                
+            },
             // Метод addUser отправляет событие joined с именем пользователя и устанавливает значение свойства ready как true.
             addUser() {
                 this.$socket.emit('joined', this.username);
+            },
+            addCharacter(){
+                this.localCharacters.push({
+                    'name':'',
+                    'hp':0,
+                    'maxHP':0,
+                    'stress':0,
+                    'maxStress':0,
+                    'condition':'',
+                    'iniciative':0,
+                    'ac':0,
+                });
+                this.updateCharacters();
+            },
+            deleteChar(index){
+                this.localCharacters.splice(index, 1);
+                this.updateCharacters();
             },
            //бросок дайса и отправка сообщения в чат с результатом броска
             roll: function(dice){ 

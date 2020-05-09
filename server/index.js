@@ -35,9 +35,9 @@ http.listen(3000, () => {
     console.log('Listening on port *: 3000');
 });
 
-
+var users = [];
 io.on('connection', (socket) => {
-    console.log("A user connected");
+    //console.log("A user connected");
     socket.emit('connections', Object.keys(io.sockets.connected).length);
     //rooms
     // socket.on('userJoined', (data, cb) => {
@@ -54,7 +54,35 @@ io.on('connection', (socket) => {
     //   })
     //
     socket.on('disconnect', () => {
-        console.log("A user disconnected");
+        
+        //console.log('User has disconnected');
+        
+        //updateClients();
+    });
+
+    socket.on('joined', (data) => {
+        console.log(data + " joined");
+        socket.user = data;
+        users.push(data);
+        socket.broadcast.emit('joined', (data));//
+        
+        updateClients();
+    });
+
+    socket.on('leave', (data) => {
+        for(var i=0; i<users.length; i++) {
+            if(users[i] == data) {
+                users.splice(i, 1);
+            }
+        }
+        console.log(data + " leaved");
+        socket.broadcast.emit('leave', (data));
+
+        updateClients();
+    });
+
+    socket.on('update', function () {
+        users[user] = user;
     });
 
     socket.on('chatmessage', (data) => {
@@ -69,14 +97,16 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('stopTyping');
     });
 
-    socket.on('joined', (data) => {
-        socket.broadcast.emit('joined', (data));
+
+
+    socket.on('updateChars', (data) => {
+        socket.broadcast.emit('updateChars', (data));
     });
 
-    socket.on('leave', (data) => {
-        socket.broadcast.emit('leave', (data));
-    });
-
+    function updateClients() {
+        io.sockets.emit('update', users);
+        console.log(users)
+    }
 });
 //express listener
 // app.listen(PORT, () =>
