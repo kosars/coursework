@@ -1,15 +1,26 @@
 <template>
     <div>
-        <div class="product" v-for="(item) in items" v-bind:key="item._id">
-            <div>
-                <h4 class="product-title">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">Background</th>
+                <th scope="col">Description</th>
+                <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item) in items" v-bind:key="item._id">
+                <td>
                     <router-link v-bind:to="'/backgrounds/'+item._id">
                         {{ item.name }}
                     </router-link>
-                    <button v-on:click="deleteRace(item._id)">delete</button>
-                </h4>
-            </div>
-        </div>
+                </td>
+                <td>{{ item.descriprion }}</td>
+                <td><button class="btn btn-primary" v-on:click="deleteRace(item._id)">delete</button></td>
+                
+                </tr>
+            </tbody>
+        </table>
     </div>
 </template>
 <script>

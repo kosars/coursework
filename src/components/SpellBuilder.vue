@@ -45,16 +45,16 @@
                     </select>
                 </div>
                 <div class="col-8 d-flex align-items-center">
-                    <div class="col d-flex"><input type="checkbox" v-model="newSpell.ritual"><p>ritual</p></div>
+                    <!-- <div class="col d-flex"><input type="checkbox" v-model="newSpell.ritual"><p>ritual</p></div>
                     <div class="col d-flex"><input type="checkbox" v-model="newSpell.attackRollRequires"><p>Requires Attack Roll</p></div>
                     <div class="col d-flex"><input type="checkbox" v-model="newSpell.components.verbal"><p>verbal</p></div>
                     <div class="col d-flex"><input type="checkbox" v-model="newSpell.components.somatic"><p>somatic</p></div>
-                    <div class="col d-flex"><input type="checkbox" v-model="newSpell.components.material"><p>material</p></div>
+                    <div class="col d-flex"><input type="checkbox" v-model="newSpell.components.material"><p>material</p></div> -->
                 </div>
                 <!-- Components -->
                 <div class="col-12">
                     <p>Components</p>
-                    <input  class="form-control" type="text" v-model="newSpell.components.text">
+                    <input  class="form-control" type="text" v-model="newSpell.components">
                 </div>
                 <div class="col-4">
                     <p>Casting Time</p>
@@ -72,7 +72,7 @@
                 <!--Description-->
                 <div class="col-12">
                     <p>Description</p>
-                    <textarea  class="form-control" type="text" v-model="newSpell.descriprion" rows="6"></textarea>
+                    <textarea  class="form-control" type="text" v-model="newSpell.description" rows="6"></textarea>
                 </div>
                 <!--Confirm-->
                 <div class="col-12 text-center">
@@ -96,54 +96,64 @@
         data: function() {
             return{
                 newSpell:{
-                    'name': 'name',
+                    'name': '',
                     'source':'Players Handbook',
-                    'lvl':4,
+                    'lvl':0,
                     'school':'',
-                    'castingTime':'1 action',
+                    'description':'',
+                    'castingTime':'',
                     'range':'',
                     'duration':'',
-                    'components':{
-                        'verbal':false,
-                        'somatic':false,
-                        'material':false,
-                        'text':''
-                    },
+                    'components':'',
+                    'materials':'',
                     'ritual':false,
-                    'attackRollRequires':false,
-                    'descriprion':'',
                 }
             }
         },
         mounted: function(){
+            
         },
         computed:{
         },
         methods: {
-            
             finishCreation: function(){
                 Vue.axios.post("http://localhost:3000/spells",{
                     'name': this.newSpell.name,
                     'source': this.newSpell.source,
                     'lvl':this.newSpell.lvl,
                     'school':this.newSpell.school,
+                    'description':this.newSpell.description,
                     'castingTime':this.newSpell.castingTime,
                     'range':this.newSpell.range,
                     'duration':this.newSpell.duration,
-                    'components':{
-                        'verbal':this.newSpell.components.verbal,
-                        'somatic':this.newSpell.components.somatic,
-                        'material':this.newSpell.components.material,
-                        'text':this.newSpell.components.text
-                    },
+                    'components':this.newSpell.components,
+                    'materials':this.newSpell.materials,
                     'ritual':this.newSpell.ritual,
-                    'attackRollRequires':this.newSpell.attackRollRequires,
                 }).then((responce) => {
                     console.log(responce.data)
                     console.log("Done")
                     //this.$router.push('/')
                 })
             },
+            parseSpells: function(arr){
+                console.log(arr)
+                arr.forEach(element => {
+                    if(element.en.source == "PHB")
+                        Vue.axios.post("http://localhost:3000/spells",{
+                            'name': element.en.name,
+                            'source': "Player's Handbook",
+                            'lvl':element.en.level,
+                            'school':element.en.school,
+                            'description':element.en.text,
+                            'castingTime':element.en.castingTime,
+                            'range':element.en.range,
+                            'duration':element.en.duration,
+                            'components':element.en.components,
+                            'materials':element.en.materials,
+                            'ritual':element.en.ritual,
+                        })
+                })
+            }
         },
     }
 </script>

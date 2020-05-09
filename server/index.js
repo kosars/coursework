@@ -7,7 +7,7 @@ import routes from './src/routes/todoRoutes';
 let app = require('express')();
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
-const m = (name, text, id) => ({ name, text, id })
+// const m = (name, text, id) => ({ name, text, id })
 
 
 // mongoose connection
@@ -40,18 +40,18 @@ io.on('connection', (socket) => {
     console.log("A user connected");
     socket.emit('connections', Object.keys(io.sockets.connected).length);
     //rooms
-    socket.on('userJoined', (data, cb) => {
-        if (!data.name || !data.room) {
-          return cb('Данные некорректны')
-        }
+    // socket.on('userJoined', (data, cb) => {
+    //     if (!data.name || !data.room) {
+    //       return cb('Данные некорректны')
+    //     }
     
-        socket.join(data.room)
-        cb({ userId: socket.id })
-        socket.emit('newMessage', m('admin', `Добро пожаловать ${data.name}.`))
-        socket.broadcast
-          .to(data.room)
-          .emit('newMessage', m('admin', `Пользователь ${data.name} зашел.`))
-      })
+    //     socket.join(data.room)
+    //     cb({ userId: socket.id })
+    //     socket.emit('newMessage', m('admin', `Добро пожаловать ${data.name}.`))
+    //     socket.broadcast
+    //       .to(data.room)
+    //       .emit('newMessage', m('admin', `Пользователь ${data.name} зашел.`))
+    //   })
     //
     socket.on('disconnect', () => {
         console.log("A user disconnected");

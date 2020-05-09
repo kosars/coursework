@@ -1,31 +1,44 @@
 <template>
     <div>
-                <div>
-                    <h3 >Spell : {{item.name}} ({{item.source}})</h3>
+                <div class="centered">
+                    <h3 v-if="!item.ritual">{{item.name}} </h3>
+                    <h3 v-if="item.ritual">{{item.name}} (Ritual) </h3>
+                    <h5>({{item.source}})</h5>
+                    <h3 v-if="item.lvl !== 0" >{{item.lvl}} level, {{item.school}}</h3>
+                    <h3 v-if="item.lvl == 0" >Cantrip, {{item.school}}</h3>
                 </div>
-                <div>
-                    <h3 >{{item.lvl}} level {{item.school}} school</h3>
+                <br>
+                <div class="d-flex justify-content-center"> 
+                    <div class="col-6">
+                        <table class="table table-dark table-bordered">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col-4">Casting Time</th>
+                                    <th scope="col-4">Duration</th>
+                                    <th scope="col-4">Range</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{item.castingTime}}</td>
+                                    <td>{{item.duration}}</td>
+                                    <td>{{item.range}}</td>
+                                </tr>
+                                <tr v-if="item.components">
+                                    <th> Components:</th>
+                                    <td colspan="2">{{item.components}}</td>
+                                </tr>
+                                <tr v-if="item.materials">
+                                    <th>Materials:</th>
+                                    <td colspan="2">{{item.materials}} </td>
+                                </tr>
+                                <tr >
+                                    <td colspan="3">{{item.description}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div> 
-                    <h3 v-if="item.attackRollRequires"> Requires Attack Roll </h3>
-                    <h3 v-if="item.ritual"> Ritual </h3>
-                </div>
-                <div >
-                    <h3>Casting Time: {{item.castingTime}}</h3>
-                    <h3>Duration: {{item.duration}}</h3>
-                    <h3>Range: {{item.range}}</h3>
-                </div>
-                <div class="d-flex">
-                    <h3>Components: </h3>
-                    <h3 v-if="item.components.verbal"> verbal, </h3>
-                    <h3 v-if="item.components.somatic"> somatic, </h3>
-                    <h3 v-if="item.components.material"> material </h3>
-                </div>
-                <h5> {{item.components.text}} </h5>
-                <!-- <div class="col-12">
-                    <h3>Description</h3>
-                    <div>{{item.descriprion}}</div>
-                </div> -->
     </div>
 </template>
 <script>

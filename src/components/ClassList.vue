@@ -1,15 +1,35 @@
 <template>
     <div>
-        <div class="product" v-for="(item) in items" v-bind:key="item._id">
-            <div>
-                <h4 class="product-title">
+         <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">Class</th>
+                <th scope="col">Hit Die</th>
+                <th scope="col">Saving Throws</th>
+                <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item) in items" v-bind:key="item._id">
+                <td>
                     <router-link v-bind:to="'/classes/'+item._id">
                         {{ item.name }}
                     </router-link>
-                    <button v-on:click="deleteClass(item._id)">delete</button>
-                </h4>
-            </div>
-        </div>
+                </td>
+                <td>1d{{ item.hitDie }}</td>
+                <td>
+                    <span v-if="item.savingThrows.STR">STR</span>
+                    <span v-if="item.savingThrows.DEX">DEX</span>
+                    <span v-if="item.savingThrows.CON">CON</span>
+                    <span v-if="item.savingThrows.INT">INT</span>
+                    <span v-if="item.savingThrows.WIS">WIS</span>
+                    <span v-if="item.savingThrows.CHR">CHR</span>   
+                </td>
+                <td><button class="btn btn-primary" v-on:click="deleteClass(item._id)">delete</button></td>
+                
+                </tr>
+            </tbody>
+        </table>
     </div>
 </template>
 <script>

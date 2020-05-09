@@ -13,58 +13,68 @@
                 </li>
                 <li>
                     <a v-on:click="menuOne = !menuOne " data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Characters</a>
-                    <ul v-show="menuOne" class="collapse list-unstyled show" id="homeSubmenu">
-                        <li>
-                            <router-link to="/ccreator/" >Create Character</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/chars/" >List Characters</router-link>
-                        </li>
-                    </ul>
+                    <transition name="fade">
+                        <ul v-show="menuOne" class="collapse list-unstyled show" id="homeSubmenu">
+                            <li>
+                                <router-link to="/ccreator/" >Create Character</router-link>
+                            </li>
+                            <li>
+                                <router-link to="/chars/" >List Characters</router-link>
+                            </li>
+                        </ul>
+                    </transition>
                 </li>
                 <li>
                     <a v-on:click="menuTwo = !menuTwo"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Races</a>
-                    <ul v-show="menuTwo" class="collapse list-unstyled show" id="pageSubmenu">
-                        <li>
-                            <router-link to="/rbuilder/">Create Race</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/races/">List Races</router-link>
-                        </li>
-                    </ul>
+                    <transition name="fade">
+                        <ul v-show="menuTwo" class="collapse list-unstyled show" id="pageSubmenu">
+                            <li>
+                                <router-link to="/rbuilder/">Create Race</router-link>
+                            </li>
+                            <li>
+                                <router-link to="/races/">List Races</router-link>
+                            </li>
+                        </ul>
+                     </transition>
                 </li>
                 <li>
                     <a v-on:click="menuTree = !menuTree"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Classes</a>
-                    <ul v-show="menuTree" class="collapse list-unstyled show" id="pageSubmenu">
-                        <li>
-                            <router-link to="/cbuilder/">Create Class</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/classes/">List Classes</router-link>
-                        </li>
-                    </ul>
+                    <transition name="fade">
+                        <ul v-show="menuTree" class="collapse list-unstyled show" id="pageSubmenu">
+                            <li>
+                                <router-link to="/cbuilder/">Create Class</router-link>
+                            </li>
+                            <li>
+                                <router-link to="/classes/">List Classes</router-link>
+                            </li>
+                        </ul>
+                    </transition>
                 </li>
                 <li>
                     <a v-on:click="menuFour = !menuFour"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Backgrounds</a>
-                    <ul v-show="menuFour" class="collapse list-unstyled show" id="pageSubmenu">
-                        <li>
-                            <router-link to="/bbuilder/">Create Background</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/backgrounds/">List Backgrounds</router-link>
-                        </li>
-                    </ul>
+                    <transition name="fade">
+                        <ul v-show="menuFour" class="collapse list-unstyled show" id="pageSubmenu">
+                            <li>
+                                <router-link to="/bbuilder/">Create Background</router-link>
+                            </li>
+                            <li>
+                                <router-link to="/backgrounds/">List Backgrounds</router-link>
+                            </li>
+                        </ul>
+                    </transition>
                 </li>
                 <li>
                     <a v-on:click="menuFive = !menuFive"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Spells</a>
-                    <ul v-show="menuFive" class="collapse list-unstyled show" id="pageSubmenu">
-                        <li>
-                            <router-link to="/sbuilder/">Spell Builder</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/spells/">List Spells</router-link>
-                        </li>
-                    </ul>
+                    <transition name="fade">
+                        <ul v-show="menuFive" class="collapse list-unstyled show" id="pageSubmenu">
+                            <li>
+                                <router-link to="/sbuilder/">Spell Builder</router-link>
+                            </li>
+                            <li>
+                                <router-link to="/spells/">List Spells</router-link>
+                            </li>
+                        </ul>
+                    </transition>
                 </li>
             </ul>
         </nav>
@@ -132,13 +142,26 @@ export default {
     [v-cloak] {
         display: none !important;
     }
-
-    .fade-enter-active {
+    /*different transition animations */
+    .fade-enter-active  {
         transition: opacity .5s
     }
-    .fade-enter, .fade-leave-active {
+    .fade-enter, .fade-leave-active{
         opacity: 0
     }
+    .hide-enter-active  {
+        transition: max-height 1.0s
+    }
+    .hide-enter, .hide-leave-active{
+        opacity: 0
+    }
+    .smooth-enter-active, .smooth-leave-active {
+        transition: max-height .5s;
+    }
+    .smooth-enter, .smooth-leave-to {
+        max-height: 0;
+    }
+
 
     /* Sections */
 

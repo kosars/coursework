@@ -10,51 +10,50 @@
                 <div class="col-md-12 dice-block">
                     <div class="col-12 d-flex justify-content-start" >
                         <div>
-                            <p>NUM</p>
-                            <input  class="form-control" type="text" v-model="numOfRolls">
+                            <p>Кол-во костей</p>
+                            <input  class="form-control" type="num" v-model="numOfRolls" min="1" max="10">
                         </div>
                         <div>
-                            <p>DICES</p>
+                            <p>Дайсы</p>
                             <span v-for="(dice) in dices" v-bind:key="dice.id" class="dice-span">
                                 <button v-if="dice.name !== 'dX'" class="btn btn-outline-primary" v-on:click="roll(dice)">{{dice.name}}</button>
                             </span>
                         </div>
                         <div>
-                            <p>MOD</p>
-                            <input class="form-control" type="text" v-model="rollMod">
+                            <p>Модификатор</p>
+                            <input class="form-control" type="num" v-model="rollMod" min="-10" max="10">
                         </div>
                         <div >
-                            <p>RESULTS</p>
+                            <p>Результат</p>
                             <input class="form-control" type="text" v-model="rollRes" readonly placeholder="0">
                         </div>
                     </div>
                 </div>
 
                 <div class="chat welcome-block">
-                            <div class="col-12">
-                                <div class="card" >
-                                    <div class="card-header">
-                                        <h4>Welcome, {{username}} <span class="float-right">{{connections}} connections</span></h4>
-                                    </div>
-                                    <ul class="list-group list-group-flush text-right chat-overflow">
-                                        <li class="list-group-item" v-for="message in messages" v-bind:key="message.message">
-                                            <span :class="{'float-left':message.type === 1}">
-                                                <strong>{{message.user}} {{message.action}}</strong>
-                                                {{message.message}}
-                                                
-                                            </span>
-                                        </li>
-                                    </ul>
-                                    <div class="card-body">
-                                        <form @submit.prevent="send(newMessage)">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" v-model="newMessage"
-                                                    placeholder="Enter message here">
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
+                    <div class="col-12">
+                        <div class="card" >
+                            <div class="card-header">
+                                <h4>Дарова, {{username}} <span class="float-right">{{connections}} соединений</span></h4>
                             </div>
+                            <ul class="list-group list-group-flush text-right chat-overflow">
+                                <li class="list-group-item" v-for="message in messages" v-bind:key="message.message">
+                                    <span :class="{'float-left':message.type === 1}">
+                                        <strong>{{message.user}} {{message.action}}</strong>
+                                        {{message.message}}
+                                    </span>
+                                </li>
+                            </ul>
+                            <div class="card-body">
+                                <form @submit.prevent="send(newMessage)">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" v-model="newMessage"
+                                            placeholder="Enter message here">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>					
         </div>
@@ -95,7 +94,6 @@
                 typing: false,
                 username: null,
                 ready: false,
-                info: [],
                 connections: 0,
             };
         },
@@ -115,7 +113,7 @@
                 this.connections = data;
             },
             chatmessage(data){
-                this.messages.push({
+                this.messages.unshift({
                     message: data.message,
                     type: 1,
                     user: data.user,
@@ -123,37 +121,21 @@
                 });
             },
             joined(data){
-                // this.info.push({
-                //     username: data,
-                //     type: 'joined'
-                 this.messages.push({
-                    message: data + ' joined',
+                 this.messages.unshift({
+                    message: data + ' присоеденился',
                     type: 1,
                     user: '',
                     action: '',
                 });
-
-                // Установка времени ожидания до обнуления массива info
-                setTimeout(() => {
-                    this.info = [];
-                }, 5000);
             },
             // Прослушивание события leave, отправляемого с сервера и добавляющего данные в массив info
             leave(data){
-                // this.info.push({
-                //     username: data,
-                //     type: 'left'/
-                this.messages.push({
-                    message: data + ' lefted',
+                this.messages.unshift({
+                    message: data + ' покинул нас',
                     type: 1,
                     user: '',
                     action: '',
                 });
-                
-                // Установка времени ожидания до обнуления массива info
-                setTimeout(() => {
-                    this.info = [];
-                }, 5000);
             },
         },
         mounted(){
@@ -173,16 +155,16 @@
         methods: {
             //Метод send сохраняет сообщение пользователя и отправляет событие на сервер.
             send(msg) {
-                this.messages.push({
+                this.messages.unshift({
                     message: msg,
                     type: 0,
-                    user: 'You',
-                    action: 'say',
+                    user: 'Ты',
+                    action: 'говоришь: ',
                 });
                 this.$socket.emit('chatmessage', {
                     message: msg,
                     user: this.username,
-                    action: 'says',
+                    action: 'сказал: ',
                 });
                 this.newMessage = null;
             },
@@ -201,25 +183,26 @@
                 
                 };
                 //this.rollsLog.unshift('\n\nRoll('+dice.numOfRolls+dice.name+')+'+dice.rollMod+'\nRes: '+dice.rollRes + '\nTotal: '+ this.rollSumm(dice.rollRes))
-                this.messages.push({
-                    message:'+ ' + this.rollMod + ' = '+ this.rollSumm(this.rollRes) + ' [' + this.rollRes+ ']',
+                this.messages.unshift({
+                    message:' = '+ this.rollSumm(this.rollRes, this.rollMod) + ' [' + this.rollRes+ ']',
                     type: 0,
-                    user: 'You',
-                    action: 'roll ('+this.numOfRolls+dice.name+')',
+                    user: 'Ты',
+                    action: 'кидаешь ('+this.numOfRolls+dice.name+'+' + this.rollMod + ')',
                 });
                 this.$socket.emit('chatmessage', {
-                    message:'+ ' + this.rollMod + ' = '+ this.rollSumm(this.rollRes) + ' [' + this.rollRes+ ']',
+                    message:' = '+ this.rollSumm(this.rollRes, this.rollMod) + ' [' + this.rollRes+ ']',
                     user: this.username,
-                    action: 'rolls ('+this.numOfRolls+dice.name+')',
+                    action: 'кидает ('+this.numOfRolls+dice.name+'+' + this.rollMod + ')',
                 });
             },
             //возврат случайного числа
             randomNum: function(max,mod){
-                return Math.floor(Math.random() * Math.floor(max)) + 1 + parseInt(mod,10)
+                return Math.floor(Math.random() * Math.floor(max)) + 1 //+ parseInt(mod,10) //модификатор не должен считаться к каждому броску
                 //+1 потому что Math.random() возвращает числа в диапазоне [0,max)
             },
-            rollSumm:function(a){
-                var sum = 0
+            rollSumm:function(a,mod){
+                //var sum = 0
+                var sum = parseInt(mod,10) //вместо того чтобы прибавлять модификатор
                 for(var i = 0; i < a.length; i++) {sum += a[i]}
                 return sum
             },

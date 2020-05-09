@@ -14,7 +14,7 @@
                 <!--Player's Name-->
                 <div class="col-6">
                     <p>Player's Name</p>
-                    <input  class="form-control" type="text" v-model="player" required>
+                    <input readonly class="form-control" type="text" v-model="player" required>
                 </div>
                 <div class="w-100"></div>
                 <!--Race-->
@@ -392,6 +392,7 @@
             }
         },
         mounted: function(){
+            this.player = this.$store.getters.getCurrUser;
             this.options = mCreatorData;
             this.getDataFromServer();
             this.RollAbilities();

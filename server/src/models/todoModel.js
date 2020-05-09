@@ -149,19 +149,13 @@ export const SpellSchema = new Schema({
   'source':{type:String, default:"Homebrew"},
   'lvl':{type: Number},
   'school':{type:String},
-  'descriprion':{type: String},
-  //properties
+  'description':{type: String},
   'castingTime':{type:String},
   'range':{type:String},
   'duration':{type:String},
-  'components':{
-    'verbal':{type:Boolean},
-    'somatic':{type:Boolean},
-    'material':{type:Boolean},
-    'text':{type:String}
-  },
+  'components':{type:String},
+  'materials':{type:String},
   'ritual':{type:Boolean},
-  'attackRollRequires':{type:Boolean},
 });
 
 export const BackgroundSchema = new Schema({
