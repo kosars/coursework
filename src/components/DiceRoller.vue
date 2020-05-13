@@ -37,7 +37,7 @@
                                 <th scope="col">ХП/MAX</th>
                                 <th scope="col">Стресс/MAХ</th>
                                 <th scope="col">Состояние</th>
-                                <th scope="col">Инициатива</th>
+                                <th scope="col">Инициатива/Бонус</th>
                                 <th scope="col">КД</th>
                             </tr>
                         </thead>
@@ -47,7 +47,7 @@
                                 <td>{{item.hp}}/{{item.maxHP}}</td>
                                 <td>{{item.stress}}/{{item.maxStress}}</td>
                                 <td>{{item.condition}}</td>
-                                <td>{{item.iniciative}}</td>
+                                <td>{{item.iniciative}}/{{item.iniciativeBonus}}</td>
                                 <td>{{item.ac}}</td>
                             </tr>
                         </tbody>
@@ -57,7 +57,7 @@
                     <div class="col-12">
                         <div class="card" >
                             <div class="card-header">
-                                <h4>Дарова, {{username}} <span class="float-right">{{users}}</span></h4>
+                                <h4>Пользователи: <span class="float-right">{{users}}</span></h4>
                             </div>
                             <ul class="list-group list-group-flush text-right chat-overflow">
                                 <li class="list-group-item" v-for="message in messages" v-bind:key="message.message">
@@ -70,8 +70,8 @@
                             <div class="card-body">
                                 <form @submit.prevent="send(newMessage)">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" v-model="newMessage"
-                                            placeholder="Enter message here">
+                                        <!-- <input type="text" class="form-control" v-model="newMessage"
+                                            placeholder="Enter message here"> -->
                                     </div>
                                 </form>
                             </div>
@@ -79,6 +79,15 @@
                     </div>
                 </div>
                 <div class="col-12" v-show="username == 'DM'">
+                    <div class="col-12 d-flex">
+                        <select class="form-control col-1" type="text" v-model="selectedCharacter">
+                            <option v-for="(item,index) in localCharacters" v-bind:key="item._id" v-bind:value="index">{{item.name}}</option>
+                        </select>
+                        <input class="form-control col-1"  type="number" min="-100" max="100" v-model="points">
+                        <button class="btn btn-danger" v-on:click="hitCharacter(selectedCharacter, points)">Ненести урон</button>
+                        <button class="btn btn-dark" v-on:click="stressCharacter(selectedCharacter, points)">Добавить стресс</button>
+                        <button class="btn btn-success" v-on:click="restoreCharacter(selectedCharacter)">Рестор</button>
+                    </div>
                     <br>
                     <button class="btn btn-dark" v-on:click="addCharacter()">Добавить существо</button>
                     <button class="btn btn-dark" v-on:click="updateCharacters()">Обновить для всех</button>
@@ -90,7 +99,7 @@
                                     <th scope="col">ХП/MAX</th>
                                     <th scope="col">Стресс/MAХ</th>
                                     <th scope="col">Состояние</th>
-                                    <th scope="col">Инициатива</th>
+                                    <th scope="col">Инициатива/Бонус</th>
                                     <th scope="col">КД</th>
                                     <th>Удалить</th>
                                 </tr>
@@ -107,7 +116,11 @@
                                         <input v-on:change="updateCharacters()" class="form-control" type="number" min="0" max="200" v-model="item.maxStress" required>
                                     </td>
                                     <td><input v-on:change="updateCharacters()" class="form-control" type="text" v-model="item.condition"></td>
-                                    <td><input v-on:change="updateCharacters()" class="form-control" type="number" min="-10" max="10" v-model="item.iniciative" required></td>
+                                    <td>
+                                        <button class="btn btn-primary" v-on:click="rollIniciative(index)">{{item.iniciative}}</button>
+                                        <input v-on:change="updateCharacters()" class="form-control" type="number" min="-10" max="10" v-model="item.iniciativeBonus" required>
+                                        
+                                    </td>
                                     <td><input v-on:change="updateCharacters()" class="form-control" type="number" min="0" max="20" v-model="item.ac" required></td>
                                     <td><button class="btn btn-danger" v-on:click="deleteChar(index)">X</button></td>
                                 </tr>
@@ -152,6 +165,8 @@
                 messages: [],
                 users:[],
                 characters:[],
+                selectedCharacter:0,
+                points:0,//очки для нанесения урона/стресса
                 localCharacters:[],
                 typing: false,
                 username: null,
@@ -189,6 +204,8 @@
                     user: '',
                     action: '',
                 });
+
+                this.updateCharacters();
             },
             // Прослушивание события leave, отправляемого с сервера и добавляющего данные в массив info
             leave(data){
@@ -198,6 +215,8 @@
                     user: '',
                     action: '',
                 });
+
+                this.updateCharacters();
             },
             updateChars(data){
                 this.characters = data;
@@ -252,6 +271,7 @@
                 this.newMessage = null;
             },
             updateCharacters(){
+                //this.localCharacters.sort(GetSortOrder("iniciative"),function(a, b){return b-a}); //сортировка по убыванию
                 this.$socket.emit('updateChars', this.localCharacters);   
                 this.characters = this.localCharacters;//обновление локального списка
                 this.saveCharacters();//сохранение данных в localStorage
@@ -286,6 +306,7 @@
                     'maxStress':0,
                     'condition':'',
                     'iniciative':0,
+                    'iniciativeBonus':0,
                     'ac':0,
                 });
                 this.updateCharacters();
@@ -294,12 +315,34 @@
                 this.localCharacters.splice(index, 1);
                 this.updateCharacters();
             },
+            hitCharacter(i,val){
+                if(this.localCharacters && typeof(parseInt(val,10)) == "number" && val != 0){
+                    this.$set(this.localCharacters[i],'hp', ( this.localCharacters[i].hp - parseInt(val,10)));
+                this.updateCharacters();
+                }
+                else{alert("Введите корректное значение")}
+            },
+            stressCharacter(i,val){
+                if(this.localCharacters && typeof(parseInt(val,10)) == "number" && val != 0){
+                    this.$set(this.localCharacters[i],'stress', ( this.localCharacters[i].stress + parseInt(val,10)));
+                this.updateCharacters();
+                }
+                else{alert("Введите корректное значение")}
+            },
+            restoreCharacter(i){
+                 if(this.localCharacters){
+                    this.$set(this.localCharacters[i],'hp', ( this.localCharacters[i].maxHP));
+                    this.$set(this.localCharacters[i],'stress', 0);
+                this.updateCharacters();
+                }
+                else{alert("Нет ни одного персонажа")}
+            },
            //бросок дайса и отправка сообщения в чат с результатом броска
             roll: function(dice){ 
                 this.rollRes = []
                 var res = 0
                 for(var i=0;i<this.numOfRolls;i++){
-                    res = this.randomNum(dice.roll,this.rollMod)
+                    res = this.randomNum(dice.roll)
                     this.rollRes.push(res)
                 
                 };
@@ -317,15 +360,18 @@
                 });
             },
             //возврат случайного числа
-            randomNum: function(max,mod){
+            randomNum: function(max){
                 return Math.floor(Math.random() * Math.floor(max)) + 1 //+ parseInt(mod,10) //модификатор не должен считаться к каждому броску
                 //+1 потому что Math.random() возвращает числа в диапазоне [0,max)
             },
             rollSumm:function(a,mod){
-                //var sum = 0
                 var sum = parseInt(mod,10) //вместо того чтобы прибавлять модификатор
                 for(var i = 0; i < a.length; i++) {sum += a[i]}
                 return sum
+            },
+            rollIniciative(i){
+                this.$set(this.localCharacters[i],'iniciative', (this.randomNum(20)+ parseInt(this.localCharacters[i].iniciativeBonus,10)));
+                this.updateCharacters();
             },
             clearLog: function(){
                 this.rollsLog = []

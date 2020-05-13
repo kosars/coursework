@@ -57,7 +57,6 @@ io.on('connection', (socket) => {
         
         //console.log('User has disconnected');
         
-        //updateClients();
     });
 
     socket.on('joined', (data) => {
