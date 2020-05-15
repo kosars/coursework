@@ -105,6 +105,7 @@ export default {
         },
         methods:{
             logOut: function() {
+                this.$socket.emit('leave', this.username);
                 this.$store.commit('logOut')
                 this.$router.push({ path: '/login' })
             },

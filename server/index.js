@@ -55,7 +55,7 @@ io.on('connection', (socket) => {
     //
     socket.on('disconnect', () => {
         
-        //console.log('User has disconnected');
+        console.log('User disconnected --');
         
     });
 
@@ -74,6 +74,11 @@ io.on('connection', (socket) => {
                 users.splice(i, 1);
             }
         }
+        //прорверка массива на повторяющиеся элементы
+        users = users.filter(function(item, pos) {
+            return users.indexOf(item) == pos;
+        })
+        
         console.log(data + " leaved");
         socket.broadcast.emit('leave', (data));
 

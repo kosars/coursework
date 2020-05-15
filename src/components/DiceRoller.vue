@@ -71,19 +71,22 @@
                                 <form @submit.prevent="send(newMessage)">
                                     <div class="form-group">
                                         <!-- <input type="text" class="form-control" v-model="newMessage"
-                                            placeholder="Enter message here"> -->
+                                            placeholder="Enter message here" maxlength="200"> -->
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-12" v-show="username == 'DM'">
-                    <div class="col-12 d-flex">
-                        <select class="form-control col-1" type="text" v-model="selectedCharacter">
-                            <option v-for="(item,index) in localCharacters" v-bind:key="item._id" v-bind:value="index">{{item.name}}</option>
-                        </select>
-                        <input class="form-control col-1"  type="number" min="-100" max="100" v-model="points">
+                <div class="col-12" v-show="dm">
+                    <div class="col-12">
+                        <div class="input-group">
+                            <select class="form-control" type="text" v-model="selectedCharacter">
+                                <option v-for="(item,index) in localCharacters" v-bind:key="item._id" v-bind:value="index">{{item.name}}</option>
+                            </select>
+                            <input class="form-control"  type="number" min="-100" max="100" v-model="points">
+                        </div>
+                        <br>
                         <button class="btn btn-danger" v-on:click="hitCharacter(selectedCharacter, points)">Ненести урон</button>
                         <button class="btn btn-dark" v-on:click="stressCharacter(selectedCharacter, points)">Добавить стресс</button>
                         <button class="btn btn-success" v-on:click="restoreCharacter(selectedCharacter)">Рестор</button>
@@ -161,6 +164,7 @@
                     {name:'dX', roll:null},
                 ],    
                 //chat
+                dm: false,
                 newMessage: null,
                 messages: [],
                 users:[],
@@ -227,14 +231,8 @@
         },
         mounted(){
             this.username = this.$store.getters.getCurrUser;
+            this.dm = (this.username == 'DM');//проверка на дма
             this.addUser();//отправляем на сервер сообщение о подключении
-            if (localStorage.getItem('localCharacters')) {
-                try {
-                    this.localCharacters = JSON.parse(localStorage.getItem('localCharacters'));
-                } catch(e) {
-                    localStorage.removeItem('localCharacters');
-                }
-            }
             this.updateCharacters();
 
 
@@ -244,19 +242,29 @@
             window.onbeforeunload = () => {
                 this.$socket.emit('leave', this.username);
             }
-             // Прослушивание события connections, отправляемого с сервера. Показывает общее количество подключенных клиентов
+
+            // Прослушивание события connections, отправляемого с сервера. Показывает общее количество подключенных клиентов
             this.$socket.on('connections', (data) => {
                 this.connections = data;
             });
+
+            if (localStorage.getItem('localCharacters')) {
+                try {
+                    this.localCharacters = JSON.parse(localStorage.getItem('localCharacters'));
+                } catch(e) {
+                    localStorage.removeItem('localCharacters');
+                }
+            }
+        },
+        destroyed(){
+            this.$socket.emit('leave', this.$store.getters.getCurrUser);
         },
         watch: {
-            localCharacters(newData) {
-                localStorage.localCharacters = newData;
-            }
         },
         methods: {
             //Метод send сохраняет сообщение пользователя и отправляет событие на сервер.
             send(msg) {
+                if(msg !== null && msg !== '' && msg !== '')
                 this.messages.unshift({
                     message: msg,
                     type: 0,
@@ -268,13 +276,15 @@
                     user: this.username,
                     action: 'сказал: ',
                 });
-                this.newMessage = null;
+                this.newMessage = '';
             },
             updateCharacters(){
-                //this.localCharacters.sort(GetSortOrder("iniciative"),function(a, b){return b-a}); //сортировка по убыванию
-                this.$socket.emit('updateChars', this.localCharacters);   
-                this.characters = this.localCharacters;//обновление локального списка
-                this.saveCharacters();//сохранение данных в localStorage
+                if(this.dm){
+                    //this.localCharacters.sort(GetSortOrder("iniciative"),function(a, b){return b-a}); //сортировка по убыванию
+                    this.$socket.emit('updateChars', this.localCharacters);   
+                    this.characters = this.localCharacters;//обновление локального списка
+                    this.saveCharacters();//сохранение данных в localStorage
+                }
             },
             //сохранение персонажей в localStorage
             saveCharacters(){
@@ -348,13 +358,13 @@
                 };
                 //this.rollsLog.unshift('\n\nRoll('+dice.numOfRolls+dice.name+')+'+dice.rollMod+'\nRes: '+dice.rollRes + '\nTotal: '+ this.rollSumm(dice.rollRes))
                 this.messages.unshift({
-                    message:' = '+ this.rollSumm(this.rollRes, this.rollMod) + ' [' + this.rollRes+ ']',
+                    message:' = '+ ' [' + this.rollRes+ ']' + ' В сумме = ' +this.rollSumm(this.rollRes, this.rollMod),
                     type: 0,
                     user: 'Ты',
                     action: 'кидаешь ('+this.numOfRolls+dice.name+'+' + this.rollMod + ')',
                 });
                 this.$socket.emit('chatmessage', {
-                    message:' = '+ this.rollSumm(this.rollRes, this.rollMod) + ' [' + this.rollRes+ ']',
+                    message:' = '+ ' [' + this.rollRes+ ']' + ' В сумме = ' +this.rollSumm(this.rollRes, this.rollMod),
                     user: this.username,
                     action: 'кидает ('+this.numOfRolls+dice.name+'+' + this.rollMod + ')',
                 });
@@ -388,6 +398,7 @@
 .chat-overflow{
     max-height: 500px;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 .welcome-block{
     margin-top: 50px;
