@@ -35,7 +35,7 @@
                             <tr>
                                 <th scope="col">Имя</th>
                                 <th scope="col">ХП/MAX</th>
-                                <th scope="col">Стресс/MAХ</th>
+                                <!-- <th scope="col">Стресс/MAХ</th> -->
                                 <th scope="col">Состояние</th>
                                 <th scope="col">Инициатива/Бонус</th>
                                 <th scope="col">КД</th>
@@ -45,7 +45,7 @@
                             <tr v-for="(item) in characters" v-bind:key="item._id">
                                 <td>{{item.name}}</td>
                                 <td>{{item.hp}}/{{item.maxHP}}</td>
-                                <td>{{item.stress}}/{{item.maxStress}}</td>
+                                <!-- <td>{{item.stress}}/{{item.maxStress}}</td> -->
                                 <td>{{item.condition}}</td>
                                 <td>{{item.iniciative}}/{{item.iniciativeBonus}}</td>
                                 <td>{{item.ac}}</td>
@@ -88,7 +88,7 @@
                         </div>
                         <br>
                         <button class="btn btn-danger" v-on:click="hitCharacter(selectedCharacter, points)">Ненести урон</button>
-                        <button class="btn btn-dark" v-on:click="stressCharacter(selectedCharacter, points)">Добавить стресс</button>
+                        <!-- <button class="btn btn-dark" v-on:click="stressCharacter(selectedCharacter, points)">Добавить стресс</button> -->
                         <button class="btn btn-success" v-on:click="restoreCharacter(selectedCharacter)">Рестор</button>
                     </div>
                     <br>
@@ -100,7 +100,7 @@
                                 <tr>
                                     <th scope="col">Имя</th>
                                     <th scope="col">ХП/MAX</th>
-                                    <th scope="col">Стресс/MAХ</th>
+                                    <!-- <th scope="col">Стресс/MAХ</th> -->
                                     <th scope="col">Состояние</th>
                                     <th scope="col">Инициатива/Бонус</th>
                                     <th scope="col">КД</th>
@@ -114,10 +114,10 @@
                                         <input v-on:change="updateCharacters()" class="form-control" type="number" min="-1000" max="1000" v-model="item.hp" required>/
                                         <input v-on:change="updateCharacters()" class="form-control" type="number" min="0" max="1000" v-model="item.maxHP" required>
                                     </td>
-                                    <td>
+                                    <!-- <td>
                                         <input v-on:change="updateCharacters()" class="form-control" type="number" min="0" max="200" v-model="item.stress" required>/
                                         <input v-on:change="updateCharacters()" class="form-control" type="number" min="0" max="200" v-model="item.maxStress" required>
-                                    </td>
+                                    </td> -->
                                     <td><input v-on:change="updateCharacters()" class="form-control" type="text" v-model="item.condition"></td>
                                     <td>
                                         <button class="btn btn-primary" v-on:click="rollIniciative(index)">{{item.iniciative}}</button>

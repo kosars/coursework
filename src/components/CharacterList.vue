@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <!-- <div>
         <div class="product" v-for="(item) in items" v-bind:key="item._id">
             <div>
                 <h4 class="product-title">
@@ -10,6 +10,33 @@
                 </h4>
             </div>
         </div>
+    </div> -->
+    <div>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Race</th>
+                <th scope="col">Class</th>
+                <th scope="col">Level</th>
+                <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item) in items" v-bind:key="item._id">
+                <td>
+                    <router-link v-bind:to="'/chars/'+item._id">
+                        {{ item.name }}
+                    </router-link>
+                </td>
+                <td>{{ item.race.name }}</td>
+                <td>{{ item.class.name }}</td>
+                <td>{{ item.level }}</td>
+                <td><button class="btn btn-primary" v-on:click="deleteRace(item._id)">delete</button></td>
+                
+                </tr>
+            </tbody>
+        </table>
     </div>
 </template>
 <script>

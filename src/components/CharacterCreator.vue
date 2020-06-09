@@ -61,8 +61,8 @@
                                     <p class="text-center">STR</p>
                                     <h3 class="text-center">{{STR}}</h3>
                                     <p class="text-center">
-                                        <button v-on:click="abilitieChange('STR','<')"><</button>
-                                        <button v-on:click="abilitieChange('STR','>')">></button>
+                                        <button class="btn btn-primary"  v-on:click="abilitieChange('STR','<')"><</button>
+                                        <button class="btn btn-primary"  v-on:click="abilitieChange('STR','>')">></button>
                                     </p>
                                     <p class="text-center">mod</p>
                                     <p class="text-center">{{modSTR}}</p>
@@ -72,8 +72,8 @@
                                     <p class="text-center">DEX</p>
                                     <h3 class="text-center">{{DEX}}</h3>
                                     <p class="text-center">
-                                        <button v-on:click="abilitieChange('DEX','<')"><</button>
-                                        <button v-on:click="abilitieChange('DEX','>')">></button>
+                                        <button class="btn btn-primary"  v-on:click="abilitieChange('DEX','<')"><</button>
+                                        <button class="btn btn-primary"  v-on:click="abilitieChange('DEX','>')">></button>
                                     </p>
                                     <p class="text-center">mod</p>
                                     <p class="text-center">{{modDEX}}</p>
@@ -83,8 +83,8 @@
                                     <p class="text-center">CON</p>
                                     <h3 class="text-center">{{CON}}</h3>
                                     <p class="text-center">
-                                        <button v-on:click="abilitieChange('CON','<')"><</button>
-                                        <button v-on:click="abilitieChange('CON','>')">></button>
+                                        <button class="btn btn-primary"  v-on:click="abilitieChange('CON','<')"><</button>
+                                        <button class="btn btn-primary"  v-on:click="abilitieChange('CON','>')">></button>
                                     </p>
                                     <p class="text-center">mod</p>
                                     <p class="text-center">{{modCON}}</p>
@@ -94,8 +94,8 @@
                                     <p class="text-center">INT</p>
                                     <h3 class="text-center">{{INT}}</h3>
                                     <p class="text-center">
-                                        <button v-on:click="abilitieChange('INT','<')"><</button>
-                                        <button v-on:click="abilitieChange('INT','>')">></button>
+                                        <button class="btn btn-primary"  v-on:click="abilitieChange('INT','<')"><</button>
+                                        <button class="btn btn-primary"  v-on:click="abilitieChange('INT','>')">></button>
                                     </p>
                                     <p class="text-center">mod</p>
                                     <p class="text-center">{{modINT}}</p>
@@ -105,8 +105,8 @@
                                     <p class="text-center">WIS</p>
                                     <h3 class="text-center">{{WIS}}</h3>
                                     <p class="text-center">
-                                        <button v-on:click="abilitieChange('WIS','<')"><</button>
-                                        <button v-on:click="abilitieChange('WIS','>')">></button>
+                                        <button class="btn btn-primary"  v-on:click="abilitieChange('WIS','<')"><</button>
+                                        <button class="btn btn-primary"  v-on:click="abilitieChange('WIS','>')">></button>
                                     </p>
                                     <p class="text-center">mod</p>
                                     <p class="text-center">{{modWIS}}</p>
@@ -116,8 +116,8 @@
                                     <p class="text-center">CHR</p>
                                     <h3 class="text-center">{{CHR}}</h3>
                                     <p class="text-center">
-                                        <button v-on:click="abilitieChange('CHR','<')"><</button>
-                                        <button v-on:click="abilitieChange('CHR','>')">></button>
+                                        <button class="btn btn-primary" v-on:click="abilitieChange('CHR','<')"><</button>
+                                        <button class="btn btn-primary" v-on:click="abilitieChange('CHR','>')">></button>
                                     </p>
                                     <p class="text-center">mod</p>
                                     <p class="text-center">{{modCHR}}</p>
@@ -202,47 +202,105 @@
                     </div> 
                     <!-- Skills -->
                     <div class="col-12">
-                        <h3>Skills Proficiency</h3>
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div  class="col-1" v-for="(item) in skillsList" v-bind:key="item.id" v-show="item.value">
-                                   <h5> {{item.name}} </h5>
-                                </div>
-                            </div>
-                        </div>
+                        <table class="table table-hover" v-show="skillsList">
+                            <thead class="thead-dark" v-on:click="skillShow = !skillShow">
+                                <tr>
+                                    <th scope="col">Skills Proficiency</th>
+                                </tr>
+                            </thead>
+                                <tbody v-show="skillShow">
+                                    <tr v-for="(item) in skillsList" v-bind:key="item._id" v-show="item.value">
+                                        <td>{{item.name}}</td>
+                                    </tr>
+                                </tbody>
+                        </table>
                     </div>
                     <!-- Spells -->
                     <div class="col-12">
-                        <h5>Spells</h5>
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-12" v-for="(item) in selectedClass.spells" v-bind:key="item._id">
-                                    <router-link v-bind:to="'/spells/'+item.spellid">
-                                        {{ item.name }}
-                                    </router-link>
-                                </div>
-                            </div>
-                        </div>
+                        <table class="table table-hover">
+                            <thead class="thead-dark" v-on:click="spellShow = !spellShow">
+                                <tr>
+                                    <th scope="col">Spells</th>
+                                </tr>
+                            </thead>
+                                <tbody v-show="spellShow">
+                                    <tr v-for="(item) in selectedClass.spells" v-bind:key="item._id">
+                                        <td>
+                                            <router-link v-bind:to="'/spells/'+item.spellid" v-if="item.ritual">
+                                                {{ item.name }} (Ritual)
+                                            </router-link>
+                                            <router-link v-bind:to="'/spells/'+item.spellid" v-if="!item.ritual">
+                                                {{ item.name }}
+                                            </router-link>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                        </table>
                     </div>
                     <!--Profincies-->
                     <div class="col-12">
-                        <h3 v-if="selectedRace.weaponProf.length >0">Weapon Profincies</h3>
+                        <table class="table table-hover" v-show="selectedRace.weaponProf.length >0">
+                            <thead class="thead-dark" v-on:click="weaponProfShow = !weaponProfShow">
+                                <tr>
+                                    <th scope="col">Weapon Profincies</th>
+                                </tr>
+                            </thead>
+                                <tbody v-show="weaponProfShow">
+                                    <tr v-for="(item) in selectedRace.weaponProf" v-bind:key="item.id">
+                                        <td>{{item.name}}</td>
+                                    </tr>
+                                </tbody>
+                        </table>
+                        <table class="table table-hover" v-show="selectedRace.armorProf.length >0">
+                            <thead class="thead-dark" v-on:click="armorProfShow = !armorProfShow">
+                                <tr>
+                                    <th scope="col">Armor Profincies</th>
+                                </tr>
+                            </thead>
+                                <tbody v-show="armorProfShow">
+                                    <tr v-for="(item) in selectedRace.armorProf" v-bind:key="item.id">
+                                        <td>{{item.name}}</td>
+                                    </tr>
+                                </tbody>
+                        </table>
+                        <table class="table table-hover">
+                            <thead class="thead-dark" v-on:click="toolProfShow = !toolProfShow">
+                                <tr>
+                                    <th scope="col">Tool Profincies</th>
+                                </tr>
+                            </thead>
+                                <tbody v-show="toolProfShow">
+                                    <tr v-for="(item) in selectedRace.toolProf" v-bind:key="item.id">
+                                        <td>{{item.name}}</td>
+                                    </tr>
+                                    <tr v-for="(item) in selectedBackground.proficiencies.tools" v-bind:key="item.id">
+                                        <td>{{item.name}}</td>
+                                    </tr>
+                                    <tr v-for="(item) in selectedBackground.proficiencies.musical" v-bind:key="item.id">
+                                        <td>{{item.name}}</td>
+                                    </tr>
+                                    <tr v-for="(item) in selectedBackground.proficiencies.gaming" v-bind:key="item.id">
+                                        <td>{{item.name}}</td>
+                                    </tr>
+                                </tbody>
+                        </table>
+                        <!-- <h3 v-if="selectedRace.weaponProf.length >0">Weapon Profincies</h3>
                         <div class="container-fluid">
                             <div class="row">
                                 <div  class="col" v-for="(item) in selectedRace.weaponProf" v-bind:key="item.id">
                                    <h5> {{item.name}} </h5>
                                 </div>
                             </div>
-                        </div>
-                        <h3 v-if="selectedRace.armorProf.length >0">Armor Profincies</h3>
+                        </div> -->
+                        <!-- <h3 v-if="selectedRace.armorProf.length >0">Armor Profincies</h3>
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" v-for="(item) in selectedRace.armorProf" v-bind:key="item.id">
                                    <h5> {{item.name}} </h5>
                                 </div>
                             </div>
-                        </div>
-                        <h3>Tools Profincies</h3>
+                        </div> -->
+                        <!-- <h3>Tools Profincies</h3>
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" v-for="(item) in selectedRace.toolProf" v-bind:key="item.id">
@@ -258,11 +316,29 @@
                                    <h5> {{item.name}} </h5>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <!--Languages-->
                     <div class="col-12">
-                        <h3>Languages</h3>
+                        <table class="table table-hover">
+                            <thead class="thead-dark" v-on:click="langShow = !langShow">
+                                <tr>
+                                    <th scope="col">Languages</th>
+                                </tr>
+                            </thead>
+                                <tbody v-show="langShow">
+                                    <tr v-for="(item) in selectedRace.languages" v-bind:key="item.id">
+                                        <td>{{item.name}}</td>
+                                    </tr>
+                                    <tr v-for="(item) in selectedClass.languages" v-bind:key="item.id">
+                                        <td>{{item.name}}</td>
+                                    </tr>
+                                    <tr v-for="(item) in selectedBackground.languages" v-bind:key="item.id">
+                                        <td>{{item.name}}</td>
+                                    </tr>
+                                </tbody>
+                        </table>
+                        <!-- <h3>Languages</h3>
                         <div class="container-fluid">
                             <div class="row">
                                 <div  class="col-1" v-for="(item) in selectedRace.languages" v-bind:key="item.id">
@@ -275,7 +351,7 @@
                                    <h5> {{item.name}} </h5>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="w-100"></div>
@@ -373,6 +449,7 @@
     export default {
         data: function() {
             return{
+                spellShow:false, skillShow:false, weaponProfShow:false, armorProfShow:false, toolProfShow:false, langShow:false,
                 races:[],classes:[],backgrounds:[], created:false,
                 selectedRace:{},selectedClass:{},selectedBackground:{},
                 options: [],

@@ -82,7 +82,7 @@ router.beforeEach((to, from, next) => {
 
 Vue.use(VueRouter)
 Vue.use(Vuex);
-Vue.use(new VueSocketIO({ debug: true, connection: 'http://26.245.111.131:3000'})); ///or localhost
+Vue.use(new VueSocketIO({ debug: true, connection: 'http://localhost:3000'})); ///or localhost
 
 new Vue({
     render: h => h(App),
